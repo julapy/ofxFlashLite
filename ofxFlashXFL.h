@@ -10,7 +10,10 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxFlash.h"
+#include "ofxFlashLibrary.h"
+#include "ofxFlashStage.h"
+#include "ofxFlashMovieClip.h"
+#include "ofxFlashXFLBuilder.h"
 #include "ofxXmlSettings.h"
 
 struct DOMBitmapItem

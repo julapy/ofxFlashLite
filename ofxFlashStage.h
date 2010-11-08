@@ -10,17 +10,9 @@
 #pragma once
 
 #include "ofxFlashDisplayObjectContainer.h"
-#include "ofxFlashDisplayObject.h"
 
 class ofxFlashStage : public ofxFlashDisplayObjectContainer
 {
-	
-private: 
-	
-	static ofxFlashStage* _instance;
-	
-	 ofxFlashStage();
-	~ofxFlashStage();
 	
 public:
 	
@@ -32,13 +24,14 @@ public:
 		}
 		
         return _instance;
-	}
+	};
 	
 	void addListeners		();
 	void removeListeners	();
 	
-	virtual void update		();
-	virtual void draw		();
+	virtual void setup	();
+	virtual void update	();
+	virtual void draw	();
 	
 	///////////////////////////////////////////////
 	//
@@ -46,7 +39,12 @@ public:
 	//
 	///////////////////////////////////////////////
 	
-private:
+private: 
+	
+	static ofxFlashStage* _instance;
+	
+	 ofxFlashStage();
+	~ofxFlashStage();
 	
 	void update	( ofEventArgs &e );
 	void draw	( ofEventArgs &e );

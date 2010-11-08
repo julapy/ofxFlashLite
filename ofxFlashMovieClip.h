@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "ofxFlash.h"
+#include "ofxFlashSprite.h"
 
 class ofxFlashMovieClip : public ofxFlashSprite
 {
@@ -22,8 +22,9 @@ public:
 	void setTotalFrames	( int totalFrames = 1 );
 	ofxFlashDisplayObject* addChildToFrame( ofxFlashDisplayObject* child, int frameNum );
 	
-	virtual void update			();
-	virtual void draw			();
+	virtual void setup	();
+	virtual void update	();
+	virtual void draw	();
 	
 	virtual void gotoAndPlay	( int frameNum );
 	virtual void gotoAndStop	( int frameNum );

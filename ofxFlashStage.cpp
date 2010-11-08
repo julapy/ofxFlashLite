@@ -47,6 +47,11 @@ void ofxFlashStage :: removeListeners ()
 //	
 /////////////////////////////////////////////
 
+void ofxFlashStage :: setup ()
+{
+	//
+}
+
 void ofxFlashStage :: update ()
 {
 	updateChildren( children );

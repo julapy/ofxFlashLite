@@ -66,12 +66,22 @@ ofxFlashDisplayObject* ofxFlashMovieClip :: addChildToFrame( ofxFlashDisplayObje
 	frameContainer = frames[ index ];
 	frameContainer->addChild( child );
 	
+	if( index == frameIndex )		// add to current frame if frameIndex matches.
+	{
+		addChild( child );
+	}
+	
 	return child;
 }
 
 ///////////////////////////////////////////////
 //	CORE.
 ///////////////////////////////////////////////
+
+void ofxFlashMovieClip :: setup ()
+{
+	//
+}
 
 void ofxFlashMovieClip :: update ()
 {

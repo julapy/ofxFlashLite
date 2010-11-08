@@ -16,5 +16,5 @@ ofxFlashEventDispatcher :: ofxFlashEventDispatcher()
 
 ofxFlashEventDispatcher :: ~ofxFlashEventDispatcher()
 {
-
+	//
 }

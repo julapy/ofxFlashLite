@@ -36,7 +36,7 @@ ofxFlashDisplayObject :: ofxFlashDisplayObject ()
 	name		= "sprite";
 	mask		= NULL;
 	parent		= NULL;
-	stage		= NULL;
+//	stage		= NULL;
 	
 	libraryItemName = "";
 }
@@ -71,35 +71,35 @@ void ofxFlashDisplayObject :: draw ()
 
 ofRectangle ofxFlashDisplayObject :: getRect ( ofxFlashDisplayObject* targetCoordinateSpace )
 {
-	//
+	// TODO.
 }
 
 ofPoint ofxFlashDisplayObject :: globalToLocal ( const ofPoint& point )
 {
-	//
+	// TODO.
 }
 
 ofPoint ofxFlashDisplayObject :: globalToLocal3D ( const ofPoint& point )
 {
-	//
+	// TODO.
 }
 
 bool ofxFlashDisplayObject :: hitTestObject ( ofxFlashDisplayObject* obj )
 {
-	//
+	// TODO.
 }
 
 bool ofxFlashDisplayObject :: hitTestPoint ( float x, float y, bool shapeFlag )
 {
-	//
+	// TODO.
 }
 
 ofPoint ofxFlashDisplayObject :: local3DToGlobal ( const ofPoint& point )
 {
-	//
+	// TODO.
 }
 
 ofPoint ofxFlashDisplayObject :: localToGlobal ( const ofPoint& point )
 {
-	//
+	// TODO.
 }

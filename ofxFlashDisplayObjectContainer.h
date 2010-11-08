@@ -10,7 +10,6 @@
 #pragma once
 
 #include "ofxFlashInteractiveObject.h"
-#include "ofxFlashDisplayObject.h"
 
 class ofxFlashDisplayObjectContainer : public ofxFlashInteractiveObject
 {

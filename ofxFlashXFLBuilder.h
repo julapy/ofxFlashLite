@@ -10,10 +10,9 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxFlash.h"
-//#include "ofxFlashLibrary.h"
-//#include "ofxFlashDisplayObjectContainer.h"
-//#include "ofxFlashDisplayObject.h"
+#include "ofxFlashLibrary.h"
+#include "ofxFlashMovieClip.h"
+#include "ofxFlashBitmap.h"
 #include "ofxXmlSettings.h"
 
 #define DOM_DOCUMENT_TYPE		"DOMDocument"

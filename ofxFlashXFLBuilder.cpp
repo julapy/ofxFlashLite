@@ -211,7 +211,7 @@ void ofxFlashXFLBuilder :: buildElements ()
 		{
 			DOMBitmapInstance dom;
 			dom.libraryItemName	= *new string( child->Attribute( "libraryItemName" ) );
-			dom.name			= "";
+			dom.name			= *new string( child->Attribute( "name" ) );
 			dom.referenceID		= "";
 			domBitmapInstance	= dom;
 			
@@ -230,7 +230,7 @@ void ofxFlashXFLBuilder :: buildElements ()
 		{
 			DOMSymbolInstance dom;
 			dom.libraryItemName	= *new string( child->Attribute( "libraryItemName" ) );
-			dom.name			= "";
+			dom.name			= *new string( child->Attribute( "name" ) );
 			dom.centerPoint3DX	= 0.0;
 			dom.centerPoint3DY	= 0.0;
 			domSymbolInstance	= dom;
@@ -256,6 +256,7 @@ void ofxFlashXFLBuilder :: buildBitmap ()
 	
 	ofxFlashBitmap* bm;
 	bm = new ofxFlashBitmap( bitmapImage );
+	bm->name			= domBitmapInstance.name;
 	bm->libraryItemName = domBitmapInstance.libraryItemName;
 
 	setupDisplayObject( bm );
@@ -280,6 +281,7 @@ void ofxFlashXFLBuilder :: buildMovieClip ()
 
 	ofxFlashMovieClip* mc;
 	mc = new ofxFlashMovieClip();
+	mc->name			= domSymbolInstance.name;
 	mc->libraryItemName = domSymbolInstance.libraryItemName;
 	
 	setupDisplayObject( mc );

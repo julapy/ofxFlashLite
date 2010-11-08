@@ -10,7 +10,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxFlash.h"
+#include "ofxFlashDisplayObject.h"
 
 #define OFX_FLASH_LIBRARY_TYPE_IMAGE	0
 #define OFX_FLASH_LIBRARY_TYPE_VIDEO	1

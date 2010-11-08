@@ -18,3 +18,22 @@ ofxFlashSprite :: ~ofxFlashSprite()
 {
 
 }
+
+///////////////////////////////////////////////
+//	CORE.
+///////////////////////////////////////////////
+
+void ofxFlashSprite :: setup ()
+{
+	//
+}
+
+void ofxFlashSprite :: update ()
+{
+	//
+}
+
+void ofxFlashSprite :: draw ()
+{
+	//
+}

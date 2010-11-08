@@ -9,9 +9,6 @@
 
 #pragma once
 
-#include "ofMain.h"
-
-#include "ofxStage.h"
 #include "ofxFlashEventDispatcher.h"
 
 #define	BLEND_MODE_NORMAL		0
@@ -28,6 +25,12 @@
 #define	BLEND_MODE_ERASE		11
 #define	BLEND_MODE_OVERLAY		12
 #define	BLEND_MODE_HARDLIGHT	13
+
+
+
+class ofxFlashStage;	// Forward Declarations to prevent Cyclic Dependency.
+						// http://www.eventhelix.com/RealtimeMantra/HeaderFileIncludePatterns.htm
+
 
 class ofxFlashDisplayObject : public ofxFlashEventDispatcher
 {
@@ -71,7 +74,7 @@ public:
 	string		name;
 	ofxFlashDisplayObject*	mask;			// DisplayObject in AS3.
 	ofxFlashDisplayObject*	parent;			// DisplayObjectContainer in AS3.
-	ofxStage*				stage;			// Stage in AS3.
+	ofxFlashStage*			stage;			// Stage in AS3.
 	
 	string		libraryItemName;
 	

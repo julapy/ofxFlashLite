@@ -25,9 +25,9 @@ public:
 	
 	//-------------------------------------------
 	
-	void setup		();
-	void update		();
-	void draw		();
+	virtual void setup	();
+	virtual void update	();
+	virtual void draw	();
 	
 private:
 	

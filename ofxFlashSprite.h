@@ -19,4 +19,8 @@ public:
 	 ofxFlashSprite();
 	~ofxFlashSprite();
 	
+	virtual void setup	();
+	virtual void update	();
+	virtual void draw	();
+	
 };
