@@ -44,12 +44,17 @@ public:
 	virtual void update	();
 	virtual void draw	();
 	
+	void drawBoundingBox ();
+	
 	///////////////////////////////////////////////
 	//
 	//	DISPLAY OBJECT.
 	//	http://livedocs.adobe.com/flex/3/langref/flash/display/DisplayObject.html
 	//
 	///////////////////////////////////////////////
+
+	string		name;
+	string		libraryItemName;
 	
 	float		alpha;
 	bool		visible;
@@ -71,12 +76,28 @@ public:
 	float		scaleY;
 	float		scaleZ;
 	int			blendMode;
-	string		name;
+	
+	//-- flash 2D matrix.
+	//   http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/geom/Matrix.html
+	//
+	//	[ a  c  tx ]
+	//	[ b  d  ty ]
+	//	[ 0  0  1  ]
+	//
+	//-- flash 2D matrix.
+	
+	float		mat_a;
+	float		mat_b;
+	float		mat_c;
+	float		mat_d;
+	float		mat_tx;
+	float		mat_ty;
+	
+	//-- display objects.
+	
 	ofxFlashDisplayObject*	mask;			// DisplayObject in AS3.
 	ofxFlashDisplayObject*	parent;			// DisplayObjectContainer in AS3.
 	ofxFlashStage*			stage;			// Stage in AS3.
-	
-	string		libraryItemName;
 	
 	ofRectangle getRect			( ofxFlashDisplayObject* targetCoordinateSpace );
 	ofPoint		globalToLocal	( const ofPoint& point );
@@ -89,5 +110,5 @@ public:
 //	TODO :: cacheAsBitmap - maybe this can be an FBO?
 //	TODO :: transform :: http://livedocs.adobe.com/flex/3/langref/flash/geom/Transform.html
 //	TODO :: events - added, addedToStage, enterFrame, exitFrame, frameConstructed, removed, removedFromStage, render
-	
+
 };

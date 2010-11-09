@@ -60,7 +60,10 @@ void ofxFlashBitmap :: drawBitmap ()
 		if( bAlpha )
 			ofEnableAlphaBlending();
 		
-		bitmapImage->draw( globalX, globalY );
+		ofSetColor( 255, 255, 255 );
+		
+//		bitmapImage->draw( globalX, globalY );
+		bitmapImage->draw( 0, 0 );
 		
 		if( bAlpha )
 			ofDisableAlphaBlending();

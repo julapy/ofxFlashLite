@@ -18,6 +18,7 @@
 #include "ofxFlashDisplayObjectContainer.h"
 #include "ofxFlashInteractiveObject.h"
 #include "ofxFlashBitmap.h"
+#include "ofxFlashShape.h"
 #include "ofxFlashDisplayObject.h"
 #include "ofxFlashEventDispatcher.h"
 #include "ofxFlashObject.h"

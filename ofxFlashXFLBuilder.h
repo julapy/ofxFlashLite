@@ -13,6 +13,7 @@
 #include "ofxFlashLibrary.h"
 #include "ofxFlashMovieClip.h"
 #include "ofxFlashBitmap.h"
+#include "ofxFlashShape.h"
 #include "ofxXmlSettings.h"
 
 #define DOM_DOCUMENT_TYPE		"DOMDocument"
@@ -61,6 +62,23 @@ struct DOMBitmapInstance
 	string	referenceID;
 };
 
+struct DOMRectangleObject
+{
+	float	x;
+	float	y;
+	float	objectWidth;
+	float	objectHeight;
+};
+
+struct DOMOvalObject
+{
+	float	x;
+	float	y;
+	float	objectWidth;
+	float	objectHeight;
+	float	endAngle;
+};
+
 //====================================================
 
 class ofxFlashXFLBuilder : public ofxXmlSettings
@@ -86,14 +104,23 @@ private:
 	DOMFrame			domFrame;
 	DOMSymbolInstance	domSymbolInstance;
 	DOMBitmapInstance	domBitmapInstance;
+	DOMRectangleObject	domRectangleObject;
+	DOMOvalObject		domOvalObject;
 	
-	void countTotalFrames	();
-	void buildTimelines		();
-	void buildLayers		();
-	void buildFrames		();
-	void buildElements		();
-	void buildBitmap		();
-	void buildMovieClip		();
-	void setupDisplayObject ( ofxFlashDisplayObject* displayObject );
+	void countTotalFrames		();
+	void buildTimelines			();
+	void buildLayers			();
+	void buildFrames			();
+	void buildElements			();
+	void buildBitmap			();
+	void buildMovieClip			();
+	void buildRectangleShape	();
+	void buildOvalShape			();
+	void setupDisplayObject		( ofxFlashDisplayObject* displayObject );
+	
+	void pushTagAt			( int i );
+	
+	string cleanHexString	( string value );
+	int  stringToHex		( string value );
 	
 };

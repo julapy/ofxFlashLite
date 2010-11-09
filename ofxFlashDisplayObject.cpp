@@ -12,6 +12,9 @@
 ofxFlashDisplayObject :: ofxFlashDisplayObject ()
 {
 	typeID		= OFX_FLASH_DISPLAY_OBJECT_TYPE;
+
+	name			= "sprite";
+	libraryItemName = "";
 	
 	alpha		= 1.0;
 	visible		= true;
@@ -33,12 +36,17 @@ ofxFlashDisplayObject :: ofxFlashDisplayObject ()
 	scaleY		= 1.0;
 	scaleZ		= 1.0;
 	blendMode	= BLEND_MODE_NORMAL;
-	name		= "sprite";
+	
+	mat_a		= 1.0;
+	mat_b		= 0.0;
+	mat_c		= 0.0;
+	mat_d		= 1.0;
+	mat_tx		= 0.0;
+	mat_ty		= 0.0;
+	
 	mask		= NULL;
 	parent		= NULL;
-//	stage		= NULL;
-	
-	libraryItemName = "";
+	stage		= NULL;
 }
 
 ofxFlashDisplayObject :: ~ofxFlashDisplayObject ()
@@ -63,6 +71,18 @@ void ofxFlashDisplayObject :: update ()
 void ofxFlashDisplayObject :: draw ()
 {
 	//
+}
+
+///////////////////////////////////////////////
+//	BOUNDING BOX - DEBUG.
+///////////////////////////////////////////////
+
+void ofxFlashDisplayObject :: drawBoundingBox ()
+{
+	ofNoFill();
+	ofSetColor( 255, 0, 0 );
+	ofSetLineWidth( 1 );
+	ofRect( globalX, globalY, width, height );
 }
 
 ///////////////////////////////////////////////

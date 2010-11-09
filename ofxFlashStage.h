@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "ofxFlashDisplayObjectContainer.h"
+#include "ofxFlashMovieClip.h"
 
 class ofxFlashStage : public ofxFlashDisplayObjectContainer
 {
@@ -28,6 +28,9 @@ public:
 	
 	void addListeners		();
 	void removeListeners	();
+
+	ofxFlashMovieClip* root	();
+	void showRedrawRegions	( bool value );
 	
 	virtual void setup	();
 	virtual void update	();
@@ -46,10 +49,18 @@ private:
 	 ofxFlashStage();
 	~ofxFlashStage();
 	
+	//---------------------------------------------
+	
+	ofxFlashMovieClip*	_root;
+	bool bShowRedrawRegions;
+	
+	//---------------------------------------------
+	
 	void update	( ofEventArgs &e );
 	void draw	( ofEventArgs &e );
 	
-	void updateChildren	( vector<ofxFlashDisplayObject*>& children );
-	void drawChildren	( vector<ofxFlashDisplayObject*>& children );
+	void updateChildren		( vector<ofxFlashDisplayObject*>& children );
+	void drawChildren		( vector<ofxFlashDisplayObject*>& children );
+	void drawChildrenDebug	( vector<ofxFlashDisplayObject*>& children );
 	
 };

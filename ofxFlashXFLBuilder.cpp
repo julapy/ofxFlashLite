@@ -203,9 +203,16 @@ void ofxFlashXFLBuilder :: buildElements ()
 		TiXmlElement* child = ( storedHandle.ChildElement( i ) ).ToElement();
 		string elementTag = child->Value();
 		
-		if( elementTag == "DOMShape" )
+		if( elementTag == "DOMGroup" )
 		{
-			// NOT SUPPORTED AT THE MOMENT.
+			pushTagAt( i );
+			pushTag( "members", 0 );
+			
+			buildElements();
+			
+			popTag();
+			popTag();
+			
 		}
 		else if( elementTag == "DOMBitmapInstance" )
 		{
@@ -215,12 +222,7 @@ void ofxFlashXFLBuilder :: buildElements ()
 			dom.referenceID		= "";
 			domBitmapInstance	= dom;
 			
-			TiXmlHandle isRealHandle = storedHandle.ChildElement( i );		//-- pushTag custom.
-			if( isRealHandle.ToNode() )
-			{
-				storedHandle = isRealHandle;
-				level++;
-			}
+			pushTagAt( i );
 			
 			buildBitmap();
 			
@@ -235,16 +237,58 @@ void ofxFlashXFLBuilder :: buildElements ()
 			dom.centerPoint3DY	= 0.0;
 			domSymbolInstance	= dom;
 			
-			TiXmlHandle isRealHandle = storedHandle.ChildElement( i );		//-- pushTag custom.
-			if( isRealHandle.ToNode() )
-			{
-				storedHandle = isRealHandle;
-				level++;
-			}
+			pushTagAt( i );
 			
 			buildMovieClip();
 			
 			popTag();
+		}
+		else if( elementTag == "DOMRectangleObject" )
+		{
+			DOMRectangleObject dom;
+			child->QueryFloatAttribute( "x",			&dom.x );
+			child->QueryFloatAttribute( "y",			&dom.y );
+			child->QueryFloatAttribute( "objectWidth",	&dom.objectWidth );
+			child->QueryFloatAttribute( "objectHeight",	&dom.objectHeight );
+			domRectangleObject = dom;
+			
+			pushTagAt( i );
+			
+			buildRectangleShape();
+			
+			popTag();
+		}
+		else if( elementTag == "DOMOvalObject" )
+		{
+			DOMOvalObject dom;
+			child->QueryFloatAttribute( "x",			&dom.x );
+			child->QueryFloatAttribute( "y",			&dom.y );
+			child->QueryFloatAttribute( "objectWidth",	&dom.objectWidth );
+			child->QueryFloatAttribute( "objectHeight",	&dom.objectHeight );
+			child->QueryFloatAttribute( "endAngle",		&dom.endAngle );
+			domOvalObject = dom;
+			
+			pushTagAt( i );
+			
+			buildOvalShape();
+			
+			popTag();
+		}
+		else if( elementTag == "DOMShape" )
+		{
+			continue;	// NOT SUPPORTED AT THE MOMENT.
+		}
+		else if( elementTag == "DOMStaticText" )
+		{
+			continue;	// NOT SUPPORTED AT THE MOMENT.
+		}
+		else if( elementTag == "DOMDynamicText" )
+		{
+			continue;	// NOT SUPPORTED AT THE MOMENT.
+		}
+		else if( elementTag == "DOMInputText" )
+		{
+			continue;	// NOT SUPPORTED AT THE MOMENT.
 		}
 	}
 }
@@ -303,24 +347,182 @@ void ofxFlashXFLBuilder :: buildMovieClip ()
 	builder = NULL;
 }
 
+void ofxFlashXFLBuilder :: buildRectangleShape ()
+{
+	ofxFlashShape* shape;
+	shape = new ofxFlashShape();
+	
+	setupDisplayObject( shape );
+	
+	shape->setRectangle( domRectangleObject.x, domRectangleObject.y, domRectangleObject.objectWidth, domRectangleObject.objectHeight );
+	
+	if( tagExists( "fill", 0 ) )
+	{
+		pushTag( "fill", 0 );
+		
+		string fillSolidColor;
+		fillSolidColor = getAttribute( "SolidColor", "color", "#000000", 0 );
+		fillSolidColor = cleanHexString( fillSolidColor );
+		
+		shape->setFill( true );
+		shape->setFillColor( stringToHex( fillSolidColor ) );
+		
+		popTag();
+	}
+	
+	
+	if( tagExists( "stroke", 0 ) )
+	{
+		pushTag( "stroke", 0 );
+		
+		int solidStrokeWeight;
+		solidStrokeWeight = getAttribute( "SolidStroke", "weight",  0, 0 );
+		
+		pushTag( "SolidStroke", 0 );
+		pushTag( "fill", 0 );
+		
+		string fillSolidColor;
+		fillSolidColor = getAttribute( "SolidColor", "color", "#000000", 0 );
+		fillSolidColor = cleanHexString( fillSolidColor );
+		
+		shape->setStroke( true );
+		shape->setStrokeWeight( solidStrokeWeight );
+		shape->setStrokeColor( stringToHex( fillSolidColor ) );
+		
+		popTag();
+		popTag();
+		popTag();
+	}
+	
+	int i = domFrame.index;
+	int t = domFrame.index + domFrame.duration;
+	for( i; i<t; i++ )
+	{
+		ofxFlashMovieClip* containerMc;
+		containerMc = (ofxFlashMovieClip*)container;
+		containerMc->addChildToFrame( shape, i + 1 );
+	}
+}
+
+void ofxFlashXFLBuilder :: buildOvalShape ()
+{
+	ofxFlashShape* shape;
+	shape = new ofxFlashShape();
+	
+	setupDisplayObject( shape );
+	
+	shape->setOval( domOvalObject.x, domOvalObject.y, domOvalObject.objectWidth, domOvalObject.objectHeight );
+	
+	if( tagExists( "fill", 0 ) )
+	{
+		pushTag( "fill", 0 );
+		
+		string fillSolidColor;
+		fillSolidColor = getAttribute( "SolidColor", "color", "#000000", 0 );
+		fillSolidColor = cleanHexString( fillSolidColor );
+		
+		shape->setFill( true );
+		shape->setFillColor( stringToHex( fillSolidColor ) );
+		
+		popTag();
+	}
+	
+	
+	if( tagExists( "stroke", 0 ) )
+	{
+		pushTag( "stroke", 0 );
+		
+		int solidStrokeWeight;
+		solidStrokeWeight = getAttribute( "SolidStroke", "weight",  0, 0 );
+		
+		pushTag( "SolidStroke", 0 );
+		pushTag( "fill", 0 );
+		
+		string fillSolidColor;
+		fillSolidColor = getAttribute( "SolidColor", "color", "#000000", 0 );
+		fillSolidColor = cleanHexString( fillSolidColor );
+		
+		shape->setStroke( true );
+		shape->setStrokeWeight( solidStrokeWeight );
+		shape->setStrokeColor( stringToHex( fillSolidColor ) );
+		
+		popTag();
+		popTag();
+		popTag();
+	}
+	
+	int i = domFrame.index;
+	int t = domFrame.index + domFrame.duration;
+	for( i; i<t; i++ )
+	{
+		ofxFlashMovieClip* containerMc;
+		containerMc = (ofxFlashMovieClip*)container;
+		containerMc->addChildToFrame( shape, i + 1 );
+	}
+}
+
 void ofxFlashXFLBuilder :: setupDisplayObject ( ofxFlashDisplayObject* displayObject )
 {
 	if( tagExists( "matrix", 0 ) )
 	{
 		pushTag( "matrix", 0 );
 		
-		float tx = getAttribute( "Matrix", "tx", 0.0, 0 );
-		float ty = getAttribute( "Matrix", "ty", 0.0, 0 );
-		float tz = getAttribute( "Matrix", "tz", 0.0, 0 );
+		float a		= getAttribute( "Matrix", "a",  1.0, 0 );
+		float b		= getAttribute( "Matrix", "b",  0.0, 0 );
+		float c		= getAttribute( "Matrix", "c",  0.0, 0 );
+		float d		= getAttribute( "Matrix", "d",  1.0, 0 );
+		float tx	= getAttribute( "Matrix", "tx", 0.0, 0 );
+		float ty	= getAttribute( "Matrix", "ty", 0.0, 0 );
 		
 		displayObject->x = tx;
 		displayObject->y = ty;
-		displayObject->z = tz;
 		
-		displayObject->globalX = container->x + tx;
-		displayObject->globalY = container->y + ty;
-		displayObject->globalZ = container->z + tz;
+		displayObject->mat_a	= a;
+		displayObject->mat_b	= b;
+		displayObject->mat_c	= c;
+		displayObject->mat_d	= d;
+		displayObject->mat_tx	= tx;
+		displayObject->mat_ty	= ty;
 		
 		popTag();
 	}
+}
+
+///////////////////////////////////////////
+//	CUSTOM XML FUNCTIONS.
+///////////////////////////////////////////
+
+void ofxFlashXFLBuilder :: pushTagAt( int i )
+{
+	TiXmlHandle isRealHandle = storedHandle.ChildElement( i );
+	if( isRealHandle.ToNode() )
+	{
+		storedHandle = isRealHandle;
+		level++;
+	}
+}
+
+///////////////////////////////////////////
+//	STRING HEX TO INT CONVERSIONS.
+///////////////////////////////////////////
+
+string ofxFlashXFLBuilder :: cleanHexString ( string value )
+{
+	vector<string> split;
+	split = ofSplitString( value, "#" );
+	
+	string clean = "0x";
+	clean += split[ 0 ];
+	
+	return clean;
+}
+
+int ofxFlashXFLBuilder :: stringToHex ( string value )
+{
+	unsigned int x;
+	stringstream ss;
+	ss << hex << value;
+	ss >> x;
+	
+	return x;
 }
