@@ -116,7 +116,11 @@ private:
 	void buildMovieClip			();
 	void buildRectangleShape	();
 	void buildOvalShape			();
-	void setupDisplayObject		( ofxFlashDisplayObject* displayObject );
+	
+	void addDisplayObjectToFrames		( ofxFlashDisplayObject* displayObject );
+	void setupMatrixForDisplayObject	( ofxFlashDisplayObject* displayObject );
+	void setupFillForShape				( ofxFlashShape* shape );
+	void setupStrokeForShape			( ofxFlashShape* shape );
 	
 	void pushTagAt			( int i );
 	

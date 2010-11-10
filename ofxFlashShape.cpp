@@ -97,8 +97,6 @@ void ofxFlashShape :: setRectangle ( float x, float y, float width, float height
 	shape_width		= width;
 	shape_height	= height;
 	
-	this->x			+= shape_x;
-	this->y			+= shape_y;
 	this->width		= shape_width;
 	this->height	= shape_height;
 }
@@ -107,13 +105,11 @@ void ofxFlashShape :: setOval ( float x, float y, float width, float height )
 {
 	shapeType = OVAL_SHAPE_TYPE;
 	
-	shape_x			= x + width  * 0.5;
-	shape_y			= y + height * 0.5;
+	shape_x			= x;
+	shape_y			= y;
 	shape_width		= width;
 	shape_height	= height;
 
-	this->x			+= shape_x;
-	this->y			+= shape_y;
 	this->width		= shape_width;
 	this->height	= shape_height;
 }
@@ -135,8 +131,13 @@ void ofxFlashShape :: drawRectangle ()
 	{
 		ofFill();
 		ofSetColor( shapeFillColor );
-//		ofRect( shape_x, shape_y, shape_width, shape_height );
-		ofRect( 0, 0, shape_width, shape_height );
+		ofRect
+		(
+			shape_x,
+			shape_y,
+			shape_width,
+			shape_height
+		);
 	}
 	
 	if( bShapeStroke )
@@ -144,8 +145,13 @@ void ofxFlashShape :: drawRectangle ()
 		ofNoFill();
 		ofSetLineWidth( shapeStrokeWeight );
 		ofSetColor( shapeStrokeColor );
-//		ofRect( shape_x, shape_y, shape_width, shape_height );
-		ofRect( 0, 0, shape_width, shape_height );
+		ofRect
+		(
+			shape_x,
+			shape_y,
+			shape_width,
+			shape_height
+		);
 	}
 }
 
@@ -155,8 +161,13 @@ void ofxFlashShape :: drawOval ()
 	{
 		ofFill();
 		ofSetColor( shapeFillColor );
-//		ofEllipse( shape_x, shape_y, shape_width, shape_height );
-		ofEllipse( 0, 0, shape_width, shape_height );
+		ofEllipse
+		(
+			shape_x + shape_width  * 0.5,
+			shape_y + shape_height * 0.5,
+			shape_width,
+			shape_height
+		);
 	}
 	
 	if( bShapeStroke )
@@ -164,8 +175,13 @@ void ofxFlashShape :: drawOval ()
 		ofNoFill();
 		ofSetLineWidth( shapeStrokeWeight );
 		ofSetColor( shapeStrokeColor );
-//		ofEllipse( shape_x, shape_y, shape_width, shape_height );
-		ofEllipse( 0, 0, shape_width, shape_height );
+		ofEllipse
+		(
+			shape_x + shape_width  * 0.5,
+			shape_y + shape_height * 0.5,
+			shape_width,
+			shape_height
+		);
 	}
 }
 

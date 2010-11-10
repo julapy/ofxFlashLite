@@ -303,16 +303,9 @@ void ofxFlashXFLBuilder :: buildBitmap ()
 	bm->name			= domBitmapInstance.name;
 	bm->libraryItemName = domBitmapInstance.libraryItemName;
 
-	setupDisplayObject( bm );
+	setupMatrixForDisplayObject( bm );
 	
-	int i = domFrame.index;
-	int t = domFrame.index + domFrame.duration;
-	for( i; i<t; i++ )
-	{
-		ofxFlashMovieClip* containerMc;
-		containerMc = (ofxFlashMovieClip*)container;
-		containerMc->addChildToFrame( bm, i + 1 );
-	}
+	addDisplayObjectToFrames( bm );
 }
 
 void ofxFlashXFLBuilder :: buildMovieClip ()
@@ -328,16 +321,9 @@ void ofxFlashXFLBuilder :: buildMovieClip ()
 	mc->name			= domSymbolInstance.name;
 	mc->libraryItemName = domSymbolInstance.libraryItemName;
 	
-	setupDisplayObject( mc );
+	setupMatrixForDisplayObject( mc );
 	
-	int i = domFrame.index;
-	int t = domFrame.index + domFrame.duration;
-	for( i; i<t; i++ )
-	{
-		ofxFlashMovieClip* containerMc;
-		containerMc = (ofxFlashMovieClip*)container;
-		containerMc->addChildToFrame( mc, i + 1 );
-	}
+	addDisplayObjectToFrames( mc );
 	
 	ofxFlashXFLBuilder* builder;
 	builder = new ofxFlashXFLBuilder();
@@ -352,56 +338,44 @@ void ofxFlashXFLBuilder :: buildRectangleShape ()
 	ofxFlashShape* shape;
 	shape = new ofxFlashShape();
 	
-	setupDisplayObject( shape );
+	//-- position & transform.
 	
-	shape->setRectangle( domRectangleObject.x, domRectangleObject.y, domRectangleObject.objectWidth, domRectangleObject.objectHeight );
+	float cx = domRectangleObject.x + domRectangleObject.objectWidth  * 0.5;		// center point.
+	float cy = domRectangleObject.y + domRectangleObject.objectHeight * 0.5;		// center point.
 	
-	if( tagExists( "fill", 0 ) )
+	float transformationPointX = cx;												// default transformation point is center.
+	float transformationPointY = cy;												// default transformation point is center.
+	
+	if( tagExists( "transformationPoint" ), 0 )
 	{
-		pushTag( "fill", 0 );
+		pushTag( "transformationPoint", 0 );
 		
-		string fillSolidColor;
-		fillSolidColor = getAttribute( "SolidColor", "color", "#000000", 0 );
-		fillSolidColor = cleanHexString( fillSolidColor );
-		
-		shape->setFill( true );
-		shape->setFillColor( stringToHex( fillSolidColor ) );
+		transformationPointX = getAttribute( "Point", "x", cx, 0 );
+		transformationPointY = getAttribute( "Point", "y", cy, 0 );
 		
 		popTag();
 	}
 	
+	setupMatrixForDisplayObject( shape );
 	
-	if( tagExists( "stroke", 0 ) )
-	{
-		pushTag( "stroke", 0 );
-		
-		int solidStrokeWeight;
-		solidStrokeWeight = getAttribute( "SolidStroke", "weight",  0, 0 );
-		
-		pushTag( "SolidStroke", 0 );
-		pushTag( "fill", 0 );
-		
-		string fillSolidColor;
-		fillSolidColor = getAttribute( "SolidColor", "color", "#000000", 0 );
-		fillSolidColor = cleanHexString( fillSolidColor );
-		
-		shape->setStroke( true );
-		shape->setStrokeWeight( solidStrokeWeight );
-		shape->setStrokeColor( stringToHex( fillSolidColor ) );
-		
-		popTag();
-		popTag();
-		popTag();
-	}
+	float shiftX = transformationPointX - cx;
+	float shiftY = transformationPointY - cy;
 	
-	int i = domFrame.index;
-	int t = domFrame.index + domFrame.duration;
-	for( i; i<t; i++ )
-	{
-		ofxFlashMovieClip* containerMc;
-		containerMc = (ofxFlashMovieClip*)container;
-		containerMc->addChildToFrame( shape, i + 1 );
-	}
+	shape->x = shape->mat_tx += shiftX;
+	shape->y = shape->mat_ty += shiftY;
+	
+	ofRectangle shapeRect;
+	shapeRect.x			= domRectangleObject.x + shiftX;
+	shapeRect.y			= domRectangleObject.y + shiftY;
+	shapeRect.width		= domRectangleObject.objectWidth;
+	shapeRect.height	= domRectangleObject.objectHeight;
+	
+	shape->setRectangle( shapeRect.x, shapeRect.y, shapeRect.width, shapeRect.height );
+	
+	setupFillForShape( shape );
+	setupStrokeForShape( shape );
+	
+	addDisplayObjectToFrames( shape );
 }
 
 void ofxFlashXFLBuilder :: buildOvalShape ()
@@ -409,59 +383,61 @@ void ofxFlashXFLBuilder :: buildOvalShape ()
 	ofxFlashShape* shape;
 	shape = new ofxFlashShape();
 	
-	setupDisplayObject( shape );
+	float cx = domOvalObject.x + domOvalObject.objectWidth  * 0.5;		// center point.
+	float cy = domOvalObject.y + domOvalObject.objectHeight * 0.5;		// center point.
 	
-	shape->setOval( domOvalObject.x, domOvalObject.y, domOvalObject.objectWidth, domOvalObject.objectHeight );
+	float transformationPointX = cx;									// default transformation point is center.
+	float transformationPointY = cy;									// default transformation point is center.
 	
-	if( tagExists( "fill", 0 ) )
+	if( tagExists( "transformationPoint" ), 0 )
 	{
-		pushTag( "fill", 0 );
+		pushTag( "transformationPoint", 0 );
 		
-		string fillSolidColor;
-		fillSolidColor = getAttribute( "SolidColor", "color", "#000000", 0 );
-		fillSolidColor = cleanHexString( fillSolidColor );
-		
-		shape->setFill( true );
-		shape->setFillColor( stringToHex( fillSolidColor ) );
+		transformationPointX = getAttribute( "Point", "x", cx, 0 );
+		transformationPointY = getAttribute( "Point", "y", cy, 0 );
 		
 		popTag();
 	}
 	
+	setupMatrixForDisplayObject( shape );
 	
-	if( tagExists( "stroke", 0 ) )
-	{
-		pushTag( "stroke", 0 );
-		
-		int solidStrokeWeight;
-		solidStrokeWeight = getAttribute( "SolidStroke", "weight",  0, 0 );
-		
-		pushTag( "SolidStroke", 0 );
-		pushTag( "fill", 0 );
-		
-		string fillSolidColor;
-		fillSolidColor = getAttribute( "SolidColor", "color", "#000000", 0 );
-		fillSolidColor = cleanHexString( fillSolidColor );
-		
-		shape->setStroke( true );
-		shape->setStrokeWeight( solidStrokeWeight );
-		shape->setStrokeColor( stringToHex( fillSolidColor ) );
-		
-		popTag();
-		popTag();
-		popTag();
-	}
+	float shiftX = transformationPointX - cx;
+	float shiftY = transformationPointY - cy;
 	
+	shape->x = shape->mat_tx += shiftX;
+	shape->y = shape->mat_ty += shiftY;
+	
+	ofRectangle shapeRect;
+	shapeRect.x			= domOvalObject.x + shiftX;
+	shapeRect.y			= domOvalObject.y + shiftY;
+	shapeRect.width		= domOvalObject.objectWidth;
+	shapeRect.height	= domOvalObject.objectHeight;
+	
+	shape->setOval( shapeRect.x, shapeRect.y, shapeRect.width, shapeRect.height );
+	
+	setupFillForShape( shape );
+	setupStrokeForShape( shape );
+	
+	addDisplayObjectToFrames( shape );
+}
+
+///////////////////////////////////////////
+//	COMMON BUILDER FUNCTIONS.
+///////////////////////////////////////////
+
+void ofxFlashXFLBuilder :: addDisplayObjectToFrames ( ofxFlashDisplayObject* displayObject )
+{
 	int i = domFrame.index;
 	int t = domFrame.index + domFrame.duration;
 	for( i; i<t; i++ )
 	{
 		ofxFlashMovieClip* containerMc;
 		containerMc = (ofxFlashMovieClip*)container;
-		containerMc->addChildToFrame( shape, i + 1 );
+		containerMc->addChildToFrame( displayObject, i + 1 );
 	}
 }
 
-void ofxFlashXFLBuilder :: setupDisplayObject ( ofxFlashDisplayObject* displayObject )
+void ofxFlashXFLBuilder :: setupMatrixForDisplayObject ( ofxFlashDisplayObject* displayObject )
 {
 	if( tagExists( "matrix", 0 ) )
 	{
@@ -484,6 +460,49 @@ void ofxFlashXFLBuilder :: setupDisplayObject ( ofxFlashDisplayObject* displayOb
 		displayObject->mat_tx	= tx;
 		displayObject->mat_ty	= ty;
 		
+		popTag();
+	}
+}
+
+void ofxFlashXFLBuilder :: setupFillForShape ( ofxFlashShape* shape )
+{
+	if( tagExists( "fill", 0 ) )
+	{
+		pushTag( "fill", 0 );
+		
+		string fillSolidColor;
+		fillSolidColor = getAttribute( "SolidColor", "color", "#000000", 0 );
+		fillSolidColor = cleanHexString( fillSolidColor );
+		
+		shape->setFill( true );
+		shape->setFillColor( stringToHex( fillSolidColor ) );
+		
+		popTag();
+	}
+}
+
+void ofxFlashXFLBuilder :: setupStrokeForShape ( ofxFlashShape* shape )
+{
+	if( tagExists( "stroke", 0 ) )
+	{
+		pushTag( "stroke", 0 );
+		
+		int solidStrokeWeight;
+		solidStrokeWeight = getAttribute( "SolidStroke", "weight",  0, 0 );
+		
+		pushTag( "SolidStroke", 0 );
+		pushTag( "fill", 0 );
+		
+		string fillSolidColor;
+		fillSolidColor = getAttribute( "SolidColor", "color", "#000000", 0 );
+		fillSolidColor = cleanHexString( fillSolidColor );
+		
+		shape->setStroke( true );
+		shape->setStrokeWeight( solidStrokeWeight );
+		shape->setStrokeColor( stringToHex( fillSolidColor ) );
+		
+		popTag();
+		popTag();
 		popTag();
 	}
 }
