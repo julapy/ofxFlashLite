@@ -25,6 +25,8 @@ public:
 	ofxFlashStage*			stage;
 	ofxFlashXFL				xfl;
 	Instructions			instructions;
+	
+	bool					bShowRedrawRegions;
 };
 
 #endif

@@ -15,7 +15,7 @@ void testApp::setup()
 	
 	stage = ofxFlashStage :: getInstance();			// ofxFlash setup.
 	stage->addListeners();
-	stage->showRedrawRegions( false );
+	stage->showRedrawRegions( bShowRedrawRegions = false );
 
 	
 	xfl.loadFile( "assets/DOMDocument.xml" );		// load XFL flash file.
@@ -49,7 +49,10 @@ void testApp::draw()
 
 void testApp::keyPressed(int key)
 {
-
+	if( key == 'd' )
+	{
+		stage->showRedrawRegions( bShowRedrawRegions = !bShowRedrawRegions );
+	}
 }
 
 void testApp::keyReleased(int key)
@@ -67,8 +70,8 @@ void testApp::mouseDragged(int x, int y, int button)
 	ofxFlashDisplayObject* flashIcon;
 	flashIcon = stage->root()->getChildByName( "fl_icon" );
 	
-	flashIcon->x = x;
-	flashIcon->y = y;
+	flashIcon->x( x );
+	flashIcon->y( y );
 }
 
 void testApp::mousePressed(int x, int y, int button)

@@ -17,5 +17,6 @@ class Instructions : public ofxFlashSprite
 	{
 		ofSetColor( 0, 0, 0 );
 		ofDrawBitmapString( "drag mouse to move flash logo.", 10, 20 );
+		ofDrawBitmapString( "press 'd' to toggle redraw regions.", 10, 40 );
 	}
 };
