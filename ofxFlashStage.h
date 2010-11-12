@@ -10,6 +10,7 @@
 #pragma once
 
 #include "ofxFlashMovieClip.h"
+#include "ofxFlashMatrix.h"
 
 class ofxFlashStage : public ofxFlashDisplayObjectContainer
 {
@@ -59,7 +60,7 @@ private:
 	void update	( ofEventArgs &e );
 	void draw	( ofEventArgs &e );
 	
-	void updateChildren		( vector<ofxFlashDisplayObject*>& children );
+	void updateChildren		( vector<ofxFlashDisplayObject*>& children, const ofxFlashMatrix& matrix );
 	void drawChildren		( vector<ofxFlashDisplayObject*>& children );
 	void drawChildrenDebug	( vector<ofxFlashDisplayObject*>& children );
 	

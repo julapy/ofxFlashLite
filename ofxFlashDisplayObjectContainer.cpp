@@ -69,7 +69,7 @@ ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: getChildByName ( string
 {
 	for( int i=0; i<children.size(); i++ )
 	{
-		if( children[ i ]->name == name )
+		if( children[ i ]->name() == name )
 		{
 			return children[ i ];
 		}

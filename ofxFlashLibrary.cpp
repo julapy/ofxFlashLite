@@ -211,7 +211,7 @@ ofBaseImage* ofxFlashLibrary :: getAssetByFileName ( string fileName )
 
 ofxFlashDisplayObject* ofxFlashLibrary :: addDisplayObject ( string libraryItemName, ofxFlashDisplayObject* displayObject )
 {
-	if( !hasDisplayObject( displayObject->libraryItemName ) )
+	if( !hasDisplayObject( displayObject->libraryItemName() ) )
 	{
 		displayObjects.push_back( displayObject );
 	}
@@ -224,7 +224,7 @@ ofxFlashDisplayObject* ofxFlashLibrary :: getDisplayObject ( string libraryItemN
 		ofxFlashDisplayObject* displayObject;
 		displayObject = displayObjects[ i ];
 		
-		if( displayObject->libraryItemName == libraryItemName )
+		if( displayObject->libraryItemName() == libraryItemName )
 		{
 			return displayObject;
 		}
@@ -240,7 +240,7 @@ bool ofxFlashLibrary :: hasDisplayObject ( string libraryItemName )
 		ofxFlashDisplayObject* displayObject;
 		displayObject = displayObjects[ i ];
 		
-		if( displayObject->libraryItemName == libraryItemName )
+		if( displayObject->libraryItemName() == libraryItemName )
 		{
 			return true;
 		}

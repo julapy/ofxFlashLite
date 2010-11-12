@@ -300,8 +300,8 @@ void ofxFlashXFLBuilder :: buildBitmap ()
 	
 	ofxFlashBitmap* bm;
 	bm = new ofxFlashBitmap( bitmapImage );
-	bm->name			= domBitmapInstance.name;
-	bm->libraryItemName = domBitmapInstance.libraryItemName;
+	bm->name( domBitmapInstance.name );
+	bm->libraryItemName( domBitmapInstance.libraryItemName );
 
 	setupMatrixForDisplayObject( bm );
 	
@@ -318,8 +318,8 @@ void ofxFlashXFLBuilder :: buildMovieClip ()
 
 	ofxFlashMovieClip* mc;
 	mc = new ofxFlashMovieClip();
-	mc->name			= domSymbolInstance.name;
-	mc->libraryItemName = domSymbolInstance.libraryItemName;
+	mc->name( domSymbolInstance.name );
+	mc->libraryItemName( domSymbolInstance.libraryItemName );
 	
 	setupMatrixForDisplayObject( mc );
 	
@@ -361,8 +361,16 @@ void ofxFlashXFLBuilder :: buildRectangleShape ()
 	float shiftX = transformationPointX - cx;
 	float shiftY = transformationPointY - cy;
 	
-	shape->x = shape->mat_tx += shiftX;
-	shape->y = shape->mat_ty += shiftY;
+	ofxFlashMatrix matrix;
+	matrix = shape->matrix();				// get matrix.
+	
+	float tx = matrix.getTx() + shiftX;
+	float ty = matrix.getTy() + shiftY;
+	
+	matrix.setTx( tx );						// adjust matrix.
+	matrix.setTy( ty );
+	
+	shape->matrix( matrix );				// set matrix.
 	
 	ofRectangle shapeRect;
 	shapeRect.x			= domRectangleObject.x + shiftX;
@@ -404,8 +412,16 @@ void ofxFlashXFLBuilder :: buildOvalShape ()
 	float shiftX = transformationPointX - cx;
 	float shiftY = transformationPointY - cy;
 	
-	shape->x = shape->mat_tx += shiftX;
-	shape->y = shape->mat_ty += shiftY;
+	ofxFlashMatrix matrix;
+	matrix = shape->matrix();				// get matrix.
+	
+	float tx = matrix.getTx() + shiftX;
+	float ty = matrix.getTy() + shiftY;
+	
+	matrix.setTx( tx );						// adjust matrix.
+	matrix.setTy( ty );
+	
+	shape->matrix( matrix );				// set matrix.
 	
 	ofRectangle shapeRect;
 	shapeRect.x			= domOvalObject.x + shiftX;
@@ -450,15 +466,10 @@ void ofxFlashXFLBuilder :: setupMatrixForDisplayObject ( ofxFlashDisplayObject* 
 		float tx	= getAttribute( "Matrix", "tx", 0.0, 0 );
 		float ty	= getAttribute( "Matrix", "ty", 0.0, 0 );
 		
-		displayObject->x = tx;
-		displayObject->y = ty;
+		ofxFlashMatrix matrix;
+		matrix.set( a, b, c, d, tx, ty );
 		
-		displayObject->mat_a	= a;
-		displayObject->mat_b	= b;
-		displayObject->mat_c	= c;
-		displayObject->mat_d	= d;
-		displayObject->mat_tx	= tx;
-		displayObject->mat_ty	= ty;
+		displayObject->matrix( matrix );
 		
 		popTag();
 	}

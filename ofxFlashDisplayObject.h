@@ -10,6 +10,8 @@
 #pragma once
 
 #include "ofxFlashEventDispatcher.h"
+#include "ofxFlashMatrix.h"
+#include "ofxFlashRectangle.h"
 
 #define	BLEND_MODE_NORMAL		0
 #define	BLEND_MODE_LAYER		1
@@ -44,7 +46,8 @@ public:
 	virtual void update	();
 	virtual void draw	();
 	
-	void drawBoundingBox ();
+	void drawTransformedOutline	();
+	void drawBoundingBox		();
 	
 	///////////////////////////////////////////////
 	//
@@ -53,51 +56,74 @@ public:
 	//
 	///////////////////////////////////////////////
 
-	string		name;
-	string		libraryItemName;
+	const string&			name ();
+	void					name ( string value );
+
+	const string&			libraryItemName ();
+	void					libraryItemName ( string value );
 	
-	float		alpha;
-	bool		visible;
-	float		width;
-	float		height;
-	float		x;
-	float		y;
-	float		z;
-	float		globalX;
-	float		globalY;
-	float		globalZ;
-	int			mouseX;
-	int			mouseY;
-	float		rotation;
-	float		rotationX;
-	float		rotationY;
-	float		rotationZ;
-	float		scaleX;
-	float		scaleY;
-	float		scaleZ;
-	int			blendMode;
+	const float&			alpha ();
+	void					alpha ( float value );
+
+	const bool&				visible ();
+	void					visible ( bool value );
+
+	const float&			width ();
+	void					width ( float value );
+
+	const float&			height ();
+	void					height ( float value );
+
+	const float&			x ();
+	void					x ( float value );
+
+	const float&			y ();
+	void					y ( float value );
 	
-	//-- flash 2D matrix.
-	//   http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/flash/geom/Matrix.html
-	//
-	//	[ a  c  tx ]
-	//	[ b  d  ty ]
-	//	[ 0  0  1  ]
-	//
-	//-- flash 2D matrix.
+	const float&			z ();
+	void					z ( float value );
 	
-	float		mat_a;
-	float		mat_b;
-	float		mat_c;
-	float		mat_d;
-	float		mat_tx;
-	float		mat_ty;
+	const int&				mouseX ();
+	const int&				mouseY ();
+
+	const float&			rotation ();
+	void					rotation ( float value );
+
+	const float&			rotationX ();
+	void					rotationX ( float value );
+
+	const float&			rotationY ();
+	void					rotationY ( float value );
+
+	const float&			rotationZ ();
+	void					rotationZ ( float value );
+
+	const float&			scaleX ();
+	void					scaleX ( float value );
+
+	const float&			scaleY ();
+	void					scaleY ( float value );
+
+	const float&			scaleZ ();
+	void					scaleZ ( float value );
+
+	const int&				blendMode ();
+	void					blendMode ( int value );
 	
-	//-- display objects.
+	const ofxFlashMatrix&	matrix();
+	void					matrix( const ofxFlashMatrix& mat );
 	
+	//=============================================================
+
 	ofxFlashDisplayObject*	mask;			// DisplayObject in AS3.
 	ofxFlashDisplayObject*	parent;			// DisplayObjectContainer in AS3.
 	ofxFlashStage*			stage;			// Stage in AS3.
+	
+	//=============================================================
+	
+	void transform ( const ofxFlashMatrix& mat );
+	
+	//=============================================================
 	
 	ofRectangle getRect			( ofxFlashDisplayObject* targetCoordinateSpace );
 	ofPoint		globalToLocal	( const ofPoint& point );
@@ -110,5 +136,35 @@ public:
 //	TODO :: cacheAsBitmap - maybe this can be an FBO?
 //	TODO :: transform :: http://livedocs.adobe.com/flex/3/langref/flash/geom/Transform.html
 //	TODO :: events - added, addedToStage, enterFrame, exitFrame, frameConstructed, removed, removedFromStage, render
-
+	
+protected:
+	
+	ofxFlashMatrix		_matrix;
+	ofxFlashRectangle	rectLocal;
+	ofxFlashRectangle	rectGlobal;
+	ofPoint				rectTransformed[ 4 ];
+	
+private:
+	
+	string		_name;
+	string		_libraryItemName;
+	
+	float		_alpha;
+	bool		_visible;
+	float		_width;
+	float		_height;
+	float		_x;
+	float		_y;
+	float		_z;
+	int			_mouseX;
+	int			_mouseY;
+	float		_rotation;
+	float		_rotationX;
+	float		_rotationY;
+	float		_rotationZ;
+	float		_scaleX;
+	float		_scaleY;
+	float		_scaleZ;
+	int			_blendMode;
+	
 };

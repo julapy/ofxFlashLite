@@ -15,8 +15,10 @@ ofxFlashBitmap :: ofxFlashBitmap ( ofImage* image )
 	
 	if( bitmapImage != NULL )
 	{
-		width	= bitmapImage->width;
-		height	= bitmapImage->height;
+		float w = bitmapImage->width;
+		float h = bitmapImage->height;
+		
+		rectLocal.set_to_rect( 0, 0, w, h );
 	}
 	
 	typeID = OFX_FLASH_BITMAP_TYPE;
