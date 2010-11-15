@@ -74,18 +74,16 @@ void ofxFlashStage :: setup ()
 
 void ofxFlashStage :: update ()
 {
-	ofxFlashMatrix worldMatrix;		// identity matrix.
-	
-	updateChildren( children, worldMatrix );
+	updateChildren( this, children );
 }
 
 void ofxFlashStage :: draw ()
 {
-	drawChildren( children );
+	drawChildren( this, children );
 	
 	if( bShowRedrawRegions )
 	{
-		drawChildrenDebug( children );
+		drawChildrenDebug( this, children );
 	}
 }
 
@@ -107,20 +105,20 @@ void ofxFlashStage :: draw ( ofEventArgs &e )
 //	UPDATE CHILDREN.
 /////////////////////////////////////////////
 
-void ofxFlashStage :: updateChildren ( vector<ofxFlashDisplayObject*>& children, const ofxFlashMatrix& mat )
+void ofxFlashStage :: updateChildren ( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children )
 {
+	parent->resetPixelBounds();		// clear pixel bounds on every loop and recalculate.
+	
 	for( int i=0; i<children.size(); i++ )
 	{
 		ofxFlashDisplayObject* child;
 		child = children[ i ];
 		
 		ofxFlashMatrix worldMatrix;
-		worldMatrix = mat;
+		worldMatrix = parent->concatenatedMatrix();
 		worldMatrix.concatenate( child->matrix() );
 		
 		child->transform( worldMatrix );
-		
-		child->update();
 		
 		bool bCanHaveChildren;
 		bCanHaveChildren = false;
@@ -135,9 +133,13 @@ void ofxFlashStage :: updateChildren ( vector<ofxFlashDisplayObject*>& children,
 			
 			if( container->children.size() > 0 )
 			{
-				updateChildren( container->children, worldMatrix );
+				updateChildren( child, container->children );
 			}
 		}
+		
+		parent->addToPixelBounds( child->pixelBounds() );	// compound pixel bounds from children.
+		
+		child->update();	// last thing we do is call the update method for each child.
 	}
 }
 
@@ -145,7 +147,7 @@ void ofxFlashStage :: updateChildren ( vector<ofxFlashDisplayObject*>& children,
 //	DRAW CHILDREN.
 /////////////////////////////////////////////
 
-void ofxFlashStage :: drawChildren ( vector<ofxFlashDisplayObject*>& children )
+void ofxFlashStage :: drawChildren ( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children )
 {
 	for( int i=0; i<children.size(); i++ )
 	{
@@ -179,7 +181,7 @@ void ofxFlashStage :: drawChildren ( vector<ofxFlashDisplayObject*>& children )
 			
 			if( container->children.size() > 0 )
 			{
-				drawChildren( container->children );
+				drawChildren( child, container->children );
 			}
 		}
 		
@@ -190,7 +192,7 @@ void ofxFlashStage :: drawChildren ( vector<ofxFlashDisplayObject*>& children )
 	}
 }
 
-void ofxFlashStage :: drawChildrenDebug ( vector<ofxFlashDisplayObject*>& children )
+void ofxFlashStage :: drawChildrenDebug ( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children )
 {
 	for( int i=0; i<children.size(); i++ )
 	{
@@ -198,7 +200,7 @@ void ofxFlashStage :: drawChildrenDebug ( vector<ofxFlashDisplayObject*>& childr
 		child = children[ i ];
 		
 		child->drawTransformedOutline();
-		child->drawBoundingBox();
+		child->drawPixelBounds();
 		
 		bool bCanHaveChildren;
 		bCanHaveChildren = false;
@@ -213,7 +215,7 @@ void ofxFlashStage :: drawChildrenDebug ( vector<ofxFlashDisplayObject*>& childr
 			
 			if( container->children.size() > 0 )
 			{
-				drawChildrenDebug( container->children );
+				drawChildrenDebug( child, container->children );
 			}
 		}
 	}

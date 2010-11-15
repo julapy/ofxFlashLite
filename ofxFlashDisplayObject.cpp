@@ -74,20 +74,23 @@ void ofxFlashDisplayObject :: drawTransformedOutline ()
 	ofSetLineWidth( 2 );
 	
 	ofBeginShape();
-	ofVertex( rectTransformed[ 0 ].x, rectTransformed[ 0 ].y );
-	ofVertex( rectTransformed[ 1 ].x, rectTransformed[ 1 ].y );
-	ofVertex( rectTransformed[ 2 ].x, rectTransformed[ 2 ].y );
-	ofVertex( rectTransformed[ 3 ].x, rectTransformed[ 3 ].y );
-	ofVertex( rectTransformed[ 0 ].x, rectTransformed[ 0 ].y );
+	ofVertex( _rectTransformed[ 0 ].x, _rectTransformed[ 0 ].y );
+	ofVertex( _rectTransformed[ 1 ].x, _rectTransformed[ 1 ].y );
+	ofVertex( _rectTransformed[ 2 ].x, _rectTransformed[ 2 ].y );
+	ofVertex( _rectTransformed[ 3 ].x, _rectTransformed[ 3 ].y );
+	ofVertex( _rectTransformed[ 0 ].x, _rectTransformed[ 0 ].y );
 	ofEndShape( true );
 }
 
-void ofxFlashDisplayObject :: drawBoundingBox ()
+void ofxFlashDisplayObject :: drawPixelBounds ()
 {
+	if( _pixelBounds.is_null() )
+		return;
+	
 	ofNoFill();
 	ofSetColor( 255, 0, 0 );
 	ofSetLineWidth( 2 );
-	ofRect( rectGlobal.get_x_min(), rectGlobal.get_y_min(), rectGlobal.width(), rectGlobal.height() );
+	ofRect( _pixelBounds.get_x_min(), _pixelBounds.get_y_min(), _pixelBounds.width(), _pixelBounds.height() );
 }
 
 ///////////////////////////////////////////////
@@ -149,6 +152,22 @@ const float& ofxFlashDisplayObject :: width ()
 	return _width;
 }
 
+//void
+//DisplayObject::setWidth(double newwidth)
+//{
+//	const SWFRect& bounds = getBounds();
+//	const double oldwidth = bounds.width();
+//	assert(oldwidth >= 0); 
+//	
+//    const double xscale = oldwidth ? (newwidth / oldwidth) : 0; 
+//    const double rotation = _rotation * PI / 180.0;
+//	
+//    SWFMatrix m = getMatrix();
+//    const double yscale = m.get_y_scale(); 
+//    m.set_scale_rotation(xscale, yscale, rotation);
+//    setMatrix(m, true); 
+//}
+
 void ofxFlashDisplayObject :: width ( float value )
 {
 	_width = value;
@@ -160,6 +179,23 @@ const float& ofxFlashDisplayObject :: height ()
 {
 	return _height;
 }
+
+//void
+//DisplayObject::setHeight(double newheight)
+//{
+//	const SWFRect& bounds = getBounds();
+//	
+//	const double oldheight = bounds.height();
+//	assert(oldheight >= 0); 
+//	
+//    const double yscale = oldheight ? (newheight / oldheight) : 0;
+//    const double rotation = _rotation * PI / 180.0;
+//	
+//    SWFMatrix m = getMatrix();
+//    const double xscale = m.get_x_scale();
+//    m.set_scale_rotation(xscale, yscale, rotation);
+//    setMatrix(m, true);
+//}
 
 void ofxFlashDisplayObject :: height ( float value )
 {
@@ -331,16 +367,42 @@ void ofxFlashDisplayObject :: matrix( const ofxFlashMatrix& mat )
 	_rotation	= mat.get_rotation();
 }
 
+//============================================================= CONCATENATED MATRIX.
+
+const ofxFlashMatrix& ofxFlashDisplayObject :: concatenatedMatrix ()
+{
+	return _concatenatedMatrix;
+}
+
+//============================================================= PIXEL BOUNDS.
+
+const ofxFlashRectangle& ofxFlashDisplayObject :: pixelBounds ()
+{
+	return _pixelBounds;
+}
+
+void ofxFlashDisplayObject :: resetPixelBounds ()
+{
+	_pixelBounds.set_null();
+}
+
+void ofxFlashDisplayObject :: addToPixelBounds( const ofxFlashRectangle& rect )
+{
+	_pixelBounds.expand_to_rect( rect );
+}
+
 ///////////////////////////////////////////////
 //	TRANSFORM.
 ///////////////////////////////////////////////
 
 void ofxFlashDisplayObject :: transform ( const ofxFlashMatrix& mat )
 {
-	float x1 = rectLocal.get_x_min();
-	float y1 = rectLocal.get_y_min();
-	float x2 = rectLocal.get_x_max();
-	float y2 = rectLocal.get_y_max();
+	_concatenatedMatrix = mat;
+	
+	float x1 = _rect.get_x_min();
+	float y1 = _rect.get_y_min();
+	float x2 = _rect.get_x_max();
+	float y2 = _rect.get_y_max();
 	
 	ofPoint p0( x1, y1 );
 	ofPoint p1( x2, y1 );
@@ -352,20 +414,21 @@ void ofxFlashDisplayObject :: transform ( const ofxFlashMatrix& mat )
 	mat.transform( p2 );
 	mat.transform( p3 );
 	
-	rectTransformed[ 0 ] = p0;
-	rectTransformed[ 1 ] = p1;
-	rectTransformed[ 2 ] = p2;
-	rectTransformed[ 3 ] = p3;
+	_rectTransformed[ 0 ] = p0;
+	_rectTransformed[ 1 ] = p1;
+	_rectTransformed[ 2 ] = p2;
+	_rectTransformed[ 3 ] = p3;
 	
 	//-- work out global bounding box.
 	
 	vector<ofPoint> points;
-	points.push_back( rectTransformed[ 0 ] );
-	points.push_back( rectTransformed[ 1 ] );
-	points.push_back( rectTransformed[ 2 ] );
-	points.push_back( rectTransformed[ 3 ] );
+	points.push_back( _rectTransformed[ 0 ] );
+	points.push_back( _rectTransformed[ 1 ] );
+	points.push_back( _rectTransformed[ 2 ] );
+	points.push_back( _rectTransformed[ 3 ] );
 	
-	rectGlobal.enclose_rect( points );
+	_pixelBounds.set_null();
+	_pixelBounds.enclose_rect( points );
 }
 
 ///////////////////////////////////////////////

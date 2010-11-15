@@ -60,8 +60,8 @@ private:
 	void update	( ofEventArgs &e );
 	void draw	( ofEventArgs &e );
 	
-	void updateChildren		( vector<ofxFlashDisplayObject*>& children, const ofxFlashMatrix& matrix );
-	void drawChildren		( vector<ofxFlashDisplayObject*>& children );
-	void drawChildrenDebug	( vector<ofxFlashDisplayObject*>& children );
+	void updateChildren		( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children );
+	void drawChildren		( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children );
+	void drawChildrenDebug	( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children );
 	
 };
