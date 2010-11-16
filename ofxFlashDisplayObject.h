@@ -47,7 +47,7 @@ public:
 	virtual void draw	();
 	
 	void drawTransformedOutline	();
-	void drawBoundingBox		();
+	void drawPixelBounds		();
 	
 	///////////////////////////////////////////////
 	//
@@ -110,8 +110,14 @@ public:
 	const int&				blendMode ();
 	void					blendMode ( int value );
 	
-	const ofxFlashMatrix&	matrix();
-	void					matrix( const ofxFlashMatrix& mat );
+	const ofxFlashMatrix&		matrix				();
+	void						matrix				( const ofxFlashMatrix& mat );
+	
+	const ofxFlashMatrix&		concatenatedMatrix	();
+	
+	const ofxFlashRectangle&	pixelBounds			();
+	void						resetPixelBounds	();
+	void						addToPixelBounds	( const ofxFlashRectangle& rect );
 	
 	//=============================================================
 
@@ -140,9 +146,10 @@ public:
 protected:
 	
 	ofxFlashMatrix		_matrix;
-	ofxFlashRectangle	rectLocal;
-	ofxFlashRectangle	rectGlobal;
-	ofPoint				rectTransformed[ 4 ];
+	ofxFlashMatrix		_concatenatedMatrix;
+	ofxFlashRectangle	_rect;
+	ofPoint				_rectTransformed[ 4 ];
+	ofxFlashRectangle	_pixelBounds;
 	
 private:
 	

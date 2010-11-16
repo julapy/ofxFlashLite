@@ -100,7 +100,7 @@ void ofxFlashShape :: setRectangle ( float x, float y, float width, float height
 	this->width( shape_width );
 	this->height( shape_height );
 	
-	rectLocal.set_to_rect( x, y, x + width, y + height );
+	_rect.set_to_rect( x, y, x + width, y + height );
 }
 
 void ofxFlashShape :: setOval ( float x, float y, float width, float height )
@@ -115,7 +115,7 @@ void ofxFlashShape :: setOval ( float x, float y, float width, float height )
 	this->width( shape_width );
 	this->height( shape_height );
 	
-	rectLocal.set_to_rect( x, y, x + width, y + height );
+	_rect.set_to_rect( x, y, x + width, y + height );
 }
 
 void ofxFlashShape :: setCustom ( const vector<ofPoint>& points )
