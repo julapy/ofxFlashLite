@@ -154,6 +154,40 @@ public:
 //		sy  = Fixed16Mul(sy, DoubleToFixed16(yscale)); 
 //	}
 	
+	//=============================================== INVERT.
+	
+	ofxFlashMatrix& invert ()
+	{
+		float det = determinant();
+		
+		if( det == 0 )
+		{
+			set( 1.0, 0.0, 0.0, 1.0, 0.0, 0.0 );	// set identity.
+			
+			return *this;
+		}
+		
+		const float d	= 1.0 / det;
+		const float t0	= getD() * d;
+		
+		setD(  getA() * d );
+		setC( -getC() * d );
+		setB( -getB() * d );
+		
+		float t4 = -( ( getTx() * t0 ) + ( getTy() * getC() ) );
+		setTy( -( ( getTx() * getB() ) + ( getTy() * getD() ) ) );
+		
+		setA( t0 );
+		setTx( t4 );
+		
+		return *this;
+	}
+	
+	float determinant() const
+	{
+		return getA() * getD() - getB() * getC();
+	}
+	
 	//=============================================== SETTERS.
 	
 	void set_scale_rotation ( float x_scale, float y_scale, float angle )
@@ -198,7 +232,7 @@ public:
 		
 		setA( scale_x * cos( rotation ) );
 		setB( scale_x * sin( rotation ) );
-		setC( scale_y * sin( rot_y - rot_x + rotation ) );
+		setC( scale_y * sin( rot_y - rot_x + rotation ) * -1 );		// reverse sign.
 		setD( scale_y * cos( rot_y - rot_x + rotation ) );
 	}
 	

@@ -254,12 +254,12 @@ const int& ofxFlashDisplayObject :: mouseY ()
 
 const float& ofxFlashDisplayObject :: rotation ()
 {
-	return _rotation = _matrix.get_rotation();
+	return _rotation = _matrix.get_rotation() * RAD_TO_DEG;
 }
 
 void ofxFlashDisplayObject :: rotation ( float value )
 {
-	_matrix.set_rotation( _rotation = value );
+	_matrix.set_rotation( _rotation = value * DEG_TO_RAD );
 }
 
 //============================================================= ROTATION X.
@@ -364,7 +364,7 @@ void ofxFlashDisplayObject :: matrix( const ofxFlashMatrix& mat )
 	_y			= mat.getTy();
 	_scaleX		= mat.get_x_scale();
 	_scaleY		= mat.get_y_scale();
-	_rotation	= mat.get_rotation();
+	_rotation	= mat.get_rotation() * RAD_TO_DEG;
 }
 
 //============================================================= CONCATENATED MATRIX.
@@ -427,7 +427,7 @@ void ofxFlashDisplayObject :: transform ( const ofxFlashMatrix& mat )
 	points.push_back( _rectTransformed[ 2 ] );
 	points.push_back( _rectTransformed[ 3 ] );
 	
-	_pixelBounds.set_null();
+	_pixelBounds.set_null();						// reset before enclosing new points.
 	_pixelBounds.enclose_rect( points );
 }
 
@@ -457,7 +457,13 @@ bool ofxFlashDisplayObject :: hitTestObject ( ofxFlashDisplayObject* obj )
 
 bool ofxFlashDisplayObject :: hitTestPoint ( float x, float y, bool shapeFlag )
 {
-	// TODO.
+	ofPoint p( x, y );
+	
+	ofxFlashMatrix mat = _concatenatedMatrix;		// this is the world matrix.
+	mat.invert();
+	mat.transform( p );
+	
+	return _rect.point_test( p.x, p.y );
 }
 
 ofPoint ofxFlashDisplayObject :: local3DToGlobal ( const ofPoint& point )

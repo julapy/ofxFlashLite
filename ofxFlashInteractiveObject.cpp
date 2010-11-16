@@ -101,13 +101,10 @@ void ofxFlashInteractiveObject :: _mouseMoved( ofMouseEventArgs &e )
 	if( !_mouseEnabled )
 		return;
 	
-	int x = e.x;
-	int y = e.y;
-	
 //	_mouseX = x;
 //	_mouseY = y;
 	
-	if( _pixelBounds.point_test( x, y ) )
+	if( hitTestPoint( e.x, e.y ) )
 	{
 		if(!_mouseOver)
 		{
@@ -132,13 +129,10 @@ void ofxFlashInteractiveObject :: _mousePressed( ofMouseEventArgs &e )
 	if( !_mouseEnabled )
 		return;
 	
-	int x = e.x;
-	int y = e.y;
-	
 //	_mouseX = x;
 //	_mouseY = y;
 	
-	if( _pixelBounds.point_test( x, y ) )
+	if( hitTestPoint( e.x, e.y ) )
 	{
 		if( !_mouseDown )
 		{
@@ -154,13 +148,10 @@ void ofxFlashInteractiveObject :: _mouseDragged( ofMouseEventArgs &e )
 	if( !_mouseEnabled )
 		return;
 	
-	int x = e.x;
-	int y = e.y;
-	
 //	_mouseX = x;
 //	_mouseY = y;
 	
-	if( _pixelBounds.point_test( x, y ) )
+	if( hitTestPoint( e.x, e.y ) )
 	{
 		if( !_mouseOver )
 		{
@@ -190,13 +181,10 @@ void ofxFlashInteractiveObject :: _mouseReleased( ofMouseEventArgs &e )
 	if( !_mouseEnabled )
 		return;
 	
-	int x = e.x;
-	int y = e.y;
-	
 //	_mouseX = x;
 //	_mouseY = y;
 	
-	if( _pixelBounds.point_test( x, y ) )
+	if( hitTestPoint( e.x, e.y ) )
 	{
 		// dispatch on release inside event.
 	}
