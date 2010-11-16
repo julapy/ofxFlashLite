@@ -64,6 +64,10 @@ bool ofxFlashXFL :: loadFile ( const string& file )
 void ofxFlashXFL :: loadXFLMedia ()
 {
 	xml.pushTag( "DOMDocument", 0 );
+	
+	if( !xml.tagExists( "media", 0 ) )
+		return;
+	
 	xml.pushTag( "media", 0 );
 	
 	int numOfMediaTags;

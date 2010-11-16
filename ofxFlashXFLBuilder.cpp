@@ -346,7 +346,7 @@ void ofxFlashXFLBuilder :: buildRectangleShape ()
 	float transformationPointX = cx;												// default transformation point is center.
 	float transformationPointY = cy;												// default transformation point is center.
 	
-	if( tagExists( "transformationPoint" ), 0 )
+	if( tagExists( "transformationPoint", 0 ) )
 	{
 		pushTag( "transformationPoint", 0 );
 		
@@ -397,7 +397,7 @@ void ofxFlashXFLBuilder :: buildOvalShape ()
 	float transformationPointX = cx;									// default transformation point is center.
 	float transformationPointY = cy;									// default transformation point is center.
 	
-	if( tagExists( "transformationPoint" ), 0 )
+	if( tagExists( "transformationPoint", 0 ) )
 	{
 		pushTag( "transformationPoint", 0 );
 		
