@@ -6,7 +6,7 @@ Essentially it is a emulated version of the Flash player which is able to build 
 It is designed to work only with OpenFrameworks but I've tried to separate the classes and minimise dependencies to make it easier for future porting to other frameworks.
 
 
-WHAT IT CURRENTLY DOESâ€¦
+WHAT IT CURRENTLY DOESâ
 
 1) Loads flash XFL files and builds a OpenFrameworks version.
 2) It emulates the Flash player run-time using the same display structure ( stage => sprite => display object container => interactive object => etc. )
@@ -17,16 +17,17 @@ WHAT IT CURRENTLY DOESâ€¦
 7) Manages media assets ( Bitmap / Video / Sound ) through the ofxFlashLibrary class.
 
 
-STILL TO COMEâ€¦
+STILL TO COMEâ
 
-1) Mouse interaction. This will most likely be a port of ofxMSAInteractiveObject into ofxFlashInteractiveObject with a few tweaks.
+1) Mouse interaction is working but not yet managed by a mouse event model like in flash - working on this at the moment.
 2) Event dispatching and management using AS3 syntax.
 3) Text support. Although this is a huge field, so we'll see how far it can be pushed.
 4) Custom shape support. Working out XFL encoding of vector shape data and translating that into something OF friendly like a number of points.
 5) Support for timeline tweening. At the moment a work around this is to create a tween, copy it onto another layer and break it into key frames.
 
 
-DEPENDENCIESâ€¦
+DEPENDENCIESâ
 
 1) OpenFrameworks
 2) ofxXmlSettings
+3) ofxVectorMath
