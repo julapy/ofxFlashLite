@@ -25,7 +25,13 @@ ofxFlashStage :: ofxFlashStage ()
 	_root->name( "root1" );
 	this->addChild( _root );
 	
+	_stageMouseX = 0;
+	_stageMouseY = 0;
+	
 	showRedrawRegions( false );
+	
+	ofAddListener( ofEvents.mouseMoved,		this, &ofxFlashStage::mouseMoved	);
+	ofAddListener( ofEvents.mouseDragged,	this, &ofxFlashStage::mouseDragged	);
 }
 
 ofxFlashStage :: ~ofxFlashStage ()
@@ -61,6 +67,20 @@ void ofxFlashStage :: showRedrawRegions ( bool value )
 ofxFlashMovieClip* ofxFlashStage :: root ()
 {
 	return _root;
+}
+
+/////////////////////////////////////////////
+//	MOUSEX / MOUSEY.
+/////////////////////////////////////////////
+
+const int& ofxFlashStage :: mouseX ()
+{
+	return _stageMouseX;
+}
+
+const int& ofxFlashStage :: mouseY ()
+{
+	return _stageMouseY;
 }
 
 /////////////////////////////////////////////
@@ -114,6 +134,9 @@ void ofxFlashStage :: updateChildren ( ofxFlashDisplayObject* parent, vector<ofx
 		ofxFlashDisplayObject* child;
 		child = children[ i ];
 		
+		if( !child->visible() )		// if set to invisible, ignore it and all it's children.
+			continue;
+		
 		ofxFlashMatrix worldMatrix;
 		worldMatrix = parent->concatenatedMatrix();
 		worldMatrix.concatenate( child->matrix() );
@@ -125,6 +148,20 @@ void ofxFlashStage :: updateChildren ( ofxFlashDisplayObject* parent, vector<ofx
 		bCanHaveChildren = bCanHaveChildren || ( child->typeID == OFX_FLASH_DISPLAY_OBJECT_CONTAINER_TYPE );
 		bCanHaveChildren = bCanHaveChildren || ( child->typeID == OFX_FLASH_SPRITE_TYPE );
 		bCanHaveChildren = bCanHaveChildren || ( child->typeID == OFX_FLASH_MOVIE_CLIP_TYPE );
+		
+		bool bIsInteractive;
+		bIsInteractive   = bCanHaveChildren || ( child->typeID == OFX_FLASH_INTERACTIVE_OBJECT_TYPE );
+		
+		// two things we need to consider.
+		// 1) mouseEnabled
+		// 2) mouseChildren
+		//
+		// .... more on this later.
+		
+		if( bIsInteractive )
+		{
+			//
+		}
 		
 		if( bCanHaveChildren )
 		{
@@ -153,6 +190,9 @@ void ofxFlashStage :: drawChildren ( ofxFlashDisplayObject* parent, vector<ofxFl
 	{
 		ofxFlashDisplayObject* child;
 		child = children[ i ];
+		
+		if( !child->visible() )		// if set to invisible, ignore it and all it's children.
+			continue;
 		
 		//-- matrix transform.
 		
@@ -199,6 +239,9 @@ void ofxFlashStage :: drawChildrenDebug ( ofxFlashDisplayObject* parent, vector<
 		ofxFlashDisplayObject* child;
 		child = children[ i ];
 		
+		if( !child->visible() )		// if set to invisible, ignore it and all it's children.
+			continue;
+		
 		child->drawTransformedOutline();
 		child->drawPixelBounds();
 		
@@ -219,4 +262,20 @@ void ofxFlashStage :: drawChildrenDebug ( ofxFlashDisplayObject* parent, vector<
 			}
 		}
 	}
+}
+
+/////////////////////////////////////////////
+//	MOUSE CHANGE LISTENERS.
+/////////////////////////////////////////////
+
+void ofxFlashStage :: mouseMoved ( ofMouseEventArgs& e )
+{
+	_stageMouseX = e.x;
+	_stageMouseY = e.y;
+}
+
+void ofxFlashStage :: mouseDragged ( ofMouseEventArgs& e )
+{
+	_stageMouseX = e.x;
+	_stageMouseY = e.y;
 }

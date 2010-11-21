@@ -15,8 +15,8 @@ void testApp::setup()
 	
 	ofxFlashStage* stage;
 	stage = ofxFlashStage :: getInstance();			// ofxFlash setup.
-	stage->addListeners();
-	stage->showRedrawRegions( false );
+	stage->addListeners();							// by adding listeners, stage and all it's content is automatically updated and drawn for you.
+	stage->showRedrawRegions( false );				// if set to true, it will draw the bounding rectangle around the object's pixels.
 	
 	
 	for( int i=0; i<20; i++ )						// adding Box sprites to stage.
@@ -26,6 +26,7 @@ void testApp::setup()
 		
 		box->name( "box_" + ofToString( i, 0 ) );
 		box->mouseEnabled( true );
+		box->mouseUpOutside( true );
 		
 		box->x( ofRandom( 0, ofGetWidth() ) );
 		box->y( ofRandom( 0, ofGetHeight() ) );
@@ -69,26 +70,26 @@ void testApp::keyReleased(int key)
 
 void testApp::mouseMoved(int x, int y )
 {
-	
+//	cout << "mouseMoved" << endl;
 }
 
 void testApp::mouseDragged(int x, int y, int button)
 {
-
+//	cout << "mouseDragged" << endl;
 }
 
 void testApp::mousePressed(int x, int y, int button)
 {
-
+//	cout << "mousePressed" << endl;
 }
 
 void testApp::mouseReleased(int x, int y, int button)
 {
-
+//	cout << "mouseReleased" << endl;
 }
 
 void testApp::windowResized(int w, int h)
 {
-
+	//
 }
 

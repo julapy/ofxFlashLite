@@ -22,19 +22,24 @@ public:
 	 ofxFlashInteractiveObject();
 	~ofxFlashInteractiveObject();
 
-	const bool&		doubleClickEnabled ();
-	void			doubleClickEnabled ( bool value );
+	const bool&		doubleClickEnabled	();
+	void			doubleClickEnabled	( bool value );
 	
-	const bool&		mouseEnabled ();
-	void			mouseEnabled ( bool value );
+	const bool&		mouseEnabled		();
+	void			mouseEnabled		( bool value );
 	
-	const bool&		mouseOver	();
-	const bool&		mouseDown	();
+	const bool&		mouseUpOutside		();
+	void			mouseUpOutside		( bool value );
+	
+	const bool&		mouseOver			();
+	const bool&		mouseDown			();
 	
 private:
 	
 	bool	_doubleClickEnabled;
 	bool	_mouseEnabled;
+	bool	_mouseUpOutside;
+	
 	bool	_tabEnabled;
 	int		_tabIndex;
 	
@@ -45,8 +50,8 @@ private:
 	void	disableMouseEvents	();
 	
 	void	_mouseMoved		( ofMouseEventArgs &e );
-	void	_mousePressed	( ofMouseEventArgs &e );
 	void	_mouseDragged	( ofMouseEventArgs &e );
+	void	_mousePressed	( ofMouseEventArgs &e );
 	void	_mouseReleased	( ofMouseEventArgs &e );
 	
 };

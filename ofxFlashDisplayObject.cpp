@@ -242,11 +242,39 @@ void ofxFlashDisplayObject :: z ( float value )
 
 const int& ofxFlashDisplayObject :: mouseX ()
 {
+	if( stage )		// if it has a reference to stage then it must have been added as a child to stage.
+	{
+		ofPoint p;
+//		p.x = stage->mouseX();		// BROKEN :: great, can't do this because of forward decelration - need to find a solution.
+		
+		_concatenatedMatrixInv.transform( p );
+		
+		_mouseX = p.x - _rect.get_x_min();
+	}
+	else
+	{
+		_mouseX = 0;
+	}
+	
 	return _mouseX;
 }
 
 const int& ofxFlashDisplayObject :: mouseY ()
 {
+	if( stage )		// if it has a reference to stage then it must have been added as a child to stage.
+	{
+		ofPoint p;
+//		p.y = stage->mouseY();		// BROKEN :: great, can't do this because of forward decelration - need to find a solution.
+		
+		_concatenatedMatrixInv.transform( p );
+		
+		_mouseY = p.y - _rect.get_y_min();
+	}
+	else
+	{
+		_mouseY = 0;
+	}
+	
 	return _mouseY;
 }
 
@@ -397,7 +425,9 @@ void ofxFlashDisplayObject :: addToPixelBounds( const ofxFlashRectangle& rect )
 
 void ofxFlashDisplayObject :: transform ( const ofxFlashMatrix& mat )
 {
-	_concatenatedMatrix = mat;
+	_concatenatedMatrix		= mat;
+	_concatenatedMatrixInv	= mat;
+	_concatenatedMatrixInv.invert();
 	
 	float x1 = _rect.get_x_min();
 	float y1 = _rect.get_y_min();
@@ -442,36 +472,50 @@ ofRectangle ofxFlashDisplayObject :: getRect ( ofxFlashDisplayObject* targetCoor
 
 ofPoint ofxFlashDisplayObject :: globalToLocal ( const ofPoint& point )
 {
-	// TODO.
+	ofPoint p = point;
+	
+	_concatenatedMatrixInv.transform( p );
+
+	return p;
 }
 
 ofPoint ofxFlashDisplayObject :: globalToLocal3D ( const ofPoint& point )
 {
-	// TODO.
+	ofPoint p = point;						// ofxFlashMatrix is a 3D matrix although only using the 2D component atm.
+											// once the 3D maths is worked out, this should work.
+	_concatenatedMatrixInv.transform( p );
+	
+	return p;
 }
 
 bool ofxFlashDisplayObject :: hitTestObject ( ofxFlashDisplayObject* obj )
 {
-	// TODO.
+	// TODO - working if two rectangles of different world matrices make any contact.
 }
 
 bool ofxFlashDisplayObject :: hitTestPoint ( float x, float y, bool shapeFlag )
 {
 	ofPoint p( x, y );
 	
-	ofxFlashMatrix mat = _concatenatedMatrix;		// this is the world matrix.
-	mat.invert();
-	mat.transform( p );
+	_concatenatedMatrixInv.transform( p );
 	
 	return _rect.point_test( p.x, p.y );
 }
 
 ofPoint ofxFlashDisplayObject :: local3DToGlobal ( const ofPoint& point )
 {
-	// TODO.
+	ofPoint p = point;						// ofxFlashMatrix is a 3D matrix although only using the 2D component atm.
+											// once the 3D maths is worked out, this should work.
+	_concatenatedMatrix.transform( p );
+	
+	return p;
 }
 
 ofPoint ofxFlashDisplayObject :: localToGlobal ( const ofPoint& point )
 {
-	// TODO.
+	ofPoint p = point;
+	
+	_concatenatedMatrix.transform( p );
+	
+	return p;
 }

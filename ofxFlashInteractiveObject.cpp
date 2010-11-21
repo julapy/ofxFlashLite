@@ -16,6 +16,8 @@ ofxFlashInteractiveObject :: ofxFlashInteractiveObject()
 	
 	_doubleClickEnabled	= false;
 	_mouseEnabled		= false;
+	_mouseUpOutside		= true;
+	
 	_tabEnabled			= false;
 	_tabIndex			= 0;
 	
@@ -25,7 +27,10 @@ ofxFlashInteractiveObject :: ofxFlashInteractiveObject()
 
 ofxFlashInteractiveObject :: ~ofxFlashInteractiveObject ()
 {
-	//
+	if( _mouseEnabled )
+	{
+		disableMouseEvents();
+	}
 }
 
 //============================================================= DOUBLE CLICK ENABLED.
@@ -64,6 +69,18 @@ void ofxFlashInteractiveObject :: mouseEnabled ( bool value )
 	}
 }
 
+//============================================================= MOUSE UP OUTSIDE.
+
+const bool& ofxFlashInteractiveObject :: mouseUpOutside ()
+{
+	return _mouseUpOutside;
+}
+
+void ofxFlashInteractiveObject :: mouseUpOutside ( bool value )
+{
+	_mouseUpOutside = value;
+}
+
 //============================================================= MOUSE STATE GETTERS.
 
 const bool&	ofxFlashInteractiveObject :: mouseOver ()
@@ -80,17 +97,17 @@ const bool& ofxFlashInteractiveObject :: mouseDown ()
 
 void ofxFlashInteractiveObject :: enableMouseEvents()
 {
-	ofAddListener( ofEvents.mousePressed,	this, &ofxFlashInteractiveObject :: _mousePressed	);
 	ofAddListener( ofEvents.mouseMoved,		this, &ofxFlashInteractiveObject :: _mouseMoved		);
 	ofAddListener( ofEvents.mouseDragged,	this, &ofxFlashInteractiveObject :: _mouseDragged	);
+	ofAddListener( ofEvents.mousePressed,	this, &ofxFlashInteractiveObject :: _mousePressed	);
 	ofAddListener( ofEvents.mouseReleased,	this, &ofxFlashInteractiveObject :: _mouseReleased	);
 }
 
 void ofxFlashInteractiveObject :: disableMouseEvents()
 {
-	ofRemoveListener( ofEvents.mousePressed,	this, &ofxFlashInteractiveObject :: _mousePressed	);
 	ofRemoveListener( ofEvents.mouseMoved,		this, &ofxFlashInteractiveObject :: _mouseMoved		);
 	ofRemoveListener( ofEvents.mouseDragged,	this, &ofxFlashInteractiveObject :: _mouseDragged	);
+	ofRemoveListener( ofEvents.mousePressed,	this, &ofxFlashInteractiveObject :: _mousePressed	);
 	ofRemoveListener( ofEvents.mouseReleased,	this, &ofxFlashInteractiveObject :: _mouseReleased	);
 }
 
@@ -101,44 +118,28 @@ void ofxFlashInteractiveObject :: _mouseMoved( ofMouseEventArgs &e )
 	if( !_mouseEnabled )
 		return;
 	
-//	_mouseX = x;
-//	_mouseY = y;
+	// dispatch mouse move - should dispatch first.
 	
 	if( hitTestPoint( e.x, e.y ) )
 	{
-		if(!_mouseOver)
+		if( !_mouseOver )
 		{
-			// dispatch roll over event.
-			
 			_mouseOver = true;
+			
+			// dispatch mouse over
 		}
-		
-		// dispatch mouse move event.
 	}
 	else if( _mouseOver )
 	{
-		// dispatch roll out event.
-		
 		_mouseOver = false;
-	}
-}
-
-
-void ofxFlashInteractiveObject :: _mousePressed( ofMouseEventArgs &e )
-{
-	if( !_mouseEnabled )
-		return;
-	
-//	_mouseX = x;
-//	_mouseY = y;
-	
-	if( hitTestPoint( e.x, e.y ) )
-	{
-		if( !_mouseDown )
+		
+		// dispatch mouse out.
+		
+		if( _mouseUpOutside && _mouseDown )
 		{
-			// dispatch mouse down event.
+			_mouseDown = false;
 			
-			_mouseDown = true;
+			// dispatch mouse up.
 		}
 	}
 }
@@ -148,30 +149,47 @@ void ofxFlashInteractiveObject :: _mouseDragged( ofMouseEventArgs &e )
 	if( !_mouseEnabled )
 		return;
 	
-//	_mouseX = x;
-//	_mouseY = y;
+	// dispatch mouse drag - should dispatch first.
 	
 	if( hitTestPoint( e.x, e.y ) )
 	{
 		if( !_mouseOver )
 		{
 			_mouseOver = true;
+			
+			// dispatch mouse over
 		}
-		
-		// dispatch mouse dragg event.
 	}
 	else
 	{
 		if( _mouseOver )
 		{
-			// dispatch mouse out event.
-			
 			_mouseOver = false;
+			
+			// dispatch mouse out.
+			
+			if( _mouseUpOutside && _mouseDown )
+			{
+				_mouseDown = false;
+				
+				// dispatch mouse up.
+			}
 		}
-		
-		if( _mouseDown )
+	}
+}
+
+void ofxFlashInteractiveObject :: _mousePressed( ofMouseEventArgs &e )
+{
+	if( !_mouseEnabled )
+		return;
+	
+	if( hitTestPoint( e.x, e.y ) )
+	{
+		if( !_mouseDown )
 		{
-			// dispatch drag outside event.
+			_mouseDown = true;
+			
+			// dispatch mouse down.
 		}
 	}
 }
@@ -181,18 +199,15 @@ void ofxFlashInteractiveObject :: _mouseReleased( ofMouseEventArgs &e )
 	if( !_mouseEnabled )
 		return;
 	
-//	_mouseX = x;
-//	_mouseY = y;
-	
 	if( hitTestPoint( e.x, e.y ) )
 	{
-		// dispatch on release inside event.
+		// dispatch mouse up inside.
 	}
 	else
 	{
 		if( _mouseDown )
 		{
-			// dispatch on release outside event.
+			// dispatch mouse up outside.
 		}
 	}
 	

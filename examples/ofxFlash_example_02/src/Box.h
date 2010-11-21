@@ -51,7 +51,13 @@ public:
 		float w = _rect.width();
 		float h = _rect.height();
 
-		if( mouseOver() )
+		if( mouseDown() )
+		{
+			ofFill();
+			ofSetColor( 0, 255, 255 );
+			ofRect( x, y, w, h );
+		}
+		else if( mouseOver() )
 		{
 			ofFill();
 			ofSetColor( 255, 0, 255 );

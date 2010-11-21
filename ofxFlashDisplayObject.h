@@ -83,8 +83,8 @@ public:
 	const float&			z ();
 	void					z ( float value );
 	
-	const int&				mouseX ();
-	const int&				mouseY ();
+	virtual const int&		mouseX ();				// is overwritten by stage.
+	virtual const int&		mouseY ();				// is overwritten by stage.
 
 	const float&			rotation ();
 	void					rotation ( float value );
@@ -147,6 +147,7 @@ protected:
 	
 	ofxFlashMatrix		_matrix;
 	ofxFlashMatrix		_concatenatedMatrix;
+	ofxFlashMatrix		_concatenatedMatrixInv;
 	ofxFlashRectangle	_rect;
 	ofPoint				_rectTransformed[ 4 ];
 	ofxFlashRectangle	_pixelBounds;

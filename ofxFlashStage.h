@@ -33,6 +33,9 @@ public:
 	ofxFlashMovieClip* root	();
 	void showRedrawRegions	( bool value );
 	
+	const int&	mouseX	();
+	const int&	mouseY	();
+	
 	virtual void setup	();
 	virtual void update	();
 	virtual void draw	();
@@ -55,6 +58,9 @@ private:
 	ofxFlashMovieClip*	_root;
 	bool bShowRedrawRegions;
 	
+	int	_stageMouseX;
+	int	_stageMouseY;
+	
 	//---------------------------------------------
 	
 	void update	( ofEventArgs &e );
@@ -63,5 +69,8 @@ private:
 	void updateChildren		( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children );
 	void drawChildren		( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children );
 	void drawChildrenDebug	( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children );
+	
+	void mouseMoved		( ofMouseEventArgs& e );
+	void mouseDragged	( ofMouseEventArgs& e );
 	
 };

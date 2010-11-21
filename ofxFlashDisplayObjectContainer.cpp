@@ -13,7 +13,7 @@ ofxFlashDisplayObjectContainer :: ofxFlashDisplayObjectContainer()
 {
 	typeID				= OFX_FLASH_DISPLAY_OBJECT_CONTAINER_TYPE;
 	
-	mouseChildren		= false;
+	mouseChildren		= true;
 	numChildren			= 0;
 	tabChildren			= false;
 }
