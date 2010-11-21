@@ -1,0 +1,11 @@
+CHANGE LOG.
+
+======================================
+21.11.2010
+======================================
+
+ofxFlashInteractiveObject - mouse events listeners are removed when object is destroyed - missed this before.
+ofxFlashInteractiveObject - added mouseUpOutside(). object goes back to up state if mouse goes outside of bounds when pressed - this is default behaviour in flash.
+ofxFlashDisplayObject - globalToLocal(), globalToLocal3D(), hitTestPoint(), local3DToGlobal(), localToGlobal() - are now working.
+ofxFlashStage - added stageMouseX and stageMouseY - so all display objects can get the global mouseX and mouseY from the stage.
+ofxFlash_example_02 updated. Box includes mouseDown() visual change.
