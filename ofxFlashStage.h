@@ -57,6 +57,18 @@ private:
 	
 	ofxFlashMovieClip*	_root;
 	bool bShowRedrawRegions;
+	bool bUsingListeners;
+	bool bMouseDown;
+	bool bMousePressed;
+	bool bMouseReleased;
+	
+	ofxFlashDisplayObject*	topMostHitDisplayObject;
+	ofxFlashDisplayObject*	topMostHitDisplayObjectPrev;
+	
+	vector<ofxFlashInteractiveObject*> lineTopDown;
+	vector<ofxFlashInteractiveObject*> lineTopDownPrev;
+	vector<ofxFlashInteractiveObject*> lineBottomUp;
+	vector<ofxFlashInteractiveObject*> lineBottomUpPrev;
 	
 	int	_stageMouseX;
 	int	_stageMouseY;
@@ -66,11 +78,18 @@ private:
 	void update	( ofEventArgs &e );
 	void draw	( ofEventArgs &e );
 	
-	void updateChildren		( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children );
+	void updateChildrenOne	( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children );
+	void updateChildrenTwo	( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children );
+	void updateMouse		();
+	
 	void drawChildren		( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children );
 	void drawChildrenDebug	( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children );
 	
+	bool canHaveChildren		( ofxFlashDisplayObject* displayObject );
+	bool isInteractiveObject	( ofxFlashDisplayObject* displayObject );
+	
 	void mouseMoved		( ofMouseEventArgs& e );
 	void mouseDragged	( ofMouseEventArgs& e );
-	
+	void mousePressed	( ofMouseEventArgs& e );
+	void mouseReleased	( ofMouseEventArgs& e );
 };

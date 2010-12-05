@@ -13,14 +13,49 @@ ofxFlashDisplayObjectContainer :: ofxFlashDisplayObjectContainer()
 {
 	typeID				= OFX_FLASH_DISPLAY_OBJECT_CONTAINER_TYPE;
 	
-	mouseChildren		= true;
-	numChildren			= 0;
-	tabChildren			= false;
+	_mouseChildren		= true;
+	_tabChildren		= false;
+	_numChildren		= 0;
 }
 
 ofxFlashDisplayObjectContainer :: ~ofxFlashDisplayObjectContainer()
 {
 
+}
+
+///////////////////////////////////////////////
+//	GETTER / SETTERS.
+///////////////////////////////////////////////
+
+//============================================================= MOUSE CHILDREN.
+
+const bool& ofxFlashDisplayObjectContainer :: mouseChildren ()
+{
+	return _mouseChildren;
+}
+
+void ofxFlashDisplayObjectContainer :: mouseChildren ( bool value )
+{
+	_mouseChildren = value;
+}
+
+//============================================================= TAB CHILDREN.
+
+const bool&	ofxFlashDisplayObjectContainer :: tabChildren ()
+{
+	return _tabChildren;
+}
+
+void ofxFlashDisplayObjectContainer :: tabChildren ( bool value )
+{
+	_tabChildren = value;
+}
+
+//============================================================= NUMBER OF CHILDREN.
+
+const int& ofxFlashDisplayObjectContainer :: numChildren ()
+{
+	return _numChildren;
 }
 
 ///////////////////////////////////////////////
@@ -32,6 +67,7 @@ ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: addChild ( ofxFlashDisp
 	children.push_back( child );
 	child->stage	= this->stage;
 	child->parent	= this;
+	child->level( this->level() + 1 );
 }
 
 ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: addChildAt ( ofxFlashDisplayObject* child, int index )
@@ -42,6 +78,7 @@ ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: addChildAt ( ofxFlashDi
 	children.insert( children.begin() + index, child );
 	child->stage	= this->stage;
 	child->parent	= this;
+	child->level( this->level() + 1 );
 }
 
 bool ofxFlashDisplayObjectContainer :: contains ( ofxFlashDisplayObject* child )
@@ -104,6 +141,7 @@ ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: removeChild ( ofxFlashD
 		{
 			child->stage	= NULL;
 			child->parent	= NULL;
+			child->level( -1 );
 			
 			children.erase( children.begin() + i );
 			
@@ -123,6 +161,7 @@ ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: removeChildAt ( int ind
 	child = children[ index ];
 	child->stage	= NULL;
 	child->parent	= NULL;
+	child->level( -1 );
 	
 	children.erase( children.begin() + index );
 	

@@ -31,8 +31,14 @@ public:
 	const bool&		mouseUpOutside		();
 	void			mouseUpOutside		( bool value );
 	
+	void			mouseOver			( bool value );
 	const bool&		mouseOver			();
+
+	void			mouseDown			( bool value );
 	const bool&		mouseDown			();
+	
+	bool	mouseOverDirty;
+	bool	mouseDownDirty;
 	
 private:
 	

@@ -33,6 +33,7 @@ ofxFlashDisplayObject :: ofxFlashDisplayObject ()
 	_scaleY		= 1.0;
 	_scaleZ		= 1.0;
 	_blendMode	= BLEND_MODE_NORMAL;
+	_level		= -1;
 	
 	mask		= NULL;
 	parent		= NULL;
@@ -375,6 +376,18 @@ void ofxFlashDisplayObject :: blendMode ( int value )
 		return;
 	
 	_blendMode = value;
+}
+
+//============================================================= LEVEL.
+
+const int& ofxFlashDisplayObject :: level ()
+{
+	return _level;
+}
+
+void ofxFlashDisplayObject :: level ( int value )
+{
+	_level = value;
 }
 
 //============================================================= MATRIX.

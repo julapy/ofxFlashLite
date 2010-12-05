@@ -19,9 +19,13 @@ public:
 	 ofxFlashDisplayObjectContainer();
 	~ofxFlashDisplayObjectContainer();
 	
-	bool		mouseChildren;
-	int			numChildren;
-	bool		tabChildren;
+	const bool&			mouseChildren ();
+	void				mouseChildren ( bool value );
+
+	const bool&			tabChildren ();
+	void				tabChildren ( bool value );
+	
+	const int&			numChildren ();
 	
 	vector<ofxFlashDisplayObject*>	children;
 	
@@ -37,5 +41,11 @@ public:
 	void							setChildIndex			( ofxFlashDisplayObject* child, int index );
 	void							swapChildren			( ofxFlashDisplayObject* child1, ofxFlashDisplayObject* child2 );
 	void							swapChildrenAt			( int index1, int index2 );
+	
+private:
+	
+	bool		_mouseChildren;
+	bool		_tabChildren;
+	int			_numChildren;
 	
 };

@@ -109,6 +109,9 @@ public:
 
 	const int&				blendMode ();
 	void					blendMode ( int value );
+
+	const int&				level ();
+	void					level ( int value );
 	
 	const ofxFlashMatrix&		matrix				();
 	void						matrix				( const ofxFlashMatrix& mat );
@@ -174,5 +177,6 @@ private:
 	float		_scaleY;
 	float		_scaleZ;
 	int			_blendMode;
+	int			_level;
 	
 };

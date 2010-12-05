@@ -24,7 +24,11 @@ void testApp::setup()
 		Box* box;
 		box	= new Box();
 		
-		box->name( "box_" + ofToString( i, 0 ) );
+		string boxName = "";
+		boxName = "box_";
+		boxName += ofToString( i, 0 );
+		
+		box->name( boxName );
 		box->mouseEnabled( true );
 		box->mouseUpOutside( true );
 		

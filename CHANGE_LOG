@@ -9,3 +9,13 @@ ofxFlashInteractiveObject - added mouseUpOutside(). object goes back to up state
 ofxFlashDisplayObject - globalToLocal(), globalToLocal3D(), hitTestPoint(), local3DToGlobal(), localToGlobal() - are now working.
 ofxFlashStage - added stageMouseX and stageMouseY - so all display objects can get the global mouseX and mouseY from the stage.
 ofxFlash_example_02 updated. Box includes mouseDown() visual change.
+
+
+======================================
+05.12.2010
+======================================
+
+ofxFlashDisplayObject - added level property.
+ofxFlashDisplayObjectContainer - sets level property in addChild() and removeChild() methods.
+ofxFlashInteractiveObject - added mouseOverDirty and mouseDownDirty, which are temp values for when working out mouseOver and mouseDown.
+ofxFlashStage - mouse interaction now working! complete with filtering mouse events down the parent / child chain.

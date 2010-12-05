@@ -23,14 +23,17 @@ ofxFlashInteractiveObject :: ofxFlashInteractiveObject()
 	
 	_mouseOver			= false;
 	_mouseDown			= false;
+	
+	mouseOverDirty		= false;
+	mouseDownDirty		= false;
 }
 
 ofxFlashInteractiveObject :: ~ofxFlashInteractiveObject ()
 {
-	if( _mouseEnabled )
-	{
-		disableMouseEvents();
-	}
+//	if( _mouseEnabled )
+//	{
+//		disableMouseEvents();
+//	}
 }
 
 //============================================================= DOUBLE CLICK ENABLED.
@@ -59,14 +62,14 @@ void ofxFlashInteractiveObject :: mouseEnabled ( bool value )
 	
 	_mouseEnabled = value;
 	
-	if( _mouseEnabled )
-	{
-		enableMouseEvents();
-	}
-	else
-	{
-		disableMouseEvents();
-	}
+//	if( _mouseEnabled )
+//	{
+//		enableMouseEvents();
+//	}
+//	else
+//	{
+//		disableMouseEvents();
+//	}
 }
 
 //============================================================= MOUSE UP OUTSIDE.
@@ -81,11 +84,23 @@ void ofxFlashInteractiveObject :: mouseUpOutside ( bool value )
 	_mouseUpOutside = value;
 }
 
-//============================================================= MOUSE STATE GETTERS.
+//============================================================= MOUSE OVER.
+
+void ofxFlashInteractiveObject :: mouseOver ( bool value )
+{
+	_mouseOver = value;
+}
 
 const bool&	ofxFlashInteractiveObject :: mouseOver ()
 {
 	return _mouseOver;
+}
+
+//============================================================= MOUSE DOWN.
+
+void ofxFlashInteractiveObject :: mouseDown ( bool value )
+{
+	_mouseDown = value;
 }
 
 const bool& ofxFlashInteractiveObject :: mouseDown ()

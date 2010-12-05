@@ -28,15 +28,28 @@ ofxFlashStage :: ofxFlashStage ()
 	_stageMouseX = 0;
 	_stageMouseY = 0;
 	
+	topMostHitDisplayObject		= NULL;
+	topMostHitDisplayObjectPrev	= NULL;
+	
+	bUsingListeners		= false;
+	bMouseDown			= false;
+	bMousePressed		= false;
+	bMouseReleased		= false;
+	
 	showRedrawRegions( false );
 	
-	ofAddListener( ofEvents.mouseMoved,		this, &ofxFlashStage::mouseMoved	);
+	ofAddListener( ofEvents.mouseMoved,		this, &ofxFlashStage::mouseMoved	);		//-- add mouse event handlers.
 	ofAddListener( ofEvents.mouseDragged,	this, &ofxFlashStage::mouseDragged	);
+	ofAddListener( ofEvents.mousePressed,	this, &ofxFlashStage::mousePressed	);
+	ofAddListener( ofEvents.mouseReleased,	this, &ofxFlashStage::mouseReleased	);
 }
 
 ofxFlashStage :: ~ofxFlashStage ()
 {
-	//
+	ofRemoveListener( ofEvents.mouseMoved,		this, &ofxFlashStage::mouseMoved	);	//-- remove mouse event handlers.
+	ofRemoveListener( ofEvents.mouseDragged,	this, &ofxFlashStage::mouseDragged	);
+	ofRemoveListener( ofEvents.mousePressed,	this, &ofxFlashStage::mousePressed	);
+	ofRemoveListener( ofEvents.mouseReleased,	this, &ofxFlashStage::mouseReleased	);
 }
 
 /////////////////////////////////////////////
@@ -45,12 +58,22 @@ ofxFlashStage :: ~ofxFlashStage ()
 
 void ofxFlashStage :: addListeners ()
 {
+	if( bUsingListeners )
+		return;
+	
+	bUsingListeners = true;
+	
 	ofAddListener( ofEvents.update,		this, &ofxFlashStage::update	);
 	ofAddListener( ofEvents.draw,		this, &ofxFlashStage::draw		);
 }
 
 void ofxFlashStage :: removeListeners ()
 {
+	if( !bUsingListeners )
+		return;
+	
+	bUsingListeners = false;
+	
 	ofRemoveListener( ofEvents.update,	this, &ofxFlashStage::update	);
 	ofRemoveListener( ofEvents.draw,	this, &ofxFlashStage::draw		);
 }
@@ -94,7 +117,16 @@ void ofxFlashStage :: setup ()
 
 void ofxFlashStage :: update ()
 {
-	updateChildren( this, children );
+	topMostHitDisplayObjectPrev	= topMostHitDisplayObject;
+	topMostHitDisplayObject		= NULL;
+	
+	updateChildrenOne( this, children );
+	updateMouse();
+	
+	updateChildrenTwo( this, children );
+	
+	bMousePressed	= false;		// set back to false on every frame, so its only picked up once.
+	bMouseReleased	= false;		// set back to false on every frame, so its only picked up once.
 }
 
 void ofxFlashStage :: draw ()
@@ -125,7 +157,7 @@ void ofxFlashStage :: draw ( ofEventArgs &e )
 //	UPDATE CHILDREN.
 /////////////////////////////////////////////
 
-void ofxFlashStage :: updateChildren ( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children )
+void ofxFlashStage :: updateChildrenOne ( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children )
 {
 	parent->resetPixelBounds();		// clear pixel bounds on every loop and recalculate.
 	
@@ -137,45 +169,222 @@ void ofxFlashStage :: updateChildren ( ofxFlashDisplayObject* parent, vector<ofx
 		if( !child->visible() )		// if set to invisible, ignore it and all it's children.
 			continue;
 		
-		ofxFlashMatrix worldMatrix;
+		//=========================================== MATRIX.
+		
+		ofxFlashMatrix worldMatrix;						// transform child matrix by world matrix.
 		worldMatrix = parent->concatenatedMatrix();
 		worldMatrix.concatenate( child->matrix() );
-		
 		child->transform( worldMatrix );
 		
-		bool bCanHaveChildren;
-		bCanHaveChildren = false;
-		bCanHaveChildren = bCanHaveChildren || ( child->typeID == OFX_FLASH_DISPLAY_OBJECT_CONTAINER_TYPE );
-		bCanHaveChildren = bCanHaveChildren || ( child->typeID == OFX_FLASH_SPRITE_TYPE );
-		bCanHaveChildren = bCanHaveChildren || ( child->typeID == OFX_FLASH_MOVIE_CLIP_TYPE );
+		//=========================================== FIND TOP MOST HIT DISPLAY OBJECT BY MOUSE.
 		
-		bool bIsInteractive;
-		bIsInteractive   = bCanHaveChildren || ( child->typeID == OFX_FLASH_INTERACTIVE_OBJECT_TYPE );
-		
-		// two things we need to consider.
-		// 1) mouseEnabled
-		// 2) mouseChildren
-		//
-		// .... more on this later.
-		
-		if( bIsInteractive )
+		if( child->hitTestPoint( _stageMouseX, _stageMouseY ) )				// check if its the top most display object hit by mouse.
 		{
-			//
+			topMostHitDisplayObject = child;
 		}
 		
-		if( bCanHaveChildren )
+		//=========================================== UPDATE CHILDREN.
+		
+		if( canHaveChildren( child ) )
 		{
 			ofxFlashDisplayObjectContainer* container;
 			container = (ofxFlashDisplayObjectContainer*)child;
 			
 			if( container->children.size() > 0 )
 			{
-				updateChildren( child, container->children );
+				updateChildrenOne( child, container->children );
 			}
 		}
 		
 		parent->addToPixelBounds( child->pixelBounds() );	// compound pixel bounds from children.
+	}
+}
+
+void ofxFlashStage :: updateMouse ()
+{
+	bool bHitDisplayObjectChanged = false;
+	bHitDisplayObjectChanged = ( topMostHitDisplayObject != topMostHitDisplayObjectPrev );
+	
+	if( !bHitDisplayObjectChanged && !bMousePressed && !bMouseReleased )	// update if either of these is true, otherwise return.
+	{
+		return;
+	}
+	
+//	cout << ofGetFrameNum() << endl;		// debug - check when this method gets to this point by spitting out the frame num.
+
+	//=========================================== CREATE CHILD / PARENT LINES.
+
+	ofxFlashDisplayObject* dispObj;
+	ofxFlashInteractiveObject* intObj;
+	
+	if( bHitDisplayObjectChanged )
+	{
+		lineTopDownPrev		= lineTopDown;
+		lineBottomUpPrev	= lineBottomUp;
+		lineTopDown.clear();
+		lineBottomUp.clear();
 		
+		if( topMostHitDisplayObject )			// check topMostHitDisplayObject is not null.
+		{
+			dispObj = topMostHitDisplayObject;
+			while( dispObj != this )			// go down through child / parent nesting until stage is reached.
+			{
+				if( isInteractiveObject( dispObj ) )
+				{
+					ofxFlashInteractiveObject* intObj;
+					intObj = (ofxFlashInteractiveObject*)dispObj;
+					
+					lineTopDown.push_back( intObj );
+					lineBottomUp.insert ( lineBottomUp.begin(), intObj );
+				}
+				
+				dispObj	= dispObj->parent;
+			}
+		}
+	}
+	
+	//=========================================== RESET PREVIOUS MOUSE STATES.
+	
+	if( topMostHitDisplayObjectPrev )		// clear mouse states from previous line of display objects.
+	{
+		for( int i=0; i<lineTopDownPrev.size(); i++ )			// go down through child / parent nesting until stage is reached.
+		{
+			intObj = lineTopDownPrev[ i ];
+
+			if( topMostHitDisplayObject )
+			{
+				intObj->mouseOverDirty = false;		// reset mouse over, dirty value used for further checks.
+				intObj->mouseDownDirty = false;		// reset mouse down, dirty value used for further checks.
+			}
+			else
+			{
+				intObj->mouseOver( false );			// reset mouse over.
+				intObj->mouseDown( false );			// reset mouse down.
+			}
+		}
+	}
+	
+	if( !topMostHitDisplayObject )		// check if anything is hit, return if not.
+	{
+		bMouseDown = false;				// if topMostHitDisplayObject is not found, mouse is not over anything and so mouse down is no longer valid.
+		return;							// no display object registered under mouse, nothing to update.
+	}
+	
+	//=========================================== CHECK MOUSE ENABLED FLAG - TOP DOWN.
+	
+	bool bMouseEnabled = false;			// assume all display objects in nest have mouseEnabled set to false.
+	
+	for( int i=0; i<lineTopDown.size(); i++ )			// go down through child / parent nesting until stage is reached.
+	{
+		intObj = lineTopDown[ i ];
+
+		// if bEnabled is still false, check if next display object down has mouseEnabled set to true.
+		// once one mouseEnable has been found, all display objects below are now considered to be enabled.
+		
+		if( !bMouseEnabled )
+		{
+			bMouseEnabled = bMouseEnabled || intObj->mouseEnabled();
+		}
+		
+		intObj->mouseOverDirty = bMouseEnabled;
+	}
+	
+	//=========================================== CHECK MOUSE CHILDREN FLAG - BOTTOM UP.
+	
+	bool bMouseChildren = true;		// assume all display objects in nest have mouseChildren set to true.
+	
+	for( int i=0; i<lineBottomUp.size(); i++ )
+	{
+		intObj = lineBottomUp[ i ];
+
+		bool bMouseOver;
+		bMouseOver = intObj->mouseOverDirty;			// check if display object has already been set to mouse over with previous checks.
+		bMouseOver = bMouseOver && bMouseChildren;		// if bMouseChildren is false from previous display object, then turn off mouse over.
+		
+		intObj->mouseOverDirty = bMouseOver;
+		
+		if( bMouseChildren )						// if still true, check if mouseChildren has changed to false.
+		{
+			if( canHaveChildren( intObj ) )
+			{
+				ofxFlashDisplayObjectContainer* objCont;
+				objCont = (ofxFlashDisplayObjectContainer*)intObj;
+				
+				bMouseChildren = bMouseChildren && objCont->mouseChildren();
+			}
+		}
+	}
+	
+	//=========================================== CHECK MOUSE DOWN.
+	
+	if( bMouseDown )		// if any of the states change in the line while the mouse is down, turn mouse down off.
+	{
+		for( int i=0; i<lineTopDown.size(); i++ )		// go down through child / parent nesting until stage is reached.
+		{
+			intObj = lineTopDown[ i ];
+			
+			if( intObj->mouseOver() != intObj->mouseOverDirty )		// check for a state change. if true, mouse is no longer down.
+			{
+				bMouseDown = false;
+				break;
+			}
+		}
+		
+		for( int i=0; i<lineTopDownPrev.size(); i++ )		// go down through child / parent nesting until stage is reached.
+		{
+			intObj = lineTopDownPrev[ i ];
+			
+			if( intObj->mouseOver() != intObj->mouseOverDirty )		// check for a state change. if true, mouse is no longer down.
+			{
+				bMouseDown = false;
+				break;
+			}
+		}
+	}
+	
+	//=========================================== FINALISE MOUSE VALUES.
+
+	for( int i=0; i<lineTopDown.size(); i++ )					// go down through child / parent nesting until stage is reached.
+	{
+		intObj = lineTopDown[ i ];
+		
+		intObj->mouseOver( intObj->mouseOverDirty );
+		intObj->mouseDown( intObj->mouseOverDirty && bMouseDown );
+	}
+	
+	if( !topMostHitDisplayObjectPrev )
+		return;
+	
+	for( int i=0; i<lineTopDownPrev.size(); i++ )				// go down through child / parent nesting until stage is reached.
+	{
+		intObj = lineTopDownPrev[ i ];
+		
+		intObj->mouseOver( intObj->mouseOverDirty );
+		intObj->mouseDown( intObj->mouseOverDirty && bMouseDown );
+	}
+}
+
+void ofxFlashStage :: updateChildrenTwo ( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children )
+{
+	for( int i=0; i<children.size(); i++ )
+	{
+		ofxFlashDisplayObject* child;
+		child = children[ i ];
+
+		if( !child->visible() )		// if set to invisible, ignore it and all it's children.
+			continue;
+		
+		if( canHaveChildren( child ) )
+		{
+			ofxFlashDisplayObjectContainer* container;
+			container = (ofxFlashDisplayObjectContainer*)child;
+			
+			if( container->children.size() > 0 )
+			{
+				updateChildrenTwo( child, container->children );
+			}
+		}
+
 		child->update();	// last thing we do is call the update method for each child.
 	}
 }
@@ -208,13 +417,7 @@ void ofxFlashStage :: drawChildren ( ofxFlashDisplayObject* parent, vector<ofxFl
 		
 		child->draw();
 
-		bool bCanHaveChildren;
-		bCanHaveChildren = false;
-		bCanHaveChildren = bCanHaveChildren || ( child->typeID == OFX_FLASH_DISPLAY_OBJECT_CONTAINER_TYPE );
-		bCanHaveChildren = bCanHaveChildren || ( child->typeID == OFX_FLASH_SPRITE_TYPE );
-		bCanHaveChildren = bCanHaveChildren || ( child->typeID == OFX_FLASH_MOVIE_CLIP_TYPE );
-		
-		if( bCanHaveChildren )
+		if( canHaveChildren( child ) )
 		{
 			ofxFlashDisplayObjectContainer* container;
 			container = (ofxFlashDisplayObjectContainer*)child;
@@ -245,13 +448,7 @@ void ofxFlashStage :: drawChildrenDebug ( ofxFlashDisplayObject* parent, vector<
 		child->drawTransformedOutline();
 		child->drawPixelBounds();
 		
-		bool bCanHaveChildren;
-		bCanHaveChildren = false;
-		bCanHaveChildren = bCanHaveChildren || ( child->typeID == OFX_FLASH_DISPLAY_OBJECT_CONTAINER_TYPE );
-		bCanHaveChildren = bCanHaveChildren || ( child->typeID == OFX_FLASH_SPRITE_TYPE );
-		bCanHaveChildren = bCanHaveChildren || ( child->typeID == OFX_FLASH_MOVIE_CLIP_TYPE );
-		
-		if( bCanHaveChildren )
+		if( canHaveChildren( child ) )
 		{
 			ofxFlashDisplayObjectContainer* container;
 			container = (ofxFlashDisplayObjectContainer*)child;
@@ -262,6 +459,32 @@ void ofxFlashStage :: drawChildrenDebug ( ofxFlashDisplayObject* parent, vector<
 			}
 		}
 	}
+}
+
+/////////////////////////////////////////////
+//	CAN HAVE CHILDREN CHECK.
+/////////////////////////////////////////////
+
+bool ofxFlashStage :: canHaveChildren ( ofxFlashDisplayObject* displayObject )
+{
+	bool bCanHaveChildren;
+	bCanHaveChildren = false;
+	bCanHaveChildren = bCanHaveChildren || ( displayObject->typeID == OFX_FLASH_DISPLAY_OBJECT_CONTAINER_TYPE );
+	bCanHaveChildren = bCanHaveChildren || ( displayObject->typeID == OFX_FLASH_SPRITE_TYPE );
+	bCanHaveChildren = bCanHaveChildren || ( displayObject->typeID == OFX_FLASH_MOVIE_CLIP_TYPE );
+
+	return bCanHaveChildren;
+}
+
+bool ofxFlashStage :: isInteractiveObject ( ofxFlashDisplayObject* displayObject )
+{
+	bool bIsInteractiveObject;
+	bIsInteractiveObject = false;
+	bIsInteractiveObject = bIsInteractiveObject || ( displayObject->typeID == OFX_FLASH_DISPLAY_OBJECT_CONTAINER_TYPE );	// not sure this one needs to be here.
+	bIsInteractiveObject = bIsInteractiveObject || ( displayObject->typeID == OFX_FLASH_SPRITE_TYPE );
+	bIsInteractiveObject = bIsInteractiveObject || ( displayObject->typeID == OFX_FLASH_MOVIE_CLIP_TYPE );
+
+	return bIsInteractiveObject;
 }
 
 /////////////////////////////////////////////
@@ -278,4 +501,16 @@ void ofxFlashStage :: mouseDragged ( ofMouseEventArgs& e )
 {
 	_stageMouseX = e.x;
 	_stageMouseY = e.y;
+}
+
+void ofxFlashStage :: mousePressed ( ofMouseEventArgs& e )
+{
+	bMouseDown		= true;
+	bMousePressed	= true;
+}
+
+void ofxFlashStage :: mouseReleased ( ofMouseEventArgs& e )
+{
+	bMouseDown		= false;
+	bMouseReleased	= true;
 }

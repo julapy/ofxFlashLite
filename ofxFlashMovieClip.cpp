@@ -87,7 +87,7 @@ void ofxFlashMovieClip :: setup ()
 
 void ofxFlashMovieClip :: update ()
 {
-	removeFrameChildren();			// remove + add is done on every frame. not a good idea, but will go with it for now.
+	removeFrameChildren();			// remove + add is done on every frame. not a great idea, but will go with it for now.
 	
 	if( bPlay )
 	{
