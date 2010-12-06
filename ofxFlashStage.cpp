@@ -176,6 +176,8 @@ void ofxFlashStage :: updateChildrenOne ( ofxFlashDisplayObject* parent, vector<
 		worldMatrix.concatenate( child->matrix() );
 		child->transform( worldMatrix );
 		
+		child->updateInternal();
+		
 		//=========================================== FIND TOP MOST HIT DISPLAY OBJECT BY MOUSE.
 		
 		if( child->hitTestPoint( _stageMouseX, _stageMouseY ) )				// check if its the top most display object hit by mouse.

@@ -19,19 +19,27 @@ public:
 	 ofxFlashMovieClip();
 	~ofxFlashMovieClip();
 	
+	//======================================= INTERNAL METHODS - these methods are to be used by ofxFlash only.
+	
 	void setTotalFrames	( int totalFrames = 1 );
 	ofxFlashDisplayObject* addChildToFrame( ofxFlashDisplayObject* child, int frameNum );
+	
+	virtual void updateInternal	();
+	
+	//======================================= GENERIC OVERRIDE METHODS.
 	
 	virtual void setup	();
 	virtual void update	();
 	virtual void draw	();
 	
-	virtual void gotoAndPlay	( int frameNum );
-	virtual void gotoAndStop	( int frameNum );
-	virtual void nextFrame		();
-	virtual void prevFrame		();
-	virtual void play			();
-	virtual void stop			();
+	//======================================= AS3 METHODS.
+	
+	void gotoAndPlay	( int frameNum );
+	void gotoAndStop	( int frameNum );
+	void nextFrame		();
+	void prevFrame		();
+	void play			();
+	void stop			();
 	
 	int totalFrames		();
 	int currentFrame	();

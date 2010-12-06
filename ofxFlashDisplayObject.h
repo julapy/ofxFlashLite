@@ -42,6 +42,12 @@ public:
 	 ofxFlashDisplayObject();
 	~ofxFlashDisplayObject();
 	
+	//======================================= INTERNAL METHODS - these methods are to be used by ofxFlash only.
+	
+	virtual void updateInternal	() {};
+	
+	//======================================= INTERNAL METHODS - these methods are to be used by ofxFlash only.
+	
 	virtual void setup	();
 	virtual void update	();
 	virtual void draw	();
