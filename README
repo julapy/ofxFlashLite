@@ -15,15 +15,15 @@ WHAT IT CURRENTLY DOESâ
 5) Uses AS3 syntax where possible to make it easier for Flash devs to understand.
 6) Supports rectangle and oval primitives.
 7) Manages media assets ( Bitmap / Video / Sound ) through the ofxFlashLibrary class.
+8) Mouse interaction is working! Mouse events filter down the parent-child chain taking into account mouseEnabled and mouseChildren properties.
 
 
 STILL TO COMEâ
 
-1) Mouse interaction is working but not yet managed by a mouse event model like in flash - working on this at the moment.
+1) Custom shape support. Working out XFL encoding of vector shape data and translating that into something OF friendly like a number of points.
 2) Event dispatching and management using AS3 syntax.
 3) Text support. Although this is a huge field, so we'll see how far it can be pushed.
-4) Custom shape support. Working out XFL encoding of vector shape data and translating that into something OF friendly like a number of points.
-5) Support for timeline tweening. At the moment a work around this is to create a tween, copy it onto another layer and break it into key frames.
+4) Support for timeline tweening. At the moment a work around this is to create a tween, copy it onto another layer and break it into key frames.
 
 
 DEPENDENCIESâ
