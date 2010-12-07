@@ -19,14 +19,22 @@ public:
 	 ofxFlashSprite();
 	~ofxFlashSprite();
 	
-	//======================================= INTERNAL METHODS - these methods are to be used by ofxFlash only.
+	virtual void setup	() {};
+	virtual void update	() {};
+	virtual void draw	() {};
 	
-	virtual void updateInternal	() {};
+protected:
 	
-	//======================================= INTERNAL METHODS - these methods are to be used by ofxFlash only.
+	virtual void updateOnFrame () {};
 	
-	virtual void setup	();
-	virtual void update	();
-	virtual void draw	();
+private:
+	
+	bool					_buttonMode;
+	ofxFlashDisplayObject*	_dropTarget;
+	ofxFlashSprite*			_hitArea;
+	bool					_useHandCursor;
+	
+	// TODO :: graphics
+	// TODO :: soundTransform
 	
 };

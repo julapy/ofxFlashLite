@@ -80,9 +80,9 @@ ofxFlashDisplayObject* ofxFlashMovieClip :: addChildToFrame( ofxFlashDisplayObje
 //	INTERNAL.
 ///////////////////////////////////////////////
 
-void ofxFlashMovieClip :: updateInternal ()
+void ofxFlashMovieClip :: updateOnFrame ()
 {
-	removeFrameChildren();			// remove + add is done on every frame. not a great idea, but will go with it for now.
+	removeFrameChildren();			// remove + add is done on every frame. not the best idea, but will go with it for now.
 	
 	if( bPlay )
 	{
@@ -90,25 +90,6 @@ void ofxFlashMovieClip :: updateInternal ()
 	}
 	
 	addFrameChildren();
-}
-
-///////////////////////////////////////////////
-//	CORE.
-///////////////////////////////////////////////
-
-void ofxFlashMovieClip :: setup ()
-{
-	//
-}
-
-void ofxFlashMovieClip :: update ()
-{
-	//
-}
-
-void ofxFlashMovieClip :: draw ()
-{
-	//
 }
 
 ///////////////////////////////////////////////

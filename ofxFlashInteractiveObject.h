@@ -21,6 +21,8 @@ public:
 	
 	 ofxFlashInteractiveObject();
 	~ofxFlashInteractiveObject();
+	
+	friend class ofxFlashStage;			// friends! http://www.cplusplus.com/doc/tutorial/inheritance/
 
 	const bool&		doubleClickEnabled	();
 	void			doubleClickEnabled	( bool value );
@@ -31,16 +33,16 @@ public:
 	const bool&		mouseUpOutside		();
 	void			mouseUpOutside		( bool value );
 	
-	void			mouseOver			( bool value );
 	const bool&		mouseOver			();
-
-	void			mouseDown			( bool value );
 	const bool&		mouseDown			();
+	
+private:
+	
+	void			mouseOver			( bool value );	
+	void			mouseDown			( bool value );
 	
 	bool	mouseOverDirty;
 	bool	mouseDownDirty;
-	
-private:
 	
 	bool	_doubleClickEnabled;
 	bool	_mouseEnabled;

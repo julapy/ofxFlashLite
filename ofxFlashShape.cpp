@@ -29,17 +29,12 @@ ofxFlashShape :: ~ofxFlashShape()
 //	RUNTIME METHODS.
 ///////////////////////////////////////////////
 
-void ofxFlashShape :: setup()
+void ofxFlashShape :: updateOnFrame ()
 {
 	
 }
 
-void ofxFlashShape :: update()
-{
-	
-}
-
-void ofxFlashShape :: draw()
+void ofxFlashShape :: drawOnFrame ()
 {
 	if( shapeType == UNDEFINED_SHAPE_TYPE )
 	{

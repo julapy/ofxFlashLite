@@ -30,20 +30,15 @@ ofxFlashBitmap :: ~ofxFlashBitmap ()
 }
 
 ///////////////////////////////////////////////
-//	RUNTIME METHODS.
+//
 ///////////////////////////////////////////////
 
-void ofxFlashBitmap :: setup ()
+void ofxFlashBitmap :: updateOnFrame ()
 {
 	
 }
 
-void ofxFlashBitmap :: update ()
-{
-	//
-}
-
-void ofxFlashBitmap :: draw ()
+void ofxFlashBitmap :: drawOnFrame ()
 {
 	drawBitmap();
 }

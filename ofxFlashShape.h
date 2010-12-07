@@ -24,9 +24,9 @@ public:
 	 ofxFlashShape();
 	~ofxFlashShape();
 	
-	virtual void setup	();
-	virtual void update	();
-	virtual void draw	();
+	virtual void setup	() {};
+	virtual void update	() {};
+	virtual void draw	() {};
 	
 	void setFill			( bool value );
 	void setStroke			( bool value );
@@ -37,6 +37,11 @@ public:
 	void setRectangle		( float x, float y, float width, float height );
 	void setOval			( float x, float y, float width, float height );
 	void setCustom			( const vector<ofPoint>& points );
+	
+protected:
+	
+	virtual void updateOnFrame	();
+	virtual void drawOnFrame	();
 	
 private:
 	

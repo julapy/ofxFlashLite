@@ -12,28 +12,14 @@
 ofxFlashSprite :: ofxFlashSprite()
 {
 	typeID = OFX_FLASH_SPRITE_TYPE;
+	
+	_buttonMode		= false;
+	_dropTarget		= NULL;
+	_hitArea		= NULL;
+	_useHandCursor	= false;
 }
 
 ofxFlashSprite :: ~ofxFlashSprite()
 {
 
-}
-
-///////////////////////////////////////////////
-//	CORE.
-///////////////////////////////////////////////
-
-void ofxFlashSprite :: setup ()
-{
-	//
-}
-
-void ofxFlashSprite :: update ()
-{
-	//
-}
-
-void ofxFlashSprite :: draw ()
-{
-	//
 }

@@ -176,7 +176,7 @@ void ofxFlashStage :: updateChildrenOne ( ofxFlashDisplayObject* parent, vector<
 		worldMatrix.concatenate( child->matrix() );
 		child->transform( worldMatrix );
 		
-		child->updateInternal();
+		child->updateOnFrame();
 		
 		//=========================================== FIND TOP MOST HIT DISPLAY OBJECT BY MOUSE.
 		
@@ -417,6 +417,7 @@ void ofxFlashStage :: drawChildren ( ofxFlashDisplayObject* parent, vector<ofxFl
 			glMultMatrixf( child->matrix().getPtr() );
 		}
 		
+		child->drawOnFrame();
 		child->draw();
 
 		if( canHaveChildren( child ) )

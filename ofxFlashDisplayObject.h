@@ -42,15 +42,11 @@ public:
 	 ofxFlashDisplayObject();
 	~ofxFlashDisplayObject();
 	
-	//======================================= INTERNAL METHODS - these methods are to be used by ofxFlash only.
+	friend class ofxFlashStage;			// friends! http://www.cplusplus.com/doc/tutorial/inheritance/
 	
-	virtual void updateInternal	() {};
-	
-	//======================================= INTERNAL METHODS - these methods are to be used by ofxFlash only.
-	
-	virtual void setup	();
-	virtual void update	();
-	virtual void draw	();
+	virtual void setup	() {};
+	virtual void update	() {};
+	virtual void draw	() {};
 	
 	void drawTransformedOutline	();
 	void drawPixelBounds		();
@@ -125,18 +121,12 @@ public:
 	const ofxFlashMatrix&		concatenatedMatrix	();
 	
 	const ofxFlashRectangle&	pixelBounds			();
-	void						resetPixelBounds	();
-	void						addToPixelBounds	( const ofxFlashRectangle& rect );
 	
 	//=============================================================
 
 	ofxFlashDisplayObject*	mask;			// DisplayObject in AS3.
 	ofxFlashDisplayObject*	parent;			// DisplayObjectContainer in AS3.
 	ofxFlashStage*			stage;			// Stage in AS3.
-	
-	//=============================================================
-	
-	void transform ( const ofxFlashMatrix& mat );
 	
 	//=============================================================
 	
@@ -154,6 +144,9 @@ public:
 	
 protected:
 	
+	virtual void updateOnFrame	() {};		// updateOnFrame is called on every update loop by stage. any updates should go in there.
+	virtual void drawOnFrame	() {};		// drawOnFrame is called on every draw loop by stage.
+	
 	ofxFlashMatrix		_matrix;
 	ofxFlashMatrix		_concatenatedMatrix;
 	ofxFlashMatrix		_concatenatedMatrixInv;
@@ -162,6 +155,11 @@ protected:
 	ofxFlashRectangle	_pixelBounds;
 	
 private:
+	
+	void resetPixelBounds	();
+	void addToPixelBounds	( const ofxFlashRectangle& rect );
+	
+	void transform			( const ofxFlashMatrix& mat );
 	
 	string		_name;
 	string		_libraryItemName;
