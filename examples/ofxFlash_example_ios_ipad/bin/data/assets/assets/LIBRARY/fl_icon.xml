@@ -1,0 +1,24 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="fl_icon" itemID="4cd8bc9d-000002ae" sourceLibraryItemHRef="Symbol 1" lastModified="1289272477">
+  <timeline>
+    <DOMTimeline name="fl_icon">
+      <layers>
+        <DOMLayer name="Layer 1" color="#4FFF4F" current="true" isSelected="true">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance name="" referenceID="" libraryItemName="assets/flash_icon.png">
+                  <matrix>
+                    <Matrix tx="-119" ty="-112"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="119.05" y="112.4"/>
+                  </transformationPoint>
+                </DOMBitmapInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>
