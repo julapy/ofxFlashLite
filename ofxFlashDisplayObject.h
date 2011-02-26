@@ -66,6 +66,8 @@ public:
 	
 	const float&			alpha ();
 	void					alpha ( float value );
+	
+	const float&			compoundAlpha ();
 
 	const bool&				visible ();
 	void					visible ( bool value );
@@ -165,6 +167,7 @@ private:
 	string		_libraryItemName;
 	
 	float		_alpha;
+	float		_compoundAlpha;
 	bool		_visible;
 	float		_width;
 	float		_height;

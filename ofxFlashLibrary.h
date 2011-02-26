@@ -10,6 +10,8 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxFlashLibraryLoader.h"
+#include "ofxFlashLibraryLoaderIOS.h"
 #include "ofxFlashDisplayObject.h"
 
 #define OFX_FLASH_LIBRARY_TYPE_IMAGE	0
@@ -28,7 +30,7 @@ public:
 	string			assetID;
 	string			assetPath;
 	int				assetType;
-	ofBaseImage*	imageAsset;
+	ofBaseDraws*	imageAsset;
 	ofSoundPlayer*	soundAsset;
 	
 };
@@ -46,7 +48,7 @@ private:
 	
 	 ofxFlashLibrary() {};
 	~ofxFlashLibrary() {};
-	
+
 	vector<ofxFlashLibraryItem*> items;
 	vector<ofxFlashLibraryItem*> imageItems;
 	vector<ofxFlashLibraryItem*> videoItems;
@@ -67,19 +69,21 @@ public:
 	
 	void addAsset	( string assetID, string assetPath, int assetType );
 	void addImage	( string assetID, string assetPath );	
-	void addImage	( string assetID, ofBaseImage& image );
+	void addImage	( string assetID, ofBaseDraws& image );
 	void addVideo	( string assetID, string assetPath );
-	void addVideo	( string assetID, ofBaseImage& video );
+	void addVideo	( string assetID, ofBaseDraws& video );
 	void addSound	( string assetID, string assetPath );
 	void addSound	( string assetID, ofSoundPlayer& sound );
 	
+	ofBaseDraws* loadImage( string imagePath );
+	ofBaseDraws* loadVideo( string videoPath );
+	
 	ofSoundPlayer* getSound				( string assetID );
 	ofSoundPlayer* getSoundByFileName	( string fileName );
-	ofBaseImage* getAsset				( string assetID );
-	ofBaseImage* getAssetByFileName		( string fileName );
+	ofBaseDraws* getAsset				( string assetID );
+	ofBaseDraws* getAssetByFileName		( string fileName );
 	
 	ofxFlashDisplayObject*	addDisplayObject	( string libraryItemName, ofxFlashDisplayObject* displayObject );
 	ofxFlashDisplayObject*	getDisplayObject	( string libraryItemName );
 	bool					hasDisplayObject	( string libraryItemName );
-	
 };

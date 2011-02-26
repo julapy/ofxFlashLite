@@ -73,12 +73,12 @@ public:
 		);
 	}
 
-	float setA	( float v ) { _mat[ 0 ][ 0 ] = v; }
-	float setB	( float v ) { _mat[ 0 ][ 1 ] = v; }
-	float setC	( float v ) { _mat[ 1 ][ 0 ] = v; }
-	float setD	( float v ) { _mat[ 1 ][ 1 ] = v; }
-	float setTx	( float v ) { _mat[ 3 ][ 0 ] = v; }
-	float setTy	( float v ) { _mat[ 3 ][ 1 ] = v; }
+	void setA	( float v ) { _mat[ 0 ][ 0 ] = v; }
+	void setB	( float v ) { _mat[ 0 ][ 1 ] = v; }
+	void setC	( float v ) { _mat[ 1 ][ 0 ] = v; }
+	void setD	( float v ) { _mat[ 1 ][ 1 ] = v; }
+	void setTx	( float v ) { _mat[ 3 ][ 0 ] = v; }
+	void setTy	( float v ) { _mat[ 3 ][ 1 ] = v; }
 	
 	float getA	() const { return _mat[ 0 ][ 0 ]; }
 	float getB	() const { return _mat[ 0 ][ 1 ]; }

@@ -119,6 +119,7 @@ private:
 	
 	void addDisplayObjectToFrames		( ofxFlashDisplayObject* displayObject );
 	void setupMatrixForDisplayObject	( ofxFlashDisplayObject* displayObject );
+	void setupColorForDisplayObject		( ofxFlashDisplayObject* displayObject );
 	void setupFillForShape				( ofxFlashShape* shape );
 	void setupStrokeForShape			( ofxFlashShape* shape );
 	

@@ -16,24 +16,25 @@ ofxFlashDisplayObject :: ofxFlashDisplayObject ()
 	_name				= "sprite";
 	_libraryItemName	= "";
 	
-	_alpha		= 1.0;
-	_visible	= true;
-	_width		= 0.0;
-	_height		= 0.0;
-	_x			= 0.0;
-	_y			= 0.0;
-	_z			= 0.0;
-	_mouseX		= 0.0;
-	_mouseY		= 0.0;
-	_rotation	= 0.0;
-	_rotationX	= 0.0;
-	_rotationY	= 0.0;
-	_rotationZ	= 0.0;
-	_scaleX		= 1.0;
-	_scaleY		= 1.0;
-	_scaleZ		= 1.0;
-	_blendMode	= BLEND_MODE_NORMAL;
-	_level		= -1;
+	_alpha			= 1.0;
+	_compoundAlpha	= 1.0;
+	_visible		= true;
+	_width			= 0.0;
+	_height			= 0.0;
+	_x				= 0.0;
+	_y				= 0.0;
+	_z				= 0.0;
+	_mouseX			= 0.0;
+	_mouseY			= 0.0;
+	_rotation		= 0.0;
+	_rotationX		= 0.0;
+	_rotationY		= 0.0;
+	_rotationZ		= 0.0;
+	_scaleX			= 1.0;
+	_scaleY			= 1.0;
+	_scaleZ			= 1.0;
+	_blendMode		= BLEND_MODE_NORMAL;
+	_level			= -1;
 	
 	mask		= NULL;
 	parent		= NULL;
@@ -113,6 +114,11 @@ const float& ofxFlashDisplayObject :: alpha ()
 void ofxFlashDisplayObject :: alpha ( float value )
 {
 	_alpha = value;
+}
+
+const float& ofxFlashDisplayObject :: compoundAlpha ()
+{
+	return _compoundAlpha;
 }
 
 //============================================================= VISIBLE.
@@ -485,6 +491,8 @@ ofPoint ofxFlashDisplayObject :: globalToLocal3D ( const ofPoint& point )
 bool ofxFlashDisplayObject :: hitTestObject ( ofxFlashDisplayObject* obj )
 {
 	// TODO - working if two rectangles of different world matrices make any contact.
+	
+	return false;
 }
 
 bool ofxFlashDisplayObject :: hitTestPoint ( float x, float y, bool shapeFlag )

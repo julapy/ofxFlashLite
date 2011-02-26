@@ -19,3 +19,17 @@ ofxFlashDisplayObject - added level property.
 ofxFlashDisplayObjectContainer - sets level property in addChild() and removeChild() methods.
 ofxFlashInteractiveObject - added mouseOverDirty and mouseDownDirty, which are temp values for when working out mouseOver and mouseDown.
 ofxFlashStage - mouse interaction now working! complete with filtering mouse events down the parent / child chain.
+
+
+======================================
+11.02.2011
+======================================
+
+Added alpha channel support to ofxFlashShape.
+Added alpha channel support to ofxFlashDisplayObject
+Added compound alpha, which is the multiple of alpha down the parent/child chain.
+Alpha blending is now enabled before all flash assets are drawn to screen and turned off when finished - previously it was done per asset.
+Removed dependencies on POCO events so its now optional.
+ofxFlash now working on the iPhone / iPad.
+- had to introduce touch mode as mouse and touch events behave differently. touch mode needs to be set to true on ios devices.
+- added ofxFlashLibraryLoader & ofxFlashLibraryLoaderIOS to ofxFlash. these two classes load assets like images and videos.

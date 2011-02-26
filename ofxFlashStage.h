@@ -32,6 +32,7 @@ public:
 
 	ofxFlashMovieClip* root	();
 	void showRedrawRegions	( bool value );
+	void setTouchMode		( bool value );
 	
 	const int&	mouseX	();
 	const int&	mouseY	();
@@ -39,6 +40,11 @@ public:
 	virtual void setup	();
 	virtual void update	();
 	virtual void draw	();
+	
+	void mouseMoved		( int x, int y, int id );
+	void mouseDragged	( int x, int y, int id );
+	void mousePressed	( int x, int y, int id );
+	void mouseReleased	( int x, int y, int id );
 	
 	///////////////////////////////////////////////
 	//
@@ -56,11 +62,16 @@ private:
 	//---------------------------------------------
 	
 	ofxFlashMovieClip*	_root;
+	
 	bool bShowRedrawRegions;
 	bool bUsingListeners;
+	bool bTouchMode;
+	
 	bool bMouseDown;
 	bool bMousePressed;
 	bool bMouseReleased;
+	bool bMouseChanged;
+	int  mouseID;
 	
 	ofxFlashDisplayObject*	topMostHitDisplayObject;
 	ofxFlashDisplayObject*	topMostHitDisplayObjectPrev;
@@ -74,9 +85,11 @@ private:
 	int	_stageMouseY;
 	
 	//---------------------------------------------
-	
+
+#ifdef OF_USING_POCO	
 	void update	( ofEventArgs &e );
 	void draw	( ofEventArgs &e );
+#endif
 	
 	void updateChildrenOne	( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children );
 	void updateChildrenTwo	( ofxFlashDisplayObject* parent, vector<ofxFlashDisplayObject*>& children );
@@ -88,8 +101,10 @@ private:
 	bool canHaveChildren		( ofxFlashDisplayObject* displayObject );
 	bool isInteractiveObject	( ofxFlashDisplayObject* displayObject );
 	
-	void mouseMoved		( ofMouseEventArgs& e );
-	void mouseDragged	( ofMouseEventArgs& e );
-	void mousePressed	( ofMouseEventArgs& e );
-	void mouseReleased	( ofMouseEventArgs& e );
+#ifdef OF_USING_POCO	
+	void mouseMoved		( ofMouseEventArgs& e )	{ mouseMoved	( e.x, e.y, 0 ); };
+	void mouseDragged	( ofMouseEventArgs& e )	{ mouseDragged	( e.x, e.y, 0 ); };
+	void mousePressed	( ofMouseEventArgs& e )	{ mousePressed	( e.x, e.y, 0 ); };
+	void mouseReleased	( ofMouseEventArgs& e )	{ mouseReleased	( e.x, e.y, 0 ); };
+#endif
 };

@@ -112,30 +112,34 @@ const bool& ofxFlashInteractiveObject :: mouseDown ()
 
 void ofxFlashInteractiveObject :: enableMouseEvents()
 {
+#ifdef OF_USING_POCO
 	ofAddListener( ofEvents.mouseMoved,		this, &ofxFlashInteractiveObject :: _mouseMoved		);
 	ofAddListener( ofEvents.mouseDragged,	this, &ofxFlashInteractiveObject :: _mouseDragged	);
 	ofAddListener( ofEvents.mousePressed,	this, &ofxFlashInteractiveObject :: _mousePressed	);
 	ofAddListener( ofEvents.mouseReleased,	this, &ofxFlashInteractiveObject :: _mouseReleased	);
+#endif
 }
 
 void ofxFlashInteractiveObject :: disableMouseEvents()
 {
+#ifdef OF_USING_POCO
 	ofRemoveListener( ofEvents.mouseMoved,		this, &ofxFlashInteractiveObject :: _mouseMoved		);
 	ofRemoveListener( ofEvents.mouseDragged,	this, &ofxFlashInteractiveObject :: _mouseDragged	);
 	ofRemoveListener( ofEvents.mousePressed,	this, &ofxFlashInteractiveObject :: _mousePressed	);
 	ofRemoveListener( ofEvents.mouseReleased,	this, &ofxFlashInteractiveObject :: _mouseReleased	);
+#endif
 }
 
 //============================================================= MOUSE EVENT HANDLERS.
 
-void ofxFlashInteractiveObject :: _mouseMoved( ofMouseEventArgs &e )
+void ofxFlashInteractiveObject :: _mouseMoved( int x, int y, int id )
 {
 	if( !_mouseEnabled )
 		return;
 	
 	// dispatch mouse move - should dispatch first.
 	
-	if( hitTestPoint( e.x, e.y ) )
+	if( hitTestPoint( x, y ) )
 	{
 		if( !_mouseOver )
 		{
@@ -159,14 +163,14 @@ void ofxFlashInteractiveObject :: _mouseMoved( ofMouseEventArgs &e )
 	}
 }
 
-void ofxFlashInteractiveObject :: _mouseDragged( ofMouseEventArgs &e )
+void ofxFlashInteractiveObject :: _mouseDragged( int x, int y, int id )
 {
 	if( !_mouseEnabled )
 		return;
 	
 	// dispatch mouse drag - should dispatch first.
 	
-	if( hitTestPoint( e.x, e.y ) )
+	if( hitTestPoint( x, y ) )
 	{
 		if( !_mouseOver )
 		{
@@ -193,12 +197,12 @@ void ofxFlashInteractiveObject :: _mouseDragged( ofMouseEventArgs &e )
 	}
 }
 
-void ofxFlashInteractiveObject :: _mousePressed( ofMouseEventArgs &e )
+void ofxFlashInteractiveObject :: _mousePressed( int x, int y, int id )
 {
 	if( !_mouseEnabled )
 		return;
 	
-	if( hitTestPoint( e.x, e.y ) )
+	if( hitTestPoint( x, y ) )
 	{
 		if( !_mouseDown )
 		{
@@ -209,12 +213,12 @@ void ofxFlashInteractiveObject :: _mousePressed( ofMouseEventArgs &e )
 	}
 }
 
-void ofxFlashInteractiveObject :: _mouseReleased( ofMouseEventArgs &e )
+void ofxFlashInteractiveObject :: _mouseReleased( int x, int y, int id )
 {
 	if( !_mouseEnabled )
 		return;
 	
-	if( hitTestPoint( e.x, e.y ) )
+	if( hitTestPoint( x, y ) )
 	{
 		// dispatch mouse up inside.
 	}

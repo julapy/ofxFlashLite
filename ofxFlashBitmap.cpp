@@ -9,14 +9,14 @@
 
 #include "ofxFlashBitmap.h"
 
-ofxFlashBitmap :: ofxFlashBitmap ( ofImage* image )
+ofxFlashBitmap :: ofxFlashBitmap ( ofBaseDraws* image )
 {
 	bitmapImage = image;
 	
 	if( bitmapImage != NULL )
 	{
-		float w = bitmapImage->width;
-		float h = bitmapImage->height;
+		float w = bitmapImage->getWidth();
+		float h = bitmapImage->getHeight();
 		
 		_rect.set_to_rect( 0, 0, w, h );
 	}
@@ -51,18 +51,10 @@ void ofxFlashBitmap :: drawBitmap ()
 {
 	if( bitmapImage != NULL )
 	{
-		bool bAlpha;
-		bAlpha = bitmapImage->type == OF_IMAGE_COLOR_ALPHA;
+		float a = compoundAlpha();
+
+		ofSetColor( 255, 255, 255, a * 255 );
 		
-		if( bAlpha )
-			ofEnableAlphaBlending();
-		
-		ofSetColor( 255, 255, 255 );
-		
-//		bitmapImage->draw( globalX, globalY );
 		bitmapImage->draw( 0, 0 );
-		
-		if( bAlpha )
-			ofDisableAlphaBlending();
 	}
 }

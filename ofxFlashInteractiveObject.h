@@ -57,9 +57,15 @@ private:
 	void	enableMouseEvents	();
 	void	disableMouseEvents	();
 	
-	void	_mouseMoved		( ofMouseEventArgs &e );
-	void	_mouseDragged	( ofMouseEventArgs &e );
-	void	_mousePressed	( ofMouseEventArgs &e );
-	void	_mouseReleased	( ofMouseEventArgs &e );
+#ifdef OF_USING_POCO
+	void	_mouseMoved		( ofMouseEventArgs &e ) { _mouseMoved	 ( e.x, e.y, -1 ); };
+	void	_mouseDragged	( ofMouseEventArgs &e ) { _mouseDragged	 ( e.x, e.y, -1 ); };
+	void	_mousePressed	( ofMouseEventArgs &e ) { _mousePressed	 ( e.x, e.y, -1 ); };
+	void	_mouseReleased	( ofMouseEventArgs &e ) { _mouseReleased ( e.x, e.y, -1 ); };
+#endif
 	
+	void	_mouseMoved		( int x, int y, int id );
+	void	_mouseDragged	( int x, int y, int id );
+	void	_mousePressed	( int x, int y, int id );
+	void	_mouseReleased	( int x, int y, int id );
 };

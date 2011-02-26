@@ -45,13 +45,13 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="of_icon" color="#4FFF4F" current="true" isSelected="true" autoNamed="false">
+                    <DOMLayer name="of_icon" color="#4FFF4F" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
-                                        <DOMSymbolInstance libraryItemName="of_icon" name="of_icon" centerPoint3DX="735.55" centerPoint3DY="264.3">
+                                        <DOMSymbolInstance libraryItemName="of_icon" name="of_icon" centerPoint3DX="772.7" centerPoint3DY="251.4">
                                              <matrix>
-                                                  <Matrix tx="655" ty="180"/>
+                                                  <Matrix a="0.992660522460938" b="0.12091064453125" c="-0.12091064453125" d="0.992660522460938" tx="703.95" ty="157.75"/>
                                              </matrix>
                                              <transformationPoint>
                                                   <Point/>
@@ -67,7 +67,7 @@
                                    <elements>
                                         <DOMSymbolInstance libraryItemName="fl_icon_anim" name="fl_icon" centerPoint3DX="224.85" centerPoint3DY="286.1">
                                              <matrix>
-                                                  <Matrix tx="223" ty="285.95"/>
+                                                  <Matrix d="1.00444030761719" tx="223" ty="285.95"/>
                                              </matrix>
                                              <transformationPoint>
                                                   <Point/>
@@ -77,7 +77,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="copy" color="#4FFFFF" locked="true" autoNamed="false" visible="false">
+                    <DOMLayer name="copy" color="#4FFFFF" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -124,17 +124,14 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="oval primitive" color="#FF800A" locked="true" autoNamed="false" visible="false">
+                    <DOMLayer name="oval primitive" color="#FF800A" current="true" isSelected="true" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
                                         <DOMOvalObject objectWidth="189" objectHeight="189" x="65" y="137" endAngle="0">
                                              <matrix>
-                                                  <Matrix a="1.44107055664062" d="1.01025390625" tx="290.65" ty="409.65"/>
+                                                  <Matrix a="1.4410400390625" d="1.01025390625" tx="290.65" ty="409.65"/>
                                              </matrix>
-                                             <transformationPoint>
-                                                  <Point x="198.4" y="272"/>
-                                             </transformationPoint>
                                              <stroke>
                                                   <SolidStroke scaleMode="normal" weight="6">
                                                        <fill>
@@ -147,13 +144,13 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="rectangle primitive" color="#FF4FFF" locked="true" autoNamed="false" visible="false">
+                    <DOMLayer name="rectangle primitive" color="#FF4FFF" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
                                         <DOMRectangleObject objectWidth="200" objectHeight="200" x="36" y="560" lockFlag="true">
                                              <matrix>
-                                                  <Matrix a="1.3369140625" d="0.944290161132812" tx="27.15" ty="25.2"/>
+                                                  <Matrix a="1.3369140625" d="0.94427490234375" tx="27.15" ty="25.2"/>
                                              </matrix>
                                              <fill>
                                                   <SolidColor color="#FF00FF"/>
@@ -170,7 +167,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="custom shape" color="#9933CC" locked="true" autoNamed="false" visible="false">
+                    <DOMLayer name="custom shape" color="#9933CC" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -192,7 +189,7 @@
                               </DOMFrame>
                          </frames>
                     </DOMLayer>
-                    <DOMLayer name="grid" color="#FF800A" locked="true" autoNamed="false">
+                    <DOMLayer name="grid" color="#FF800A" autoNamed="false">
                          <frames>
                               <DOMFrame index="0" keyMode="9728">
                                    <elements>
@@ -507,6 +504,7 @@
      </extendedSwatchLists>
      <PrinterSettings platform="macintosh"/>
      <publishHistory>
+          <PublishItem publishSize="155661" publishTime="1289355289"/>
           <PublishItem publishSize="155671" publishTime="1289350603"/>
           <PublishItem publishSize="155687" publishTime="1289350299"/>
           <PublishItem publishSize="155685" publishTime="1289350251"/>
@@ -526,6 +524,5 @@
           <PublishItem publishSize="152941" publishTime="1289271831"/>
           <PublishItem publishSize="117421" publishTime="1289271816"/>
           <PublishItem publishSize="117422" publishTime="1289271786"/>
-          <PublishItem publishSize="117422" publishTime="1289270653"/>
      </publishHistory>
 </DOMDocument>

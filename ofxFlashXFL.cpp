@@ -46,6 +46,8 @@ bool ofxFlashXFL :: loadFile ( const string& file )
 	string xflPath;
 	xflPath = xflFolder + xflFile;
 	
+	cout << "Loading, " << xflPath << endl;
+	
 	bLoaded = xml.loadFile( xflPath );
 	
 	if( !bLoaded )

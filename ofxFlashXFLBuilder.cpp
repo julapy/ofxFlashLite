@@ -295,8 +295,8 @@ void ofxFlashXFLBuilder :: buildElements ()
 
 void ofxFlashXFLBuilder :: buildBitmap ()
 {
-	ofImage* bitmapImage;
-	bitmapImage = (ofImage*)ofxFlashLibrary :: getInstance()->getAsset( domBitmapInstance.libraryItemName );
+	ofBaseDraws* bitmapImage;
+	bitmapImage = ofxFlashLibrary :: getInstance()->getAsset( domBitmapInstance.libraryItemName );
 	
 	ofxFlashBitmap* bm;
 	bm = new ofxFlashBitmap( bitmapImage );
@@ -322,6 +322,7 @@ void ofxFlashXFLBuilder :: buildMovieClip ()
 	mc->libraryItemName( domSymbolInstance.libraryItemName );
 	
 	setupMatrixForDisplayObject( mc );
+	setupColorForDisplayObject( mc );
 	
 	addDisplayObjectToFrames( mc );
 	
@@ -475,6 +476,20 @@ void ofxFlashXFLBuilder :: setupMatrixForDisplayObject ( ofxFlashDisplayObject* 
 	}
 }
 
+void ofxFlashXFLBuilder :: setupColorForDisplayObject ( ofxFlashDisplayObject* displayObject )
+{
+	if( tagExists( "color", 0 ) )
+	{
+		pushTag( "color", 0 );
+		
+		float alphaMultiplier = getAttribute( "Color", "alphaMultiplier",  1.0, 0 );
+		
+		displayObject->alpha( alphaMultiplier );
+		
+		popTag();
+	}
+}
+
 void ofxFlashXFLBuilder :: setupFillForShape ( ofxFlashShape* shape )
 {
 	if( tagExists( "fill", 0 ) )
@@ -485,8 +500,12 @@ void ofxFlashXFLBuilder :: setupFillForShape ( ofxFlashShape* shape )
 		fillSolidColor = getAttribute( "SolidColor", "color", "#000000", 0 );
 		fillSolidColor = cleanHexString( fillSolidColor );
 		
+		float fillAlpha;
+		fillAlpha = getAttribute( "SolidColor", "alpha",  1.0, 0 );
+		
 		shape->setFill( true );
 		shape->setFillColor( stringToHex( fillSolidColor ) );
+		shape->setFillAlpha( fillAlpha );
 		
 		popTag();
 	}
@@ -508,9 +527,15 @@ void ofxFlashXFLBuilder :: setupStrokeForShape ( ofxFlashShape* shape )
 		fillSolidColor = getAttribute( "SolidColor", "color", "#000000", 0 );
 		fillSolidColor = cleanHexString( fillSolidColor );
 		
+		float fillAlpha;
+		fillAlpha = getAttribute( "SolidColor", "alpha",  1.0, 0 );
+		
 		shape->setStroke( true );
 		shape->setStrokeWeight( solidStrokeWeight );
 		shape->setStrokeColor( stringToHex( fillSolidColor ) );
+		shape->setStrokeAlpha( fillAlpha );
+		
+		ofColor c;
 		
 		popTag();
 		popTag();

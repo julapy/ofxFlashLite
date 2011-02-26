@@ -13,6 +13,24 @@
 ofxFlashLibrary* ofxFlashLibrary :: _instance = NULL;
 
 
+ofBaseDraws* ofxFlashLibrary :: loadImage( string imagePath )
+{
+#ifdef TARGET_OF_IPHONE
+	return ofxFlashLibraryLoaderIOS :: getInstance()->loadImage( imagePath );
+#else
+	return ofxFlashLibraryLoader :: getInstance()->loadImage( imagePath );
+#endif
+}
+
+ofBaseDraws* ofxFlashLibrary :: loadVideo( string videoPath )
+{
+#ifdef TARGET_OF_IPHONE
+	return ofxFlashLibraryLoaderIOS :: getInstance()->loadVideo( videoPath );
+#else
+	return ofxFlashLibraryLoader :: getInstance()->loadVideo( videoPath );
+#endif
+}
+
 //================================================== GENERAL.
 
 void ofxFlashLibrary :: addAsset( string assetID, string assetPath, int assetType )
@@ -35,29 +53,24 @@ void ofxFlashLibrary :: addAsset( string assetID, string assetPath, int assetTyp
 
 void ofxFlashLibrary :: addImage ( string assetID, string assetPath )
 {
-	ofImage* image	= new ofImage();
-	bool bLoaded	= image->loadImage( assetPath );
+	ofBaseDraws* tex = loadImage( assetPath );
 	
-	if( bLoaded )
-	{
-		ofxFlashLibraryItem* item;
-		item = new ofxFlashLibraryItem();
-		item->assetID		= assetID;
-		item->assetPath		= assetPath;
-		item->assetType		= OFX_FLASH_LIBRARY_TYPE_IMAGE;
-		item->imageAsset	= image;
-		item->soundAsset	= NULL;
-		
-		items.push_back( item );
-		imageItems.push_back( item );
-	}
-	else
-	{
-		delete image;
-	}
+	if( !tex )
+		return;
+	
+	ofxFlashLibraryItem* item;
+	item = new ofxFlashLibraryItem();
+	item->assetID		= assetID;
+	item->assetPath		= assetPath;
+	item->assetType		= OFX_FLASH_LIBRARY_TYPE_IMAGE;
+	item->imageAsset	= tex;
+	item->soundAsset	= NULL;
+	
+	items.push_back( item );
+	imageItems.push_back( item );
 }
 
-void ofxFlashLibrary :: addImage ( string assetID, ofBaseImage& image )
+void ofxFlashLibrary :: addImage ( string assetID, ofBaseDraws& image )
 {
 	ofxFlashLibraryItem* item;
 	item = new ofxFlashLibraryItem();
@@ -75,9 +88,10 @@ void ofxFlashLibrary :: addImage ( string assetID, ofBaseImage& image )
 
 void ofxFlashLibrary :: addVideo ( string assetID, string assetPath )
 {
-	ofVideoPlayer* video;
-	video = new ofVideoPlayer();
-	video->loadMovie( assetPath );
+	ofBaseDraws* video = loadImage( assetPath );
+	
+	if( !video )
+		return;
 	
 	ofxFlashLibraryItem* item;
 	item = new ofxFlashLibraryItem();
@@ -91,7 +105,7 @@ void ofxFlashLibrary :: addVideo ( string assetID, string assetPath )
 	videoItems.push_back( item );
 }
 
-void ofxFlashLibrary :: addVideo ( string assetID, ofBaseImage& video )
+void ofxFlashLibrary :: addVideo ( string assetID, ofBaseDraws& video )
 {
 	ofxFlashLibraryItem* item;
 	item = new ofxFlashLibraryItem();
@@ -174,7 +188,7 @@ ofSoundPlayer* ofxFlashLibrary :: getSoundByFileName ( string fileName )
 
 //==================================================
 
-ofBaseImage* ofxFlashLibrary :: getAsset ( string assetID )
+ofBaseDraws* ofxFlashLibrary :: getAsset ( string assetID )
 {
 	for( int i=0; i<items.size(); i++ )
 	{
@@ -189,7 +203,7 @@ ofBaseImage* ofxFlashLibrary :: getAsset ( string assetID )
 	return NULL;
 }
 
-ofBaseImage* ofxFlashLibrary :: getAssetByFileName ( string fileName )
+ofBaseDraws* ofxFlashLibrary :: getAssetByFileName ( string fileName )
 {
 	if( fileName == "" )
 		return NULL;
@@ -215,6 +229,8 @@ ofxFlashDisplayObject* ofxFlashLibrary :: addDisplayObject ( string libraryItemN
 	{
 		displayObjects.push_back( displayObject );
 	}
+	
+	return displayObject;
 }
 
 ofxFlashDisplayObject* ofxFlashLibrary :: getDisplayObject ( string libraryItemName )

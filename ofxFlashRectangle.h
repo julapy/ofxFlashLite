@@ -114,8 +114,6 @@ public:
 	
 	void expand_to_circle( float x, float y, float radius )
 	{
-		assert( radius >= 0 ); 
-		
 		if( is_null() )
 		{
 			_xMin = x - radius;

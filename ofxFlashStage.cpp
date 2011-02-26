@@ -32,24 +32,32 @@ ofxFlashStage :: ofxFlashStage ()
 	topMostHitDisplayObjectPrev	= NULL;
 	
 	bUsingListeners		= false;
+	bTouchMode			= false;
+	
 	bMouseDown			= false;
 	bMousePressed		= false;
 	bMouseReleased		= false;
+	bMouseChanged		= false;
+	mouseID				= 0;
 	
 	showRedrawRegions( false );
 	
+#ifdef OF_USING_POCO	
 	ofAddListener( ofEvents.mouseMoved,		this, &ofxFlashStage::mouseMoved	);		//-- add mouse event handlers.
 	ofAddListener( ofEvents.mouseDragged,	this, &ofxFlashStage::mouseDragged	);
 	ofAddListener( ofEvents.mousePressed,	this, &ofxFlashStage::mousePressed	);
 	ofAddListener( ofEvents.mouseReleased,	this, &ofxFlashStage::mouseReleased	);
+#endif
 }
 
 ofxFlashStage :: ~ofxFlashStage ()
 {
+#ifdef OF_USING_POCO	
 	ofRemoveListener( ofEvents.mouseMoved,		this, &ofxFlashStage::mouseMoved	);	//-- remove mouse event handlers.
 	ofRemoveListener( ofEvents.mouseDragged,	this, &ofxFlashStage::mouseDragged	);
 	ofRemoveListener( ofEvents.mousePressed,	this, &ofxFlashStage::mousePressed	);
 	ofRemoveListener( ofEvents.mouseReleased,	this, &ofxFlashStage::mouseReleased	);
+#endif
 }
 
 /////////////////////////////////////////////
@@ -63,8 +71,10 @@ void ofxFlashStage :: addListeners ()
 	
 	bUsingListeners = true;
 	
+#ifdef OF_USING_POCO	
 	ofAddListener( ofEvents.update,		this, &ofxFlashStage::update	);
 	ofAddListener( ofEvents.draw,		this, &ofxFlashStage::draw		);
+#endif
 }
 
 void ofxFlashStage :: removeListeners ()
@@ -74,8 +84,10 @@ void ofxFlashStage :: removeListeners ()
 	
 	bUsingListeners = false;
 	
+#ifdef OF_USING_POCO	
 	ofRemoveListener( ofEvents.update,	this, &ofxFlashStage::update	);
 	ofRemoveListener( ofEvents.draw,	this, &ofxFlashStage::draw		);
+#endif
 }
 
 /////////////////////////////////////////////
@@ -85,6 +97,11 @@ void ofxFlashStage :: removeListeners ()
 void ofxFlashStage :: showRedrawRegions ( bool value )
 {
 	bShowRedrawRegions = value;
+}
+
+void ofxFlashStage :: setTouchMode ( bool value )
+{
+	bTouchMode = value;
 }
 
 ofxFlashMovieClip* ofxFlashStage :: root ()
@@ -127,21 +144,28 @@ void ofxFlashStage :: update ()
 	
 	bMousePressed	= false;		// set back to false on every frame, so its only picked up once.
 	bMouseReleased	= false;		// set back to false on every frame, so its only picked up once.
+	bMouseChanged	= false;		// set back to false on every frame, so its only picked up once.
 }
 
 void ofxFlashStage :: draw ()
 {
+	ofEnableAlphaBlending();
+	
 	drawChildren( this, children );
 	
 	if( bShowRedrawRegions )
 	{
 		drawChildrenDebug( this, children );
 	}
+	
+	ofDisableAlphaBlending();
 }
 
 /////////////////////////////////////////////
 //	EVENT HANDLERS.
 /////////////////////////////////////////////
+
+#ifdef OF_USING_POCO
 
 void ofxFlashStage :: update ( ofEventArgs &e )
 {
@@ -152,6 +176,8 @@ void ofxFlashStage :: draw ( ofEventArgs &e )
 {
 	draw();
 }
+
+#endif
 
 /////////////////////////////////////////////
 //	UPDATE CHILDREN.
@@ -175,6 +201,8 @@ void ofxFlashStage :: updateChildrenOne ( ofxFlashDisplayObject* parent, vector<
 		worldMatrix = parent->concatenatedMatrix();
 		worldMatrix.concatenate( child->matrix() );
 		child->transform( worldMatrix );
+		
+		child->_compoundAlpha = parent->_compoundAlpha * child->_alpha;		// compound alpha adds up down the parent-child chain.
 		
 		child->updateOnFrame();
 		
@@ -207,12 +235,22 @@ void ofxFlashStage :: updateMouse ()
 	bool bHitDisplayObjectChanged = false;
 	bHitDisplayObjectChanged = ( topMostHitDisplayObject != topMostHitDisplayObjectPrev );
 	
-	if( !bHitDisplayObjectChanged && !bMousePressed && !bMouseReleased )	// update if either of these is true, otherwise return.
+	if( !bHitDisplayObjectChanged && !bMousePressed && !bMouseReleased && !bMouseChanged )	// update if either of these is true, otherwise return.
 	{
 		return;
 	}
 	
-//	cout << ofGetFrameNum() << endl;		// debug - check when this method gets to this point by spitting out the frame num.
+	if( false )	// debug
+	{
+		char frame[ 10 ];
+		sprintf( frame, "%05d", ofGetFrameNum() );
+		
+		cout << "" << endl;
+		cout << frame << " :: bHitDisplayObjectChanged = "	<< ( bHitDisplayObjectChanged ? "true" : "false" ) << endl;
+		cout << frame << " :: bMousePressed = "				<< ( bMousePressed ? "true" : "false" ) << endl;
+		cout << frame << " :: bMouseReleased = "			<< ( bMouseReleased ? "true" : "false" ) << endl;
+		cout << frame << " :: bMouseChanged = "				<< ( bMouseChanged ? "true" : "false" ) << endl;
+	}
 
 	//=========================================== CREATE CHILD / PARENT LINES.
 
@@ -237,7 +275,7 @@ void ofxFlashStage :: updateMouse ()
 					intObj = (ofxFlashInteractiveObject*)dispObj;
 					
 					lineTopDown.push_back( intObj );
-					lineBottomUp.insert ( lineBottomUp.begin(), intObj );
+					lineBottomUp.insert( lineBottomUp.begin(), intObj );
 				}
 				
 				dispObj	= dispObj->parent;
@@ -247,29 +285,54 @@ void ofxFlashStage :: updateMouse ()
 	
 	//=========================================== RESET PREVIOUS MOUSE STATES.
 	
-	if( topMostHitDisplayObjectPrev )		// clear mouse states from previous line of display objects.
+	if( topMostHitDisplayObjectPrev )		// if there is a previous line of display objects, clear mouse states.
 	{
 		for( int i=0; i<lineTopDownPrev.size(); i++ )			// go down through child / parent nesting until stage is reached.
 		{
 			intObj = lineTopDownPrev[ i ];
-
-			if( topMostHitDisplayObject )
-			{
-				intObj->mouseOverDirty = false;		// reset mouse over, dirty value used for further checks.
-				intObj->mouseDownDirty = false;		// reset mouse down, dirty value used for further checks.
-			}
-			else
-			{
-				intObj->mouseOver( false );			// reset mouse over.
-				intObj->mouseDown( false );			// reset mouse down.
-			}
+			intObj->mouseOverDirty = false;		// reset mouse over, dirty value used for further checks.
+			intObj->mouseDownDirty = false;		// reset mouse down, dirty value used for further checks.
 		}
 	}
 	
-	if( !topMostHitDisplayObject )		// check if anything is hit, return if not.
+	if( !topMostHitDisplayObject )				// nothing is hit. mouse must not be over any objects.
 	{
-		bMouseDown = false;				// if topMostHitDisplayObject is not found, mouse is not over anything and so mouse down is no longer valid.
-		return;							// no display object registered under mouse, nothing to update.
+		if( topMostHitDisplayObjectPrev )		// if there is a previous line of display objects, clear mouse states.
+		{
+			for( int i=0; i<lineTopDownPrev.size(); i++ )	// go down through child / parent nesting until stage is reached.
+			{
+				intObj = lineTopDownPrev[ i ];
+				intObj->mouseOver( false );		// reset mouse over.
+				intObj->mouseDown( false );		// reset mouse down.
+			}
+		}
+		
+		return;									// objects cleared, nothing more to do.
+	}
+	
+	if( bTouchMode && bMouseReleased )			// when in touch mode, object do not return to the over state.
+	{
+		if( topMostHitDisplayObject )			// if there is a current line of display objects, clear mouse states.
+		{
+			for( int i=0; i<lineTopDown.size(); i++ )	// go down through child / parent nesting until stage is reached.
+			{
+				intObj = lineTopDown[ i ];
+				intObj->mouseOver( false );		// reset mouse over.
+				intObj->mouseDown( false );		// reset mouse down.
+			}
+		}
+		
+		if( topMostHitDisplayObjectPrev )		// if there is a previous line of display objects, clear mouse states.
+		{
+			for( int i=0; i<lineTopDownPrev.size(); i++ )	// go down through child / parent nesting until stage is reached.
+			{
+				intObj = lineTopDownPrev[ i ];
+				intObj->mouseOver( false );		// reset mouse over.
+				intObj->mouseDown( false );		// reset mouse down.
+			}
+		}
+		
+		return;									// objects cleared, nothing more to do.
 	}
 	
 	//=========================================== CHECK MOUSE ENABLED FLAG - TOP DOWN.
@@ -319,27 +382,39 @@ void ofxFlashStage :: updateMouse ()
 	
 	//=========================================== CHECK MOUSE DOWN.
 	
-	if( bMouseDown )		// if any of the states change in the line while the mouse is down, turn mouse down off.
+	// this part checks if there have been any changes in the over / active states in any of the objects from current and previous frame.
+	// if so, the mouse or finger while being pressed down has moved and has gone outside a valid region.
+	// this means that mouse or touch is no longer down and bMouseDown is set to false.
+	// the only one exception is when bMousePressed is true as we know that the mouse or touch has been pressed on the current frame.
+	// and therefore guarantees that it is valid, until the next frame where we check if it has moved.
+	
+	if( !bMousePressed )		// mouse if pressed on current frame. no need to check if states are valid and as we know they are.
 	{
-		for( int i=0; i<lineTopDown.size(); i++ )		// go down through child / parent nesting until stage is reached.
+		if( bMouseDown )		// if any of the states change in the line while the mouse is down, turn mouse down off.
 		{
-			intObj = lineTopDown[ i ];
-			
-			if( intObj->mouseOver() != intObj->mouseOverDirty )		// check for a state change. if true, mouse is no longer down.
+			for( int i=0; i<lineTopDown.size(); i++ )		// go down through child / parent nesting until stage is reached.
 			{
-				bMouseDown = false;
-				break;
+				intObj = lineTopDown[ i ];
+				
+				if( intObj->mouseOver() != intObj->mouseOverDirty )		// check for a state change. if true, mouse is no longer down.
+				{
+					bMouseDown = false;
+					break;
+				}
 			}
 		}
 		
-		for( int i=0; i<lineTopDownPrev.size(); i++ )		// go down through child / parent nesting until stage is reached.
+		if( bMouseDown )		// if any of the states change in the line while the mouse is down, turn mouse down off.
 		{
-			intObj = lineTopDownPrev[ i ];
-			
-			if( intObj->mouseOver() != intObj->mouseOverDirty )		// check for a state change. if true, mouse is no longer down.
+			for( int i=0; i<lineTopDownPrev.size(); i++ )		// go down through child / parent nesting until stage is reached.
 			{
-				bMouseDown = false;
-				break;
+				intObj = lineTopDownPrev[ i ];
+				
+				if( intObj->mouseOver() != intObj->mouseOverDirty )		// check for a state change. if true, mouse is no longer down.
+				{
+					bMouseDown = false;
+					break;
+				}
 			}
 		}
 	}
@@ -494,26 +569,47 @@ bool ofxFlashStage :: isInteractiveObject ( ofxFlashDisplayObject* displayObject
 //	MOUSE CHANGE LISTENERS.
 /////////////////////////////////////////////
 
-void ofxFlashStage :: mouseMoved ( ofMouseEventArgs& e )
+void ofxFlashStage :: mouseMoved ( int x, int y, int id )
 {
-	_stageMouseX = e.x;
-	_stageMouseY = e.y;
+	if( mouseID != id )
+		return;
+	
+	_stageMouseX = x;
+	_stageMouseY = y;
 }
 
-void ofxFlashStage :: mouseDragged ( ofMouseEventArgs& e )
+void ofxFlashStage :: mouseDragged ( int x, int y, int id )
 {
-	_stageMouseX = e.x;
-	_stageMouseY = e.y;
+	if( mouseID != id )
+		return;
+	
+	_stageMouseX = x;
+	_stageMouseY = y;
 }
 
-void ofxFlashStage :: mousePressed ( ofMouseEventArgs& e )
+void ofxFlashStage :: mousePressed ( int x, int y, int id )
 {
+	_stageMouseX = x;
+	_stageMouseY = y;
+	
 	bMouseDown		= true;
-	bMousePressed	= true;
+	bMousePressed	= true;		// this gets reset on every update loop. flag that mouse state has changed.
+	
+	bMouseChanged	= ( mouseID != id );
+	if( bMouseChanged )
+	{
+		mouseID = id;
+	}
 }
 
-void ofxFlashStage :: mouseReleased ( ofMouseEventArgs& e )
+void ofxFlashStage :: mouseReleased ( int x, int y, int id )
 {
+	if( mouseID != id )
+		return;
+	
+	_stageMouseX = x;
+	_stageMouseY = y;
+	
 	bMouseDown		= false;
-	bMouseReleased	= true;
+	bMouseReleased	= true;		// this gets reset on every update loop. flag that mouse state has changed.
 }

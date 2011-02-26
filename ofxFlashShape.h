@@ -29,9 +29,12 @@ public:
 	virtual void draw	() {};
 	
 	void setFill			( bool value );
-	void setStroke			( bool value );
 	void setFillColor		( int value );
+	void setFillAlpha		( float value );
+	
+	void setStroke			( bool value );
 	void setStrokeColor		( int value );
+	void setStrokeAlpha		( int value );
 	void setStrokeWeight	( int value );
 	
 	void setRectangle		( float x, float y, float width, float height );
@@ -46,19 +49,38 @@ protected:
 private:
 	
 	int				shapeType;
+	
 	float			shape_x;
 	float			shape_y;
 	float			shape_width;
 	float			shape_height;
-	vector<ofPoint>	shapePoints;
+	
 	bool			bShapeFill;
-	bool			bShapeStroke;
 	int				shapeFillColor;
+	float			shapeFillAlpha;
+	int				shapeFillColorR;
+	int				shapeFillColorG;
+	int				shapeFillColorB;
+	int				shapeFillColorA;
+	
+	bool			bShapeStroke;
 	int				shapeStrokeColor;
+	float			shapeStrokeAlpha;
+	int				shapeStrokeColorR;
+	int				shapeStrokeColorG;
+	int				shapeStrokeColorB;
+	int				shapeStrokeColorA;
 	int				shapeStrokeWeight;
 	
-	void drawRectangle	();
-	void drawOval		();
-	void drawCustom		();
+	vector<ofPoint>	shapePoints;
 	
+	void drawRectangle			();
+	void drawRectangleFill		();
+	void drawRectangleStroke	();
+	
+	void drawOval		();
+	void drawOvalFill	();
+	void drawOvalStroke	();
+	
+	void drawCustom		();
 };

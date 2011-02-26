@@ -16,12 +16,12 @@ class ofxFlashBitmap : public ofxFlashDisplayObject
 	
 public:
 	
-	 ofxFlashBitmap( ofImage* image );
+	 ofxFlashBitmap( ofBaseDraws* image );
 	~ofxFlashBitmap();
 	
 	//-------------------------------------------
 	
-	ofImage*	bitmapImage;
+	ofBaseDraws*	bitmapImage;
 	
 	//-------------------------------------------
 	
