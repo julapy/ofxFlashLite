@@ -55,7 +55,7 @@ void ofxFlashDisplayObjectContainer :: tabChildren ( bool value )
 
 const int& ofxFlashDisplayObjectContainer :: numChildren ()
 {
-	return _numChildren;
+	return children.size();
 }
 
 ///////////////////////////////////////////////
@@ -64,7 +64,7 @@ const int& ofxFlashDisplayObjectContainer :: numChildren ()
 
 ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: addChild ( ofxFlashDisplayObject* child )
 {
-	children.push_back( child );
+    children.insert( children.begin(), child );
 	child->stage	= this->stage;
 	child->parent	= this;
 	child->level( this->level() + 1 );
