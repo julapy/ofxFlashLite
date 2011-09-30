@@ -13,9 +13,9 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxMatrix4x4.h"
+#include "ofMatrix4x4.h"
 
-class ofxFlashMatrix : public ofxMatrix4x4
+class ofxFlashMatrix : public ofMatrix4x4
 {
 
 public:
@@ -64,7 +64,7 @@ public:
 	
 	void set ( float a, float b, float c, float d, float tx, float ty )
 	{
-		ofxMatrix4x4 :: set
+		ofMatrix4x4 :: set
 		(
 			a,  b,  0,  0,
 			c,  d,  0,  0,
