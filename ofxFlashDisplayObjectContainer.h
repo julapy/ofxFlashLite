@@ -25,7 +25,7 @@ public:
 	const bool&			tabChildren ();
 	void				tabChildren ( bool value );
 	
-	const int&			numChildren ();
+	int                 numChildren ();
 	
 	vector<ofxFlashDisplayObject*>	children;
 	

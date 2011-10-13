@@ -53,7 +53,7 @@ void ofxFlashDisplayObjectContainer :: tabChildren ( bool value )
 
 //============================================================= NUMBER OF CHILDREN.
 
-const int& ofxFlashDisplayObjectContainer :: numChildren ()
+int ofxFlashDisplayObjectContainer :: numChildren ()
 {
 	return children.size();
 }
