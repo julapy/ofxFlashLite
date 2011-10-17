@@ -563,12 +563,9 @@ void ofxFlashXFLBuilder :: pushTagAt( int i )
 
 string ofxFlashXFLBuilder :: cleanHexString ( string value )
 {
-	vector<string> split;
-	split = ofSplitString( value, "#" );
-	
-	string clean = "0x";
-	clean += split[ 0 ];
-	
+    string clean = "0x";
+    clean += value.substr( 1, value.length() - 1 );
+    
 	return clean;
 }
 
