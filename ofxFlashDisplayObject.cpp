@@ -159,6 +159,7 @@ const float& ofxFlashDisplayObject :: width ()
 void ofxFlashDisplayObject :: width ( float value )
 {
 	_width = value;
+    _rect.expand_to( _rect.get_x_min() + _width, 0 );
 }
 
 //============================================================= HEIGHT.
@@ -188,6 +189,7 @@ const float& ofxFlashDisplayObject :: height ()
 void ofxFlashDisplayObject :: height ( float value )
 {
 	_height = value;
+    _rect.expand_to( 0, _rect.get_y_min() + _height );
 }
 
 //============================================================= X.
