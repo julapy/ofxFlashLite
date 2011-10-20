@@ -217,8 +217,8 @@ void ofxFlashXFLBuilder :: buildElements ()
 		else if( elementTag == "DOMBitmapInstance" )
 		{
 			DOMBitmapInstance dom;
-			dom.libraryItemName	= *new string( child->Attribute( "libraryItemName" ) );
-			dom.name			= *new string( child->Attribute( "name" ) );
+			dom.libraryItemName = child->Attribute( "libraryItemName" );
+			dom.name            = child->Attribute( "name" );
 			dom.referenceID		= "";
 			domBitmapInstance	= dom;
 			
@@ -231,10 +231,10 @@ void ofxFlashXFLBuilder :: buildElements ()
 		else if( elementTag == "DOMSymbolInstance" )
 		{
 			DOMSymbolInstance dom;
-			dom.libraryItemName	= *new string( child->Attribute( "libraryItemName" ) );
-			dom.name			= *new string( child->Attribute( "name" ) );
+			dom.libraryItemName	= child->Attribute( "libraryItemName" );
+			dom.name			= child->Attribute( "name" );
 			dom.centerPoint3DX	= 0.0;
-			dom.centerPoint3DY	= 0.0;
+			dom.centerPoint3DY	= 0.0; 
 			domSymbolInstance	= dom;
 			
 			pushTagAt( i );
