@@ -64,7 +64,7 @@ int ofxFlashDisplayObjectContainer :: numChildren ()
 
 ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: addChild ( ofxFlashDisplayObject* child )
 {
-    children.insert( children.begin(), child );
+    children.push_back( child );
 	child->stage	= this->stage;
 	child->parent	= this;
 	child->level( this->level() + 1 );
