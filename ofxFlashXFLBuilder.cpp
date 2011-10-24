@@ -444,14 +444,18 @@ void ofxFlashXFLBuilder :: buildOvalShape ()
 
 void ofxFlashXFLBuilder :: addDisplayObjectToFrames ( ofxFlashDisplayObject* displayObject )
 {
+    ofxFlashMovieClip* containerMc;
+    containerMc = (ofxFlashMovieClip*)container;
+    
 	int i = domFrame.index;
 	int t = domFrame.index + domFrame.duration;
 	for( i; i<t; i++ )
 	{
-		ofxFlashMovieClip* containerMc;
-		containerMc = (ofxFlashMovieClip*)container;
-		containerMc->addChildToFrame( displayObject, i + 1 );
+        containerMc->gotoAndStop( i + 1 );
+		containerMc->addChild( displayObject );
 	}
+    
+    containerMc->gotoAndPlay( 1 );
 }
 
 void ofxFlashXFLBuilder :: setupMatrixForDisplayObject ( ofxFlashDisplayObject* displayObject )
