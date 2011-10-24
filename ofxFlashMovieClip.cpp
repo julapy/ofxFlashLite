@@ -26,7 +26,7 @@ ofxFlashMovieClip :: ~ofxFlashMovieClip()
 }
 
 ///////////////////////////////////////////////
-//	SETUP.
+//	SETUP - INTERNAL.
 ///////////////////////////////////////////////
 
 void ofxFlashMovieClip :: setTotalFrames ( int total )
@@ -60,22 +60,6 @@ void ofxFlashMovieClip :: setTotalFrames ( int total )
 	this->frame	= frames[ frameIndex ];
 }
 
-ofxFlashDisplayObject* ofxFlashMovieClip :: addChildToFrame( ofxFlashDisplayObject* child, int frameNum )
-{
-	int index = ofClamp( frameNum - 1, 0, totalFrames() - 1 );
-	
-	ofxFlashDisplayObjectContainer* frameContainer;
-	frameContainer = frames[ index ];
-	frameContainer->addChild( child );
-	
-	if( index == frameIndex )		// add to current frame if frameIndex matches.
-	{
-		addChild( child );
-	}
-	
-	return child;
-}
-
 ///////////////////////////////////////////////
 //	INTERNAL.
 ///////////////////////////////////////////////
@@ -100,7 +84,7 @@ void ofxFlashMovieClip :: addFrameChildren ()
 {
 	for( int i=0; i<frame->children.size(); i++ )
 	{
-		addChild( frame->children[ i ] );
+		ofxFlashDisplayObjectContainer :: addChild( frame->children[ i ] );
 	}
 }
 
@@ -108,7 +92,7 @@ void ofxFlashMovieClip :: removeFrameChildren ()
 {
 	for( int i=0; i<frame->children.size(); i++ )
 	{
-		removeChild( frame->children[ i ] );
+		ofxFlashDisplayObjectContainer :: removeChild( frame->children[ i ] );
 	}
 }
 
