@@ -90,10 +90,7 @@ void ofxFlashMovieClip :: addFrameChildren ()
 
 void ofxFlashMovieClip :: removeFrameChildren ()
 {
-	for( int i=0; i<frame->children.size(); i++ )
-	{
-		ofxFlashDisplayObjectContainer :: removeChild( frame->children[ i ] );
-	}
+	ofxFlashDisplayObjectContainer :: removeAllChildren();
 }
 
 ///////////////////////////////////////////////
