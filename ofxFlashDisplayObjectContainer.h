@@ -38,6 +38,7 @@ public:
 	virtual vector<ofxFlashDisplayObject*>	getObjectsUnderPoint	( ofPoint point );
 	virtual ofxFlashDisplayObject*			removeChild				( ofxFlashDisplayObject* child );
 	virtual ofxFlashDisplayObject*			removeChildAt			( int index );
+    virtual void                            removeAllChildren       ();
 	virtual void							setChildIndex			( ofxFlashDisplayObject* child, int index );
 	virtual void							swapChildren			( ofxFlashDisplayObject* child1, ofxFlashDisplayObject* child2 );
 	virtual void							swapChildrenAt			( int index1, int index2 );

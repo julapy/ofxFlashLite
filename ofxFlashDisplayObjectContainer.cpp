@@ -168,6 +168,27 @@ ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: removeChildAt ( int ind
 	return child;
 }
 
+void ofxFlashDisplayObjectContainer :: removeAllChildren ()
+{
+    int i = 0;
+    int t = children.size();
+    
+    ofxFlashDisplayObject* child;
+    
+    for( i; i<t; i++ )
+    {
+        child           = children[ i ];
+        child->stage	= NULL;
+        child->parent	= NULL;
+        child->level( -1 );
+        
+        children.erase( children.begin() + i );
+        
+        --i;
+        --t;
+    }
+}
+
 void ofxFlashDisplayObjectContainer :: setChildIndex ( ofxFlashDisplayObject* child, int index )
 {
 	if( index < 0 || index > children.size() - 1 )
