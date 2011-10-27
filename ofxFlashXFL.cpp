@@ -113,7 +113,7 @@ void ofxFlashXFL :: loadAssets ()
 	{
 		const DOMBitmapItem& item = domBitmapItems[ i ];
 		int mediaType	= determineMediaType( item.sourceExternalFilepath );
-		string path		= xflFolder + item.sourceExternalFilepath;
+		string path		= xflFolder + "LIBRARY/" + item.href;
 		
         bool success = false;
 		
