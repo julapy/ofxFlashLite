@@ -11,8 +11,10 @@
 
 ofxFlashXFLBuilder :: ofxFlashXFLBuilder()
 {
+    bVerbose    = false;
+
+    xflRoot     = "";
 	xflFile		= "";
-	xflFolder	= "";
 	container	= NULL;
 	domType		= DOM_DOCUMENT_TYPE;
 	totalFrames	= 1;
@@ -27,20 +29,25 @@ ofxFlashXFLBuilder :: ~ofxFlashXFLBuilder()
 //	BUILD.
 ///////////////////////////////////////////
 
-void ofxFlashXFLBuilder :: build ( const string& file, ofxFlashDisplayObjectContainer* container )
+void ofxFlashXFLBuilder :: build ( const string& root, const string& file, ofxFlashDisplayObjectContainer* container )
 {
-	vector<string> xflFileSplit;
-	xflFile			= file;
-	xflFileSplit	= ofSplitString( xflFile, "/" );
-	xflFolder		= "";
-	for( int i=0; i<xflFileSplit.size()-1; i++ )	// drop the file
-	{
-		xflFolder += xflFileSplit[ i ] + "/";
-	}
-	
+    xflRoot = root;
+	xflFile	= file;
+    string xflFilePath = xflRoot + xflFile;
+    
 	this->container = container;
 	
-	if( loadFile( xflFile ) )
+    bool success = loadFile( xflFilePath );
+    
+    if( bVerbose )
+    {
+        if( success )
+            cout << "[ ofxFlashXFLBuilder :: build ] - loading movieclip xml - SUCCESS :: " << xflFilePath << endl;
+        else
+            cout << "[ ofxFlashXFLBuilder :: build ] - loading movieclip xml - FAILED  :: " << xflFilePath << endl;
+    }
+    
+	if( success )
 	{
 		TiXmlElement* child = ( storedHandle.FirstChild() ).ToElement();
 		domType = child->Value();
@@ -310,9 +317,12 @@ void ofxFlashXFLBuilder :: buildBitmap ()
 
 void ofxFlashXFLBuilder :: buildMovieClip ()
 {
-	string libraryItemPath;
-	libraryItemPath = xflFolder;
-	libraryItemPath += ( domType == DOM_DOCUMENT_TYPE ) ? "LIBRARY/" : "";
+    bool bAddLibraryToPath = false;
+    bAddLibraryToPath = bAddLibraryToPath || domType == DOM_DOCUMENT_TYPE;
+    bAddLibraryToPath = bAddLibraryToPath || domType == DOM_SYMBOL_ITEM_TYPE;
+    
+	string libraryItemPath = "";
+	libraryItemPath += bAddLibraryToPath ? "LIBRARY/" : "";
 	libraryItemPath += domSymbolInstance.libraryItemName;
 	libraryItemPath += ".xml";
 
@@ -328,7 +338,8 @@ void ofxFlashXFLBuilder :: buildMovieClip ()
 	
 	ofxFlashXFLBuilder* builder;
 	builder = new ofxFlashXFLBuilder();
-	builder->build( libraryItemPath, mc );
+    builder->setVerbose( bVerbose );
+	builder->build( xflRoot, libraryItemPath, mc );
 	
 	delete builder;
 	builder = NULL;
