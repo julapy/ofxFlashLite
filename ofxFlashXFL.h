@@ -44,6 +44,9 @@ public:
 	string			xflFile;
 	string			xflFolder;
 	bool			bLoaded;
+    bool            bVerbose;
+    
+    void setVerbose         ( bool value ) { bVerbose = value; }
 	
 	bool loadFile			( const string& xflFile );
 	void loadAssets			();

@@ -11,7 +11,8 @@
 
 ofxFlashXFL :: ofxFlashXFL()
 {
-	bLoaded = false;
+	bLoaded     = false;
+    bVerbose    = false;
 }
 
 ofxFlashXFL :: ~ofxFlashXFL()
@@ -46,13 +47,19 @@ bool ofxFlashXFL :: loadFile ( const string& file )
 	string xflPath;
 	xflPath = xflFolder + xflFile;
 	
-	cout << "Loading, " << xflPath << endl;
+    if( bVerbose )
+    {
+        cout << "Loading, " << xflPath << endl;
+    }
 	
 	bLoaded = xml.loadFile( xflPath );
 	
 	if( !bLoaded )
 	{
-		cout << "DOMDocument.xml did not load." << endl;
+        if( bVerbose )
+        {
+            cout << "DOMDocument.xml did not load." << endl;
+        }
 		
 		return bLoaded;
 	}
@@ -112,20 +119,32 @@ void ofxFlashXFL :: loadAssets ()
 		int mediaType	= determineMediaType( item.sourceExternalFilepath );
 		string path		= xflFolder + item.sourceExternalFilepath;
 		
-		cout << "loading asset :: " << path << endl;
+        bool success = false;
 		
 		if( mediaType == OFX_FLASH_LIBRARY_TYPE_IMAGE )
 		{
-			library->addImage( item.name, path );
+			success = library->addImage( item.name, path );
 		}
 		else if( mediaType == OFX_FLASH_LIBRARY_TYPE_VIDEO )
 		{
-			library->addVideo( item.name, path );
+			success = library->addVideo( item.name, path );
 		}
 		else if( mediaType == OFX_FLASH_LIBRARY_TYPE_SOUND )
 		{
-			library->addSound( item.name, path );
+			success = library->addSound( item.name, path );
 		}
+        
+        if( bVerbose )
+        {
+            if( success )
+            {
+                cout << "asset loaded :: " << path << endl;
+            }
+            else
+            {
+                cout << "asset failed :: " << path << endl;
+            }
+        }
 	}
 }
 
