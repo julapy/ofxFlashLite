@@ -47,22 +47,18 @@ bool ofxFlashXFL :: loadFile ( const string& file )
 	string xflPath;
 	xflPath = xflFolder + xflFile;
 	
+	bLoaded = xml.loadFile( xflPath );
+
     if( bVerbose )
     {
-        cout << "Loading, " << xflPath << endl;
+        if( bLoaded )
+            cout << "[ ofxFlashXFL :: loadFile ] - loading XFL - SUCCESS :: " << xflPath << endl;
+        else
+            cout << "[ ofxFlashXFL :: loadFile ] - loading XFL - FAILED  :: " << xflPath << endl;
     }
-	
-	bLoaded = xml.loadFile( xflPath );
-	
+    
 	if( !bLoaded )
-	{
-        if( bVerbose )
-        {
-            cout << "DOMDocument.xml did not load." << endl;
-        }
-		
 		return bLoaded;
-	}
 	
 	loadXFLMedia();
 	loadAssets();
@@ -138,11 +134,11 @@ void ofxFlashXFL :: loadAssets ()
         {
             if( success )
             {
-                cout << "asset loaded :: " << path << endl;
+                cout << "[ ofxFlashXFL :: loadAssets ] - loading asset - SUCCESS :: " << path << endl;
             }
             else
             {
-                cout << "asset failed :: " << path << endl;
+                cout << "[ ofxFlashXFL :: loadAssets ] - loading asset - FAILED  :: " << path << endl;
             }
         }
 	}
@@ -167,7 +163,8 @@ void ofxFlashXFL :: build ()
 	
 	ofxFlashXFLBuilder* builder;
 	builder = new ofxFlashXFLBuilder();
-	builder->build( xflFolder + xflFile, stage->root() );
+    builder->setVerbose( bVerbose );
+	builder->build( xflFolder, xflFile, stage->root() );
 	
 	stage->update();
 }
