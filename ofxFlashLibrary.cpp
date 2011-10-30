@@ -237,6 +237,34 @@ ofBaseDraws* ofxFlashLibrary :: getAssetByFileName ( string fileName )
 	return NULL;
 }
 
+//================================================== SYMBOLS.
+
+void ofxFlashLibrary :: addSymbol ( ofxFlashLibrarySymbol *symbol )
+{
+    symbols.push_back( symbol );
+}
+
+ofxFlashMovieClip* ofxFlashLibrary :: createMovieClipWithLinkageClassName ( string linkageClassName, ofxFlashMovieClip *container )
+{
+    if( container == NULL )
+        container = new ofxFlashMovieClip();
+    
+    for( int i=0; i<symbols.size(); i++ )
+    {
+        if( symbols[ i ]->linkageClassName == linkageClassName )
+        {
+            ofxFlashXFLBuilder *builder;
+            builder = new ofxFlashXFLBuilder();
+            builder->build( symbols[ i ]->xflRoot, "LIBRARY/" + symbols[ i ]->href, container );
+            delete builder;
+            
+            break;
+        }
+    }
+    
+    return container;
+}
+
 //================================================== DISPLAY OBJECTS.
 
 ofxFlashDisplayObject* ofxFlashLibrary :: addDisplayObject ( string libraryItemName, ofxFlashDisplayObject* displayObject )

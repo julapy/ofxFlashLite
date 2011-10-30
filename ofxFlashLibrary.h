@@ -13,6 +13,8 @@
 #include "ofxFlashLibraryLoader.h"
 #include "ofxFlashLibraryLoaderIOS.h"
 #include "ofxFlashDisplayObject.h"
+#include "ofxFlashMovieClip.h"
+#include "ofxFlashXFLBuilder.h"
 
 #define OFX_FLASH_LIBRARY_TYPE_IMAGE	0
 #define OFX_FLASH_LIBRARY_TYPE_VIDEO	1
@@ -36,6 +38,20 @@ public:
 };
 
 ////////////////////////////////////////////////////////
+//	OFX_FLASH_LIBRARY_SYMBOL
+////////////////////////////////////////////////////////
+
+class ofxFlashLibrarySymbol
+{
+public:
+    string  href;               // property from DOMDocument.xml, symbols tag.
+    bool    loadImmediate;      // property from DOMDocument.xml, symbols tag.
+
+    string  xflRoot;            // added property for loading movieclip.
+    string  linkageClassName;   // added property for loading movieclip.
+};
+
+////////////////////////////////////////////////////////
 //	OFX_FLASH_LIBRARY
 ////////////////////////////////////////////////////////
 
@@ -54,6 +70,7 @@ private:
 	vector<ofxFlashLibraryItem*> videoItems;
 	vector<ofxFlashLibraryItem*> soundItems;
 	vector<ofxFlashDisplayObject*> displayObjects;
+    vector<ofxFlashLibrarySymbol*> symbols;
 	
 public:
 	
@@ -82,6 +99,9 @@ public:
 	ofSoundPlayer* getSoundByFileName	( string fileName );
 	ofBaseDraws* getAsset				( string assetID );
 	ofBaseDraws* getAssetByFileName		( string fileName );
+    
+    void addSymbol ( ofxFlashLibrarySymbol *symbol );
+    ofxFlashMovieClip* createMovieClipWithLinkageClassName ( string linkageClassName, ofxFlashMovieClip *container = NULL );
 	
 	ofxFlashDisplayObject*	addDisplayObject	( string libraryItemName, ofxFlashDisplayObject* displayObject );
 	ofxFlashDisplayObject*	getDisplayObject	( string libraryItemName );
