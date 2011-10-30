@@ -21,14 +21,6 @@ ofxFlashXFL :: ~ofxFlashXFL()
 }
 
 ///////////////////////////////////////////
-//	
-///////////////////////////////////////////
-
-
-vector<DOMBitmapItem>	domBitmapItems;
-
-
-///////////////////////////////////////////
 //	LOAD XFL.
 ///////////////////////////////////////////
 
@@ -37,15 +29,13 @@ bool ofxFlashXFL :: loadFile ( const string& file )
 	vector<string> xflFileSplit;
 	xflFileSplit	= ofSplitString( file, "/" );
 	
-	xflFile			= xflFileSplit[ xflFileSplit.size() - 1 ];
-	xflFolder		= "";
+	xflFile	= xflFileSplit[ xflFileSplit.size() - 1 ];
+	xflRoot = "";
 	for( int i=0; i<xflFileSplit.size()-1; i++ )	// drop the file
-	{
-		xflFolder += xflFileSplit[ i ] + "/";
-	}
+		xflRoot += xflFileSplit[ i ] + "/";
 	
 	string xflPath;
-	xflPath = xflFolder + xflFile;
+	xflPath = xflRoot + xflFile;
 	
 	bLoaded = xml.loadFile( xflPath );
 
@@ -59,17 +49,20 @@ bool ofxFlashXFL :: loadFile ( const string& file )
     
 	if( !bLoaded )
 		return bLoaded;
-	
-	loadXFLMedia();
-	loadAssets();
+    
+    xml.pushTag( "DOMDocument", 0 );
+    {
+        loadXFLMedia();
+        loadXFLSymbols();
+        loadAssets();
+    }
+    xml.popTag();
 	
 	return bLoaded;
 }
 
 void ofxFlashXFL :: loadXFLMedia ()
 {
-	xml.pushTag( "DOMDocument", 0 );
-	
 	if( !xml.tagExists( "media", 0 ) )
 		return;
 	
@@ -100,6 +93,40 @@ void ofxFlashXFL :: loadXFLMedia ()
 	xml.popTag();
 }
 
+void ofxFlashXFL :: loadXFLSymbols ()
+{
+	if( !xml.tagExists( "symbols", 0 ) )
+		return;
+    
+    ofxFlashLibrary* library;
+    library = ofxFlashLibrary :: getInstance();
+	
+	xml.pushTag( "symbols", 0 );
+	
+	int numOfTags;
+	numOfTags = xml.getNumTags( "Include" );
+	
+	for( int i=0; i<numOfTags; i++ )
+	{
+        ofxFlashLibrarySymbol *symbol;
+        symbol = new ofxFlashLibrarySymbol();
+		symbol->href            = xml.getAttribute( "Include", "href", "", i );
+        symbol->loadImmediate   = xml.getAttribute( "Include", "loadImmediate",	"true", i ) == "true" ? true : false;
+        symbol->xflRoot         = xflRoot;
+        
+        if( symbol->loadImmediate )
+        {
+            ofxXmlSettings xml;
+            xml.loadFile( xflRoot + "LIBRARY/" + symbol->href );
+            symbol->linkageClassName = xml.getAttribute( "DOMSymbolItem", "linkageClassName", "" );
+        }
+        
+        library->addSymbol( symbol );
+    }
+    
+    xml.popTag();
+}
+
 ///////////////////////////////////////////
 //	LOAD ASSETS.
 ///////////////////////////////////////////
@@ -113,7 +140,7 @@ void ofxFlashXFL :: loadAssets ()
 	{
 		const DOMBitmapItem& item = domBitmapItems[ i ];
 		int mediaType	= determineMediaType( item.sourceExternalFilepath );
-		string path		= xflFolder + "LIBRARY/" + item.href;
+		string path		= xflRoot + "LIBRARY/" + item.href;
 		
         bool success = false;
 		
@@ -164,7 +191,7 @@ void ofxFlashXFL :: build ()
 	ofxFlashXFLBuilder* builder;
 	builder = new ofxFlashXFLBuilder();
     builder->setVerbose( bVerbose );
-	builder->build( xflFolder, xflFile, stage->root() );
+	builder->build( xflRoot, xflFile, stage->root() );
 	
 	stage->update();
 }
