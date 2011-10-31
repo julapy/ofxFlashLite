@@ -64,6 +64,9 @@ int ofxFlashDisplayObjectContainer :: numChildren ()
 
 ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: addChild ( ofxFlashDisplayObject* child )
 {
+    if( child->parent )     // child is already added to another parent.
+        ( (ofxFlashDisplayObjectContainer*)( child->parent ) )->removeChild( child );   // remove it from parent.
+    
     children.push_back( child );
 	child->stage	= this->stage;
 	child->parent	= this;
@@ -74,6 +77,9 @@ ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: addChildAt ( ofxFlashDi
 {
 	if( index < 0 || index > children.size() - 1 )
 		return NULL;
+    
+    if( child->parent )     // child is already added to another parent.
+        ( (ofxFlashDisplayObjectContainer*)( child->parent ) )->removeChild( child );   // remove it from parent.
 	
 	children.insert( children.begin() + index, child );
 	child->stage	= this->stage;
