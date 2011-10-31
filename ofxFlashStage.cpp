@@ -20,6 +20,8 @@ ofxFlashStage* ofxFlashStage :: _instance = NULL;
 ofxFlashStage :: ofxFlashStage ()
 {
 	typeID = OFX_FLASH_STAGE_TYPE;
+    
+    this->stage = this;     // this is the stage.
 	
 	_root = new ofxFlashMovieClip();
 	_root->name( "root1" );
