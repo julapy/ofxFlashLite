@@ -128,7 +128,7 @@ public:
 
 	ofxFlashDisplayObject*	mask;			// DisplayObject in AS3.
 	ofxFlashDisplayObject*	parent;			// DisplayObjectContainer in AS3.
-	ofxFlashStage*			stage;			// Stage in AS3.
+	ofxFlashDisplayObject*	stage;			// Stage in AS3.
 	
 	//=============================================================
 	
