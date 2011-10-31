@@ -84,7 +84,19 @@ void ofxFlashMovieClip :: addFrameChildren ()
 {
 	for( int i=0; i<frame->children.size(); i++ )
 	{
-		ofxFlashDisplayObjectContainer :: addChild( frame->children[ i ] );
+        ofxFlashDisplayObject *child;
+        child = frame->children[ i ];
+        
+        // the child must be added manually, instead of using the addChild() method.
+        // doing it this way ensures the child is not removed from the frames.
+        // a movieclip can technically be added to only one parent, 
+        // and as soon it is added to another it is removed from the previous parent.
+        // with movieclip frames this is an exception and therefore movieclips have to be added like the below.
+
+        children.push_back( child );
+        child->stage	= this->stage;
+        child->parent	= this;
+        child->level( this->level() + 1 );
 	}
 }
 
