@@ -26,7 +26,7 @@ ofxFlashBitmap :: ofxFlashBitmap ( ofBaseDraws* image )
 
 ofxFlashBitmap :: ~ofxFlashBitmap ()
 {
-	//
+	bitmapImage = NULL;     // don't delete bitmapImage as its managed by ofxFlashLibrary.
 }
 
 ///////////////////////////////////////////////
