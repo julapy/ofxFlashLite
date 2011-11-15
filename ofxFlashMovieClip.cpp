@@ -22,7 +22,13 @@ ofxFlashMovieClip :: ofxFlashMovieClip( )
 
 ofxFlashMovieClip :: ~ofxFlashMovieClip()
 {
-	//
+	removeFrameChildren();
+    
+    for( int i=0; i<frames.size(); i++ )
+        delete frames[ i ];
+    
+    frames.clear();
+    frame = NULL;
 }
 
 ///////////////////////////////////////////////
