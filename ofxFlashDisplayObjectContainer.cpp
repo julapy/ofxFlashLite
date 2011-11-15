@@ -9,6 +9,11 @@
 
 #include "ofxFlashDisplayObjectContainer.h"
 
+#include "ofxFlashBitmap.h"
+#include "ofxFlashShape.h"
+#include "ofxFlashSprite.h"
+#include "ofxFlashMovieClip.h"
+
 ofxFlashDisplayObjectContainer :: ofxFlashDisplayObjectContainer()
 {
 	typeID				= OFX_FLASH_TYPE_DISPLAY_OBJECT_CONTAINER;
@@ -20,7 +25,38 @@ ofxFlashDisplayObjectContainer :: ofxFlashDisplayObjectContainer()
 
 ofxFlashDisplayObjectContainer :: ~ofxFlashDisplayObjectContainer()
 {
-    //
+    for( int i=0; i<children.size(); i++ )
+    {
+        ofxFlashDisplayObject *child;
+        child = children[ i ];
+        
+        if( child->typeID == OFX_FLASH_TYPE_DISPLAY_OBJECT )
+        {
+            delete child;
+        }
+        else if( child->typeID == OFX_FLASH_TYPE_SHAPE )
+        {
+            delete (ofxFlashShape*)child;
+        }
+        else if( child->typeID == OFX_FLASH_TYPE_BITMAP )
+        {
+            delete (ofxFlashBitmap*)child;
+        }
+        else if( child->typeID == OFX_FLASH_TYPE_SPRITE )
+        {
+            delete (ofxFlashSprite*)child;
+        }
+        else if( child->typeID == OFX_FLASH_TYPE_MOVIECLIP )
+        {
+            delete (ofxFlashMovieClip*)child;
+        }
+        else
+        {
+            assert( false );    // child of unknown type. something wrong here.
+        }
+    }
+    
+    children.clear();
 }
 
 ///////////////////////////////////////////////
