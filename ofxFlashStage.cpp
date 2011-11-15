@@ -19,7 +19,7 @@ ofxFlashStage* ofxFlashStage :: _instance = NULL;
 
 ofxFlashStage :: ofxFlashStage ()
 {
-	typeID = OFX_FLASH_STAGE_TYPE;
+	typeID = OFX_FLASH_TYPE_STAGE;
     
     this->stage = this;     // this is the stage.
 	
@@ -549,9 +549,9 @@ bool ofxFlashStage :: canHaveChildren ( ofxFlashDisplayObject* displayObject )
 {
 	bool bCanHaveChildren;
 	bCanHaveChildren = false;
-	bCanHaveChildren = bCanHaveChildren || ( displayObject->typeID == OFX_FLASH_DISPLAY_OBJECT_CONTAINER_TYPE );
-	bCanHaveChildren = bCanHaveChildren || ( displayObject->typeID == OFX_FLASH_SPRITE_TYPE );
-	bCanHaveChildren = bCanHaveChildren || ( displayObject->typeID == OFX_FLASH_MOVIE_CLIP_TYPE );
+	bCanHaveChildren = bCanHaveChildren || ( displayObject->typeID == OFX_FLASH_TYPE_DISPLAY_OBJECT_CONTAINER );
+	bCanHaveChildren = bCanHaveChildren || ( displayObject->typeID == OFX_FLASH_TYPE_SPRITE );
+	bCanHaveChildren = bCanHaveChildren || ( displayObject->typeID == OFX_FLASH_TYPE_MOVIECLIP );
 
 	return bCanHaveChildren;
 }
@@ -560,9 +560,9 @@ bool ofxFlashStage :: isInteractiveObject ( ofxFlashDisplayObject* displayObject
 {
 	bool bIsInteractiveObject;
 	bIsInteractiveObject = false;
-	bIsInteractiveObject = bIsInteractiveObject || ( displayObject->typeID == OFX_FLASH_DISPLAY_OBJECT_CONTAINER_TYPE );	// not sure this one needs to be here.
-	bIsInteractiveObject = bIsInteractiveObject || ( displayObject->typeID == OFX_FLASH_SPRITE_TYPE );
-	bIsInteractiveObject = bIsInteractiveObject || ( displayObject->typeID == OFX_FLASH_MOVIE_CLIP_TYPE );
+	bIsInteractiveObject = bIsInteractiveObject || ( displayObject->typeID == OFX_FLASH_TYPE_DISPLAY_OBJECT_CONTAINER );	// not sure this one needs to be here.
+	bIsInteractiveObject = bIsInteractiveObject || ( displayObject->typeID == OFX_FLASH_TYPE_SPRITE );
+	bIsInteractiveObject = bIsInteractiveObject || ( displayObject->typeID == OFX_FLASH_TYPE_MOVIECLIP );
 
 	return bIsInteractiveObject;
 }

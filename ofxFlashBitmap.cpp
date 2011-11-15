@@ -21,7 +21,7 @@ ofxFlashBitmap :: ofxFlashBitmap ( ofBaseDraws* image )
 		_rect.set_to_rect( 0, 0, w, h );
 	}
 	
-	typeID = OFX_FLASH_BITMAP_TYPE;
+	typeID = OFX_FLASH_TYPE_BITMAP;
 }
 
 ofxFlashBitmap :: ~ofxFlashBitmap ()

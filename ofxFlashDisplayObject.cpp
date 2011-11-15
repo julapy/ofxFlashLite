@@ -11,7 +11,7 @@
 
 ofxFlashDisplayObject :: ofxFlashDisplayObject ()
 {
-	typeID		= OFX_FLASH_DISPLAY_OBJECT_TYPE;
+	typeID		= OFX_FLASH_TYPE_DISPLAY_OBJECT;
 
 	_name				= "sprite";
 	_libraryItemName	= "";

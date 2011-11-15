@@ -12,7 +12,7 @@
 
 ofxFlashInteractiveObject :: ofxFlashInteractiveObject()
 {
-	typeID = OFX_FLASH_INTERACTIVE_OBJECT_TYPE;
+	typeID = OFX_FLASH_TYPE_INTERACTIVE_OBJECT;
 	
 	_doubleClickEnabled	= false;
 	_mouseEnabled		= false;

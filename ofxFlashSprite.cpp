@@ -11,7 +11,7 @@
 
 ofxFlashSprite :: ofxFlashSprite()
 {
-	typeID = OFX_FLASH_SPRITE_TYPE;
+	typeID = OFX_FLASH_TYPE_SPRITE;
 	
 	_buttonMode		= false;
 	_dropTarget		= NULL;

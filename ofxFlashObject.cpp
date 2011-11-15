@@ -11,7 +11,7 @@
 
 ofxFlashObject :: ofxFlashObject()
 {
-	typeID = OFX_FLASH_OBJECT_TYPE;
+	typeID = OFX_FLASH_TYPE_OBJECT;
 }
 
 ofxFlashObject :: ~ofxFlashObject()

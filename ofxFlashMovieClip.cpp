@@ -11,7 +11,7 @@
 
 ofxFlashMovieClip :: ofxFlashMovieClip( )
 {
-	typeID = OFX_FLASH_MOVIE_CLIP_TYPE;
+	typeID = OFX_FLASH_TYPE_MOVIECLIP;
 	
 	frame = new ofxFlashDisplayObjectContainer();		// create a single frame.
 	frames.push_back( frame );							// add first frame to frames.
