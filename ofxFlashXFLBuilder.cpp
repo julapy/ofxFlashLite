@@ -305,9 +305,18 @@ void ofxFlashXFLBuilder :: buildBitmap ()
 	ofBaseDraws* bitmapImage;
 	bitmapImage = ofxFlashLibrary :: getInstance()->getAsset( domBitmapInstance.libraryItemName );
 	
+    //
+    // if no name is given for bitmap, use the file name.
+    // file name is taken from libraryItemName.
+    //
+    string name;
+    name = domBitmapInstance.name;
+    if( name.size() == 0 )
+        name = ofSplitString( domBitmapInstance.libraryItemName, "/" ).back();
+    
 	ofxFlashBitmap* bm;
 	bm = new ofxFlashBitmap( bitmapImage );
-	bm->name( domBitmapInstance.name );
+	bm->name( name );
 	bm->libraryItemName( domBitmapInstance.libraryItemName );
 
 	setupMatrixForDisplayObject( bm );
