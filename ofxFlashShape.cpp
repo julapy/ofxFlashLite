@@ -11,6 +11,8 @@
 
 ofxFlashShape :: ofxFlashShape()
 {
+    typeID = OFX_FLASH_TYPE_SHAPE;
+    
 	shapeType = UNDEFINED_SHAPE_TYPE;
 	
 	setFill( false );
