@@ -21,6 +21,7 @@ void testApp::setup()
 	xfl.loadFile( "assets/DOMDocument.xml" );		// load XFL flash file.
 	xfl.build();
 	
+	flashIcon = (ofxFlashMovieClip*)( stage->root()->getChildByName( "fl_icon" ) );
 	
 	stage->addChild( &instructions );				// add child to stage.
 }
@@ -67,16 +68,14 @@ void testApp::mouseMoved(int x, int y )
 
 void testApp::mouseDragged(int x, int y, int button)
 {
-	ofxFlashDisplayObject* flashIcon;
-	flashIcon = stage->root()->getChildByName( "fl_icon" );
-	
 	flashIcon->x( x );
 	flashIcon->y( y );
 }
 
 void testApp::mousePressed(int x, int y, int button)
 {
-
+	flashIcon->x( x );
+	flashIcon->y( y );
 }
 
 void testApp::mouseReleased(int x, int y, int button)

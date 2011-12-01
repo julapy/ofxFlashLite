@@ -24,6 +24,8 @@ public:
 
 	ofxFlashStage*			stage;
 	ofxFlashXFL				xfl;
+	
+	ofxFlashMovieClip*		flashIcon;
 	Instructions			instructions;
 	
 	bool					bShowRedrawRegions;
