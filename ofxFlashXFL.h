@@ -41,16 +41,22 @@ public:
 	~ofxFlashXFL();
 	
 	ofxXmlSettings	xml;
+    string			xflRoot;
 	string			xflFile;
-	string			xflFolder;
 	bool			bLoaded;
+    bool            bVerbose;
+    
+    void setVerbose         ( bool value ) { bVerbose = value; }
 	
 	bool loadFile			( const string& xflFile );
-	void loadAssets			();
 	void build				();
 	
 private:
-	
+
 	void loadXFLMedia		();
+    void loadXFLSymbols     ();
+    void loadAssets			();
 	int  determineMediaType	( string fileName );
+    
+    vector<DOMBitmapItem> domBitmapItems;
 };

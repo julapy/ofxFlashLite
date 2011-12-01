@@ -11,21 +11,14 @@
 
 ofxFlashXFL :: ofxFlashXFL()
 {
-	bLoaded = false;
+	bLoaded     = false;
+    bVerbose    = false;
 }
 
 ofxFlashXFL :: ~ofxFlashXFL()
 {
 	//
 }
-
-///////////////////////////////////////////
-//	
-///////////////////////////////////////////
-
-
-vector<DOMBitmapItem>	domBitmapItems;
-
 
 ///////////////////////////////////////////
 //	LOAD XFL.
@@ -36,37 +29,40 @@ bool ofxFlashXFL :: loadFile ( const string& file )
 	vector<string> xflFileSplit;
 	xflFileSplit	= ofSplitString( file, "/" );
 	
-	xflFile			= xflFileSplit[ xflFileSplit.size() - 1 ];
-	xflFolder		= "";
+	xflFile	= xflFileSplit[ xflFileSplit.size() - 1 ];
+	xflRoot = "";
 	for( int i=0; i<xflFileSplit.size()-1; i++ )	// drop the file
-	{
-		xflFolder += xflFileSplit[ i ] + "/";
-	}
+		xflRoot += xflFileSplit[ i ] + "/";
 	
 	string xflPath;
-	xflPath = xflFolder + xflFile;
-	
-	cout << "Loading, " << xflPath << endl;
+	xflPath = xflRoot + xflFile;
 	
 	bLoaded = xml.loadFile( xflPath );
-	
+
+    if( bVerbose )
+    {
+        if( bLoaded )
+            cout << "[ ofxFlashXFL :: loadFile ] - loading XFL - SUCCESS :: " << xflPath << endl;
+        else
+            cout << "[ ofxFlashXFL :: loadFile ] - loading XFL - FAILED  :: " << xflPath << endl;
+    }
+    
 	if( !bLoaded )
-	{
-		cout << "DOMDocument.xml did not load." << endl;
-		
 		return bLoaded;
-	}
-	
-	loadXFLMedia();
-	loadAssets();
+    
+    xml.pushTag( "DOMDocument", 0 );
+    {
+        loadXFLMedia();
+        loadXFLSymbols();
+        loadAssets();
+    }
+    xml.popTag();
 	
 	return bLoaded;
 }
 
 void ofxFlashXFL :: loadXFLMedia ()
 {
-	xml.pushTag( "DOMDocument", 0 );
-	
 	if( !xml.tagExists( "media", 0 ) )
 		return;
 	
@@ -97,6 +93,40 @@ void ofxFlashXFL :: loadXFLMedia ()
 	xml.popTag();
 }
 
+void ofxFlashXFL :: loadXFLSymbols ()
+{
+	if( !xml.tagExists( "symbols", 0 ) )
+		return;
+    
+    ofxFlashLibrary* library;
+    library = ofxFlashLibrary :: getInstance();
+	
+	xml.pushTag( "symbols", 0 );
+	
+	int numOfTags;
+	numOfTags = xml.getNumTags( "Include" );
+	
+	for( int i=0; i<numOfTags; i++ )
+	{
+        ofxFlashLibrarySymbol *symbol;
+        symbol = new ofxFlashLibrarySymbol();
+		symbol->href            = xml.getAttribute( "Include", "href", "", i );
+        symbol->loadImmediate   = xml.getAttribute( "Include", "loadImmediate",	"true", i ) == "true" ? true : false;
+        symbol->xflRoot         = xflRoot;
+        
+        if( symbol->loadImmediate )
+        {
+            ofxXmlSettings xml;
+            xml.loadFile( xflRoot + "LIBRARY/" + symbol->href );
+            symbol->linkageClassName = xml.getAttribute( "DOMSymbolItem", "linkageClassName", "" );
+        }
+        
+        library->addSymbol( symbol );
+    }
+    
+    xml.popTag();
+}
+
 ///////////////////////////////////////////
 //	LOAD ASSETS.
 ///////////////////////////////////////////
@@ -110,22 +140,34 @@ void ofxFlashXFL :: loadAssets ()
 	{
 		const DOMBitmapItem& item = domBitmapItems[ i ];
 		int mediaType	= determineMediaType( item.sourceExternalFilepath );
-		string path		= xflFolder + item.sourceExternalFilepath;
+		string path		= xflRoot + "LIBRARY/" + item.href;
 		
-		cout << "loading asset :: " << path << endl;
+        bool success = false;
 		
 		if( mediaType == OFX_FLASH_LIBRARY_TYPE_IMAGE )
 		{
-			library->addImage( item.name, path );
+			success = library->addImage( item.name, path );
 		}
 		else if( mediaType == OFX_FLASH_LIBRARY_TYPE_VIDEO )
 		{
-			library->addVideo( item.name, path );
+			success = library->addVideo( item.name, path );
 		}
 		else if( mediaType == OFX_FLASH_LIBRARY_TYPE_SOUND )
 		{
-			library->addSound( item.name, path );
+			success = library->addSound( item.name, path );
 		}
+        
+        if( bVerbose )
+        {
+            if( success )
+            {
+                cout << "[ ofxFlashXFL :: loadAssets ] - loading asset - SUCCESS :: " << path << endl;
+            }
+            else
+            {
+                cout << "[ ofxFlashXFL :: loadAssets ] - loading asset - FAILED  :: " << path << endl;
+            }
+        }
 	}
 }
 
@@ -148,7 +190,8 @@ void ofxFlashXFL :: build ()
 	
 	ofxFlashXFLBuilder* builder;
 	builder = new ofxFlashXFLBuilder();
-	builder->build( xflFolder + xflFile, stage->root() );
+    builder->setVerbose( bVerbose );
+	builder->build( xflRoot, xflFile, stage->root() );
 	
 	stage->update();
 }

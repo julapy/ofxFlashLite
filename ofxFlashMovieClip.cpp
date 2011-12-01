@@ -11,7 +11,7 @@
 
 ofxFlashMovieClip :: ofxFlashMovieClip( )
 {
-	typeID = OFX_FLASH_MOVIE_CLIP_TYPE;
+	typeID = OFX_FLASH_TYPE_MOVIECLIP;
 	
 	frame = new ofxFlashDisplayObjectContainer();		// create a single frame.
 	frames.push_back( frame );							// add first frame to frames.
@@ -22,11 +22,17 @@ ofxFlashMovieClip :: ofxFlashMovieClip( )
 
 ofxFlashMovieClip :: ~ofxFlashMovieClip()
 {
-	//
+	removeFrameChildren();
+    
+    for( int i=0; i<frames.size(); i++ )
+        delete frames[ i ];
+    
+    frames.clear();
+    frame = NULL;
 }
 
 ///////////////////////////////////////////////
-//	SETUP.
+//	SETUP - INTERNAL.
 ///////////////////////////////////////////////
 
 void ofxFlashMovieClip :: setTotalFrames ( int total )
@@ -60,22 +66,6 @@ void ofxFlashMovieClip :: setTotalFrames ( int total )
 	this->frame	= frames[ frameIndex ];
 }
 
-ofxFlashDisplayObject* ofxFlashMovieClip :: addChildToFrame( ofxFlashDisplayObject* child, int frameNum )
-{
-	int index = ofClamp( frameNum - 1, 0, totalFrames() - 1 );
-	
-	ofxFlashDisplayObjectContainer* frameContainer;
-	frameContainer = frames[ index ];
-	frameContainer->addChild( child );
-	
-	if( index == frameIndex )		// add to current frame if frameIndex matches.
-	{
-		addChild( child );
-	}
-	
-	return child;
-}
-
 ///////////////////////////////////////////////
 //	INTERNAL.
 ///////////////////////////////////////////////
@@ -100,16 +90,25 @@ void ofxFlashMovieClip :: addFrameChildren ()
 {
 	for( int i=0; i<frame->children.size(); i++ )
 	{
-		addChild( frame->children[ i ] );
+        ofxFlashDisplayObject *child;
+        child = frame->children[ i ];
+        
+        // the child must be added manually, instead of using the addChild() method.
+        // doing it this way ensures the child is not removed from the frames.
+        // a movieclip can technically be added to only one parent, 
+        // and as soon it is added to another it is removed from the previous parent.
+        // with movieclip frames this is an exception and therefore movieclips have to be added like the below.
+
+        children.push_back( child );
+        child->stage	= this->stage;
+        child->parent	= this;
+        child->level( this->level() + 1 );
 	}
 }
 
 void ofxFlashMovieClip :: removeFrameChildren ()
 {
-	for( int i=0; i<frame->children.size(); i++ )
-	{
-		removeChild( frame->children[ i ] );
-	}
+	ofxFlashDisplayObjectContainer :: removeAllChildren();
 }
 
 ///////////////////////////////////////////////

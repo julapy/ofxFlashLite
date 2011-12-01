@@ -89,13 +89,17 @@ public:
 	 ofxFlashXFLBuilder();
 	~ofxFlashXFLBuilder();
 	
-	void build ( const string& xflFile, ofxFlashDisplayObjectContainer* container );
+    void setVerbose( bool value ) { bVerbose = value; }
+    
+	void build ( const string& xflRoot, const string& xflFile, ofxFlashDisplayObjectContainer* container );
 	
 private:
 	
+    bool bVerbose;
+    
 	ofxFlashDisplayObjectContainer* container;
+    string	xflRoot;
 	string	xflFile;
-	string	xflFolder;
 	string	domType;
 	int		totalFrames;
 	

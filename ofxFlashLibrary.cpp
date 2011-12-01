@@ -33,30 +33,34 @@ ofBaseDraws* ofxFlashLibrary :: loadVideo( string videoPath )
 
 //================================================== GENERAL.
 
-void ofxFlashLibrary :: addAsset( string assetID, string assetPath, int assetType )
+bool ofxFlashLibrary :: addAsset( string assetID, string assetPath, int assetType )
 {
+    bool success = false;
+    
 	if( assetType == OFX_FLASH_LIBRARY_TYPE_IMAGE )
 	{
-		addImage( assetPath, assetID );
+		success = addImage( assetPath, assetID );
 	}
 	else if( assetType == OFX_FLASH_LIBRARY_TYPE_VIDEO )
 	{
-		addVideo( assetPath, assetID );
+		success = addVideo( assetPath, assetID );
 	}
 	else if( assetType == OFX_FLASH_LIBRARY_TYPE_SOUND )
 	{
-		addSound( assetPath, assetID );
+		success = addSound( assetPath, assetID );
 	}
+    
+    return success;
 }
 
 //================================================== IMAGE.
 
-void ofxFlashLibrary :: addImage ( string assetID, string assetPath )
+bool ofxFlashLibrary :: addImage ( string assetID, string assetPath )
 {
 	ofBaseDraws* tex = loadImage( assetPath );
 	
 	if( !tex )
-		return;
+		return false;
 	
 	ofxFlashLibraryItem* item;
 	item = new ofxFlashLibraryItem();
@@ -68,9 +72,11 @@ void ofxFlashLibrary :: addImage ( string assetID, string assetPath )
 	
 	items.push_back( item );
 	imageItems.push_back( item );
+    
+    return true;
 }
 
-void ofxFlashLibrary :: addImage ( string assetID, ofBaseDraws& image )
+bool ofxFlashLibrary :: addImage ( string assetID, ofBaseDraws& image )
 {
 	ofxFlashLibraryItem* item;
 	item = new ofxFlashLibraryItem();
@@ -82,16 +88,18 @@ void ofxFlashLibrary :: addImage ( string assetID, ofBaseDraws& image )
 	
 	items.push_back( item );
 	imageItems.push_back( item );
+    
+    return true;
 }
 
 //================================================== VIDEO.
 
-void ofxFlashLibrary :: addVideo ( string assetID, string assetPath )
+bool ofxFlashLibrary :: addVideo ( string assetID, string assetPath )
 {
 	ofBaseDraws* video = loadImage( assetPath );
 	
 	if( !video )
-		return;
+		return false;
 	
 	ofxFlashLibraryItem* item;
 	item = new ofxFlashLibraryItem();
@@ -103,9 +111,11 @@ void ofxFlashLibrary :: addVideo ( string assetID, string assetPath )
 	
 	items.push_back( item );
 	videoItems.push_back( item );
+    
+    return true;
 }
 
-void ofxFlashLibrary :: addVideo ( string assetID, ofBaseDraws& video )
+bool ofxFlashLibrary :: addVideo ( string assetID, ofBaseDraws& video )
 {
 	ofxFlashLibraryItem* item;
 	item = new ofxFlashLibraryItem();
@@ -117,11 +127,13 @@ void ofxFlashLibrary :: addVideo ( string assetID, ofBaseDraws& video )
 	
 	items.push_back( item );
 	videoItems.push_back( item );
+    
+    return true;
 }
 
 //================================================== SOUND.
 
-void ofxFlashLibrary :: addSound ( string assetID, string assetPath )
+bool ofxFlashLibrary :: addSound ( string assetID, string assetPath )
 {
 	ofSoundPlayer* sound;
 	sound = new ofSoundPlayer();
@@ -137,9 +149,11 @@ void ofxFlashLibrary :: addSound ( string assetID, string assetPath )
 	
 	items.push_back( item );
 	soundItems.push_back( item );
+    
+    return true;
 }
 
-void ofxFlashLibrary :: addSound ( string assetID, ofSoundPlayer& sound )
+bool ofxFlashLibrary :: addSound ( string assetID, ofSoundPlayer& sound )
 {
 	ofxFlashLibraryItem* item;
 	item = new ofxFlashLibraryItem();
@@ -151,6 +165,8 @@ void ofxFlashLibrary :: addSound ( string assetID, ofSoundPlayer& sound )
 	
 	items.push_back( item );
 	soundItems.push_back( item );
+    
+    return true;
 }
 
 ofSoundPlayer* ofxFlashLibrary :: getSound ( string assetID )
@@ -219,6 +235,34 @@ ofBaseDraws* ofxFlashLibrary :: getAssetByFileName ( string fileName )
 	}
 	
 	return NULL;
+}
+
+//================================================== SYMBOLS.
+
+void ofxFlashLibrary :: addSymbol ( ofxFlashLibrarySymbol *symbol )
+{
+    symbols.push_back( symbol );
+}
+
+ofxFlashMovieClip* ofxFlashLibrary :: createMovieClipWithLinkageClassName ( string linkageClassName, ofxFlashMovieClip *container )
+{
+    if( container == NULL )
+        container = new ofxFlashMovieClip();
+    
+    for( int i=0; i<symbols.size(); i++ )
+    {
+        if( symbols[ i ]->linkageClassName == linkageClassName )
+        {
+            ofxFlashXFLBuilder *builder;
+            builder = new ofxFlashXFLBuilder();
+            builder->build( symbols[ i ]->xflRoot, "LIBRARY/" + symbols[ i ]->href, container );
+            delete builder;
+            
+            break;
+        }
+    }
+    
+    return container;
 }
 
 //================================================== DISPLAY OBJECTS.

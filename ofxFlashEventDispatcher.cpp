@@ -11,7 +11,7 @@
 
 ofxFlashEventDispatcher :: ofxFlashEventDispatcher()
 {
-	typeID = OFX_FLASH_EVENT_DISPATCHER_TYPE;
+	typeID = OFX_FLASH_TYPE_EVENT_DISPATCHER;
 }
 
 ofxFlashEventDispatcher :: ~ofxFlashEventDispatcher()

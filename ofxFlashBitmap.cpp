@@ -11,6 +11,8 @@
 
 ofxFlashBitmap :: ofxFlashBitmap ( ofBaseDraws* image )
 {
+    typeID = OFX_FLASH_TYPE_BITMAP;
+    
 	bitmapImage = image;
 	
 	if( bitmapImage != NULL )
@@ -20,13 +22,11 @@ ofxFlashBitmap :: ofxFlashBitmap ( ofBaseDraws* image )
 		
 		_rect.set_to_rect( 0, 0, w, h );
 	}
-	
-	typeID = OFX_FLASH_BITMAP_TYPE;
 }
 
 ofxFlashBitmap :: ~ofxFlashBitmap ()
 {
-	//
+	bitmapImage = NULL;     // don't delete bitmapImage as its managed by ofxFlashLibrary.
 }
 
 ///////////////////////////////////////////////

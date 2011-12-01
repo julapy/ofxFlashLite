@@ -11,8 +11,10 @@
 
 ofxFlashXFLBuilder :: ofxFlashXFLBuilder()
 {
+    bVerbose    = false;
+
+    xflRoot     = "";
 	xflFile		= "";
-	xflFolder	= "";
 	container	= NULL;
 	domType		= DOM_DOCUMENT_TYPE;
 	totalFrames	= 1;
@@ -27,20 +29,25 @@ ofxFlashXFLBuilder :: ~ofxFlashXFLBuilder()
 //	BUILD.
 ///////////////////////////////////////////
 
-void ofxFlashXFLBuilder :: build ( const string& file, ofxFlashDisplayObjectContainer* container )
+void ofxFlashXFLBuilder :: build ( const string& root, const string& file, ofxFlashDisplayObjectContainer* container )
 {
-	vector<string> xflFileSplit;
-	xflFile			= file;
-	xflFileSplit	= ofSplitString( xflFile, "/" );
-	xflFolder		= "";
-	for( int i=0; i<xflFileSplit.size()-1; i++ )	// drop the file
-	{
-		xflFolder += xflFileSplit[ i ] + "/";
-	}
-	
+    xflRoot = root;
+	xflFile	= file;
+    string xflFilePath = xflRoot + xflFile;
+    
 	this->container = container;
 	
-	if( loadFile( xflFile ) )
+    bool success = loadFile( xflFilePath );
+    
+    if( bVerbose )
+    {
+        if( success )
+            cout << "[ ofxFlashXFLBuilder :: build ] - loading movieclip xml - SUCCESS :: " << xflFilePath << endl;
+        else
+            cout << "[ ofxFlashXFLBuilder :: build ] - loading movieclip xml - FAILED  :: " << xflFilePath << endl;
+    }
+    
+	if( success )
 	{
 		TiXmlElement* child = ( storedHandle.FirstChild() ).ToElement();
 		domType = child->Value();
@@ -298,9 +305,18 @@ void ofxFlashXFLBuilder :: buildBitmap ()
 	ofBaseDraws* bitmapImage;
 	bitmapImage = ofxFlashLibrary :: getInstance()->getAsset( domBitmapInstance.libraryItemName );
 	
+    //
+    // if no name is given for bitmap, use the file name.
+    // file name is taken from libraryItemName.
+    //
+    string name;
+    name = domBitmapInstance.name;
+    if( name.size() == 0 )
+        name = ofSplitString( domBitmapInstance.libraryItemName, "/" ).back();
+    
 	ofxFlashBitmap* bm;
 	bm = new ofxFlashBitmap( bitmapImage );
-	bm->name( domBitmapInstance.name );
+	bm->name( name );
 	bm->libraryItemName( domBitmapInstance.libraryItemName );
 
 	setupMatrixForDisplayObject( bm );
@@ -310,9 +326,12 @@ void ofxFlashXFLBuilder :: buildBitmap ()
 
 void ofxFlashXFLBuilder :: buildMovieClip ()
 {
-	string libraryItemPath;
-	libraryItemPath = xflFolder;
-	libraryItemPath += ( domType == DOM_DOCUMENT_TYPE ) ? "LIBRARY/" : "";
+    bool bAddLibraryToPath = false;
+    bAddLibraryToPath = bAddLibraryToPath || domType == DOM_DOCUMENT_TYPE;
+    bAddLibraryToPath = bAddLibraryToPath || domType == DOM_SYMBOL_ITEM_TYPE;
+    
+	string libraryItemPath = "";
+	libraryItemPath += bAddLibraryToPath ? "LIBRARY/" : "";
 	libraryItemPath += domSymbolInstance.libraryItemName;
 	libraryItemPath += ".xml";
 
@@ -328,7 +347,8 @@ void ofxFlashXFLBuilder :: buildMovieClip ()
 	
 	ofxFlashXFLBuilder* builder;
 	builder = new ofxFlashXFLBuilder();
-	builder->build( libraryItemPath, mc );
+    builder->setVerbose( bVerbose );
+	builder->build( xflRoot, libraryItemPath, mc );
 	
 	delete builder;
 	builder = NULL;
@@ -444,14 +464,18 @@ void ofxFlashXFLBuilder :: buildOvalShape ()
 
 void ofxFlashXFLBuilder :: addDisplayObjectToFrames ( ofxFlashDisplayObject* displayObject )
 {
+    ofxFlashMovieClip* containerMc;
+    containerMc = (ofxFlashMovieClip*)container;
+    
 	int i = domFrame.index;
 	int t = domFrame.index + domFrame.duration;
 	for( i; i<t; i++ )
 	{
-		ofxFlashMovieClip* containerMc;
-		containerMc = (ofxFlashMovieClip*)container;
-		containerMc->addChildToFrame( displayObject, i + 1 );
+        containerMc->gotoAndStop( i + 1 );
+		containerMc->addChild( displayObject );
 	}
+    
+    containerMc->gotoAndPlay( 1 );
 }
 
 void ofxFlashXFLBuilder :: setupMatrixForDisplayObject ( ofxFlashDisplayObject* displayObject )

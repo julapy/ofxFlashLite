@@ -11,7 +11,7 @@
 
 ofxFlashDisplayObject :: ofxFlashDisplayObject ()
 {
-	typeID		= OFX_FLASH_DISPLAY_OBJECT_TYPE;
+	typeID		= OFX_FLASH_TYPE_DISPLAY_OBJECT;
 
 	_name				= "sprite";
 	_libraryItemName	= "";
@@ -235,7 +235,7 @@ const int& ofxFlashDisplayObject :: mouseX ()
 	if( stage )		// if it has a reference to stage then it must have been added as a child to stage.
 	{
 		ofPoint p;
-//		p.x = stage->mouseX();		// BROKEN :: great, can't do this because of forward decelration - need to find a solution.
+		p.x = stage->mouseX();
 		
 		_concatenatedMatrixInv.transform( p );
 		
@@ -254,7 +254,7 @@ const int& ofxFlashDisplayObject :: mouseY ()
 	if( stage )		// if it has a reference to stage then it must have been added as a child to stage.
 	{
 		ofPoint p;
-//		p.y = stage->mouseY();		// BROKEN :: great, can't do this because of forward decelration - need to find a solution.
+		p.y = stage->mouseY();
 		
 		_concatenatedMatrixInv.transform( p );
 		

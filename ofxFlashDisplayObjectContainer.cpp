@@ -9,9 +9,14 @@
 
 #include "ofxFlashDisplayObjectContainer.h"
 
+#include "ofxFlashBitmap.h"
+#include "ofxFlashShape.h"
+#include "ofxFlashSprite.h"
+#include "ofxFlashMovieClip.h"
+
 ofxFlashDisplayObjectContainer :: ofxFlashDisplayObjectContainer()
 {
-	typeID				= OFX_FLASH_DISPLAY_OBJECT_CONTAINER_TYPE;
+	typeID				= OFX_FLASH_TYPE_DISPLAY_OBJECT_CONTAINER;
 	
 	_mouseChildren		= true;
 	_tabChildren		= false;
@@ -20,7 +25,38 @@ ofxFlashDisplayObjectContainer :: ofxFlashDisplayObjectContainer()
 
 ofxFlashDisplayObjectContainer :: ~ofxFlashDisplayObjectContainer()
 {
-
+    for( int i=0; i<children.size(); i++ )
+    {
+        ofxFlashDisplayObject *child;
+        child = children[ i ];
+        
+        if( child->typeID == OFX_FLASH_TYPE_DISPLAY_OBJECT )
+        {
+            delete child;
+        }
+        else if( child->typeID == OFX_FLASH_TYPE_SHAPE )
+        {
+            delete (ofxFlashShape*)child;
+        }
+        else if( child->typeID == OFX_FLASH_TYPE_BITMAP )
+        {
+            delete (ofxFlashBitmap*)child;
+        }
+        else if( child->typeID == OFX_FLASH_TYPE_SPRITE )
+        {
+            delete (ofxFlashSprite*)child;
+        }
+        else if( child->typeID == OFX_FLASH_TYPE_MOVIECLIP )
+        {
+            delete (ofxFlashMovieClip*)child;
+        }
+        else
+        {
+            assert( false );    // child of unknown type. something wrong here.
+        }
+    }
+    
+    children.clear();
 }
 
 ///////////////////////////////////////////////
@@ -64,7 +100,10 @@ int ofxFlashDisplayObjectContainer :: numChildren ()
 
 ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: addChild ( ofxFlashDisplayObject* child )
 {
-    children.insert( children.begin(), child );
+    if( child->parent )     // child is already added to another parent.
+        ( (ofxFlashDisplayObjectContainer*)( child->parent ) )->removeChild( child );   // remove it from parent.
+    
+    children.push_back( child );
 	child->stage	= this->stage;
 	child->parent	= this;
 	child->level( this->level() + 1 );
@@ -74,6 +113,9 @@ ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: addChildAt ( ofxFlashDi
 {
 	if( index < 0 || index > children.size() - 1 )
 		return NULL;
+    
+    if( child->parent )     // child is already added to another parent.
+        ( (ofxFlashDisplayObjectContainer*)( child->parent ) )->removeChild( child );   // remove it from parent.
 	
 	children.insert( children.begin() + index, child );
 	child->stage	= this->stage;
@@ -166,6 +208,27 @@ ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: removeChildAt ( int ind
 	children.erase( children.begin() + index );
 	
 	return child;
+}
+
+void ofxFlashDisplayObjectContainer :: removeAllChildren ()
+{
+    int i = 0;
+    int t = children.size();
+    
+    ofxFlashDisplayObject* child;
+    
+    for( i; i<t; i++ )
+    {
+        child           = children[ i ];
+        child->stage	= NULL;
+        child->parent	= NULL;
+        child->level( -1 );
+        
+        children.erase( children.begin() + i );
+        
+        --i;
+        --t;
+    }
 }
 
 void ofxFlashDisplayObjectContainer :: setChildIndex ( ofxFlashDisplayObject* child, int index )
