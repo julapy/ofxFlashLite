@@ -26,7 +26,9 @@ public:
     
     ~ofxFlashColorTransform ();
     
-    void concat ( const ofxFlashColorTransform &second );
+    void set        ( const ofxFlashColorTransform &second );
+    void concat     ( const ofxFlashColorTransform &second );
+    bool isEqual    ( const ofxFlashColorTransform &second );
     string toString ();
     
     float alphaMultiplier;  // A decimal value that is multiplied with the alpha transparency channel value.

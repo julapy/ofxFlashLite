@@ -28,6 +28,8 @@ ofxFlashColorTransform :: ofxFlashColorTransform
     this->greenOffset       = greenOffset;
     this->blueOffset        = blueOffset;
     this->alphaOffset       = alphaOffset;
+    
+    color = 0xFFFFFF;
 }
 
 ofxFlashColorTransform :: ~ofxFlashColorTransform ()
@@ -42,6 +44,34 @@ ofxFlashColorTransform :: ~ofxFlashColorTransform ()
 void ofxFlashColorTransform :: concat ( const ofxFlashColorTransform &second )
 {
     // not sure how flash concats these transforms. will have to look into it.
+}
+
+void ofxFlashColorTransform :: set ( const ofxFlashColorTransform &second )
+{
+    alphaMultiplier = second.alphaMultiplier;
+    alphaOffset     = second.alphaOffset;
+    blueMultiplier  = second.blueMultiplier;
+    blueOffset      = second.blueOffset;
+    color           = second.color;
+    greenMultiplier = second.greenMultiplier;
+    greenOffset     = second.greenOffset;
+    redMultiplier   = second.redMultiplier;
+    redOffset       = second.redOffset;
+}
+
+bool ofxFlashColorTransform :: isEqual ( const ofxFlashColorTransform &second )
+{
+    if( alphaMultiplier != second.alphaMultiplier ) return false;
+    if( alphaOffset     != second.alphaOffset     ) return false;
+    if( blueMultiplier  != second.blueMultiplier  ) return false;
+    if( blueOffset      != second.blueOffset      ) return false;
+    if( color           != second.color           ) return false;
+    if( greenMultiplier != second.greenMultiplier ) return false;
+    if( greenOffset     != second.greenOffset     ) return false;
+    if( redMultiplier   != second.redMultiplier   ) return false;
+    if( redOffset       != second.redOffset       ) return false;
+    
+    return true;
 }
 
 /**
