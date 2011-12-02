@@ -61,6 +61,11 @@ public:
 //			mat._mat[ 3 ][ 0 ], mat._mat[ 3 ][ 1 ], mat._mat[ 3 ][ 2 ], mat._mat[ 3 ][ 3 ]
 //		);
 //	}
+    
+    void set ( const ofxFlashMatrix &matrix )
+    {
+        set( matrix.getA(), matrix.getB(), matrix.getC(), matrix.getD(), matrix.getTx(), matrix.getTy() );
+    }
 	
 	void set ( float a, float b, float c, float d, float tx, float ty )
 	{
