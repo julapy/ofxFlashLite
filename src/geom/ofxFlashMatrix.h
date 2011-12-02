@@ -86,6 +86,18 @@ public:
 	float getD	() const { return _mat[ 1 ][ 1 ]; }
 	float getTx	() const { return _mat[ 3 ][ 0 ]; }
 	float getTy	() const { return _mat[ 3 ][ 1 ]; }
+    
+    bool isEqual ( const ofxFlashMatrix &matrix )
+    {
+        if( getA()  != matrix.getA()  ) return false;
+        if( getB()  != matrix.getB()  ) return false;
+        if( getC()  != matrix.getC()  ) return false;
+        if( getD()  != matrix.getD()  ) return false;
+        if( getTx() != matrix.getTx() ) return false;
+        if( getTy() != matrix.getTy() ) return false;
+        
+        return true;
+    }
 	
 	//===============================================
 	
