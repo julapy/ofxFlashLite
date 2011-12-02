@@ -10,11 +10,9 @@
 #include "ofxFlashColorTransform.h"
 #include "ofxFlashMatrix.h"
 #include "ofxFlashRectangle.h"
-//#include "ofxFlashDisplayObject.h"
 
 class ofxFlashStage;
 class ofxFlashDisplayObject;
-class ofxFlashBitmap;
 
 class ofxFlashTransform : public ofxFlashObject
 {
