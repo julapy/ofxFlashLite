@@ -10,8 +10,7 @@
 #pragma once
 
 #include "ofxFlashEventDispatcher.h"
-#include "ofxFlashMatrix.h"
-#include "ofxFlashRectangle.h"
+#include "ofxFlashTransform.h"
 
 #define	BLEND_MODE_NORMAL		0
 #define	BLEND_MODE_LAYER		1
@@ -155,6 +154,8 @@ protected:
 	ofxFlashRectangle	_rect;
 	ofPoint				_rectTransformed[ 4 ];
 	ofxFlashRectangle	_pixelBounds;
+    
+    ofxFlashTransform   _transform;
 	
 private:
 	

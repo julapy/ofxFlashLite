@@ -10,7 +10,7 @@
 #include "ofxFlashColorTransform.h"
 #include "ofxFlashMatrix.h"
 #include "ofxFlashRectangle.h"
-#include "ofxFlashDisplayObject.h"
+//#include "ofxFlashDisplayObject.h"
 
 class ofxFlashTransform : public ofxFlashObject
 {
@@ -21,7 +21,7 @@ public:
     /**
      *  Returns a Matrix3D object, which can transform the space of a specified display object in relation to the current display object's space.
      **/
-    ofxFlashMatrix getRelativeMatrix3D( ofxFlashDisplayObject relativeTo );
+//    ofxFlashMatrix getRelativeMatrix3D( ofxFlashDisplayObject relativeTo );
     
     ofxFlashColorTransform colorTransform;              // A ColorTransform object containing values that universally adjust the colors in the display object.
     ofxFlashColorTransform concatenatedColorTransform;  // [read-only] A ColorTransform object representing the combined color transformations applied to the display object and all of its parent objects, back to the root level.

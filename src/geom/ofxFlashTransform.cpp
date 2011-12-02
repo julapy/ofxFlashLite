@@ -18,7 +18,7 @@ ofxFlashTransform :: ~ofxFlashTransform ()
     //
 }
 
-ofxFlashMatrix getRelativeMatrix3D( ofxFlashDisplayObject relativeTo )
-{
-    return ofxFlashMatrix();
-}
+//ofxFlashMatrix getRelativeMatrix3D( ofxFlashDisplayObject relativeTo )
+//{
+//    return ofxFlashMatrix();
+//}
