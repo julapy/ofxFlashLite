@@ -20,7 +20,8 @@ ofxFlashBitmap :: ofxFlashBitmap ( ofBaseDraws* image )
 		float w = bitmapImage->getWidth();
 		float h = bitmapImage->getHeight();
 		
-		_rect.set_to_rect( 0, 0, w, h );
+        width( w );
+        height( h );
 	}
 }
 
