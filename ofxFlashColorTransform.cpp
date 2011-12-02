@@ -49,5 +49,16 @@ void ofxFlashColorTransform :: concat ( const ofxFlashColorTransform &second )
  **/
 string ofxFlashColorTransform :: toString ()
 {
-    //
+    string str = "";
+    str += "(";
+    str += "redMultiplier="     + ofToString( redMultiplier )   + ", ";
+    str += "greenMultiplier="   + ofToString( greenMultiplier ) + ", ";
+    str += "blueMultiplier="    + ofToString( blueMultiplier )  + ", ";
+    str += "alphaMultiplier="   + ofToString( alphaMultiplier ) + ", ";
+    str += "redOffset="         + ofToString( redOffset )       + ", ";
+    str += "greenOffset="       + ofToString( greenOffset )     + ", ";
+    str += "blueOffset="        + ofToString( blueOffset )      + ", ";
+    str += "alphaOffset="       + ofToString( blueOffset )      + ")";
+    
+    return str;
 }
