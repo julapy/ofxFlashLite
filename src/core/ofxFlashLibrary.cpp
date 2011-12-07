@@ -262,6 +262,8 @@ ofxFlashMovieClip* ofxFlashLibrary :: createMovieClipWithLinkageClassName ( stri
         }
     }
     
+    container->addFrameChildren();  // initialise the first frame.
+    
     return container;
 }
 

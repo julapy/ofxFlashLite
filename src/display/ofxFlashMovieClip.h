@@ -11,8 +11,13 @@
 
 #include "ofxFlashSprite.h"
 
-class ofxFlashXFLBuilder;	// Forward Declarations to prevent Cyclic Dependency.
-                            // http://www.eventhelix.com/RealtimeMantra/HeaderFileIncludePatterns.htm
+/** 
+ *  Forward Declarations to prevent Cyclic Dependency.
+ *  http://www.eventhelix.com/RealtimeMantra/HeaderFileIncludePatterns.htm
+**/
+class ofxFlashXFLBuilder;
+class ofxFlashLibrary;
+
 
 class ofxFlashMovieClip : public ofxFlashSprite
 {
@@ -23,6 +28,7 @@ public:
 	~ofxFlashMovieClip();
     
     friend class ofxFlashXFLBuilder;    // friends! http://www.cplusplus.com/doc/tutorial/inheritance/
+    friend class ofxFlashLibrary;
 	
 	virtual void setup	() {};
 	virtual void update	() {};
