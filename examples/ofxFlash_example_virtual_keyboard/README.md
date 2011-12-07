@@ -1,0 +1,1 @@
+![Swipe View](https://github.com/julapy/ofxFlash/raw/master/examples/ofxFlash_example_virtual_keyboard/image/ofxFlash_example_virtual_keyboard.png)

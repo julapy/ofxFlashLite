@@ -1,0 +1,33 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="keyboard_assets/key_arrow" itemID="4ea8e750-0000076d" sourceLibraryItemHRef="Symbol 1" lastModified="1321315198">
+  <timeline>
+    <DOMTimeline name="key_arrow">
+      <layers>
+        <DOMLayer name="key_arrow_down.png" color="#FF800A" locked="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="keyboard_assets/key_arrow_mc" name="mc" centerPoint3DX="216.5" centerPoint3DY="28.5">
+                  <matrix>
+                    <Matrix tx="216.5" ty="28.5"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="keyboard_bg_2.png" color="#9933CC" current="true" isSelected="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMBitmapInstance name="" referenceID="" libraryItemName="keyboard_assets/assets/keyboard_bg_2.png"/>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>
