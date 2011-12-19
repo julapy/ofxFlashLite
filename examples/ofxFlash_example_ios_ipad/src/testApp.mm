@@ -5,19 +5,19 @@ void testApp::setup()
 	ofxAccelerometer.setup();
 	ofxiPhoneAlerts.addListener( this );
 	ofxiPhoneSetOrientation( OFXIPHONE_ORIENTATION_LANDSCAPE_RIGHT );
-	
+
 	ofSetFrameRate( 30 );							// OF setup.
 	ofSetVerticalSync( true );
 	ofSetCircleResolution( 100 );
 	ofEnableSmoothing();
 	ofEnableAlphaBlending();
 	ofBackground( 255, 255, 255 );
-	
+
 	stage = ofxFlashStage :: getInstance();			// ofxFlash setup.
 	stage->showRedrawRegions( false );				// if set to true, it will draw the bounding rectangle around the object's pixels.
 	stage->setTouchMode( true );					// touch input is handled differently from mouse input - set to true on iphone / ipad.
-	
-	
+
+
 	xfl.loadFile( "assets/DOMDocument.xml" );		// load XFL flash file.
 	xfl.build();
 }
@@ -45,10 +45,10 @@ void testApp::touchMoved( int x, int y, int id )
 {
 	ofxFlashMovieClip* flashIcon;
 	flashIcon = (ofxFlashMovieClip*)( stage->root()->getChildByName( "fl_icon" ) );
-	
+
 	flashIcon->x( x );
 	flashIcon->y( y );
-	
+
 	stage->mouseMoved( x, y, id );
 }
 

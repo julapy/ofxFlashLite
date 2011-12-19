@@ -36,27 +36,27 @@ class ofxFlashXFL
 {
 
 public:
-	
+
 	 ofxFlashXFL();
 	~ofxFlashXFL();
-	
+
 	ofxXmlSettings	xml;
     string			xflRoot;
 	string			xflFile;
 	bool			bLoaded;
     bool            bVerbose;
-    
+
     void setVerbose         ( bool value ) { bVerbose = value; }
-	
+
 	bool loadFile			( const string& xflFile );
 	void build				();
-	
+
 private:
 
 	void loadXFLMedia		();
     void loadXFLSymbols     ();
     void loadAssets			();
 	int  determineMediaType	( string fileName );
-    
+
     vector<DOMBitmapItem> domBitmapItems;
 };

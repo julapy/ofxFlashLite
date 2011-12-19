@@ -37,19 +37,19 @@ class ofxFlashDisplayObject : public ofxFlashEventDispatcher
 {
 
 public:
-	
+
 	 ofxFlashDisplayObject();
 	~ofxFlashDisplayObject();
-	
+
 	friend class ofxFlashStage;			// friends! http://www.cplusplus.com/doc/tutorial/inheritance/
-	
+
 	virtual void setup	() {};
 	virtual void update	() {};
 	virtual void draw	() {};
-	
+
 	void drawTransformedOutline	();
 	void drawPixelBounds		();
-	
+
 	///////////////////////////////////////////////
 	//
 	//	DISPLAY OBJECT.
@@ -62,10 +62,10 @@ public:
 
 	const string&			libraryItemName ();
 	void					libraryItemName ( string value );
-	
+
 	const float&			alpha ();
 	void					alpha ( float value );
-	
+
 	const float&			compoundAlpha ();
 
 	const bool&				visible ();
@@ -82,10 +82,10 @@ public:
 
 	const float&			y ();
 	void					y ( float value );
-	
+
 	const float&			z ();
 	void					z ( float value );
-	
+
 	virtual const int&		mouseX ();				// is overwritten by stage.
 	virtual const int&		mouseY ();				// is overwritten by stage.
 
@@ -115,22 +115,22 @@ public:
 
 	const int&				level ();
 	void					level ( int value );
-	
+
 	const ofxFlashMatrix&		matrix				();
 	void						matrix				( const ofxFlashMatrix& mat );
-	
+
 	const ofxFlashMatrix&		concatenatedMatrix	();
-	
+
 	const ofxFlashRectangle&	pixelBounds			();
-	
+
 	//=============================================================
 
 	ofxFlashDisplayObject*	mask;			// DisplayObject in AS3.
 	ofxFlashDisplayObject*	parent;			// DisplayObjectContainer in AS3.
 	ofxFlashDisplayObject*	stage;			// Stage in AS3.
-	
+
 	//=============================================================
-	
+
 	ofRectangle getRect			( ofxFlashDisplayObject* targetCoordinateSpace );
 	ofPoint		globalToLocal	( const ofPoint& point );
 	ofPoint		globalToLocal3D	( const ofPoint& point );
@@ -138,35 +138,35 @@ public:
 	bool		hitTestPoint	( float x, float y, bool shapeFlag = false);
 	ofPoint		local3DToGlobal	( const ofPoint& point );
 	ofPoint		localToGlobal	( const ofPoint& point );
-	
+
 //	TODO :: cacheAsBitmap - maybe this can be an FBO?
 //	TODO :: transform :: http://livedocs.adobe.com/flex/3/langref/flash/geom/Transform.html
 //	TODO :: events - added, addedToStage, enterFrame, exitFrame, frameConstructed, removed, removedFromStage, render
-	
+
 protected:
-	
+
 	virtual void updateOnFrame	() {};		// updateOnFrame is called on every update loop by stage. any updates should go in there.
 	virtual void drawOnFrame	() {};		// drawOnFrame is called on every draw loop by stage.
-	
+
 	ofxFlashMatrix		_matrix;
 	ofxFlashMatrix		_concatenatedMatrix;
 	ofxFlashMatrix		_concatenatedMatrixInv;
 	ofxFlashRectangle	_rect;
 	ofPoint				_rectTransformed[ 4 ];
 	ofxFlashRectangle	_pixelBounds;
-    
+
     ofxFlashTransform   _transform;
-	
+
 private:
-	
+
 	void resetPixelBounds	();
 	void addToPixelBounds	( const ofxFlashRectangle& rect );
-	
+
 	void transform			( const ofxFlashMatrix& mat );
-	
+
 	string		_name;
 	string		_libraryItemName;
-	
+
 	float		_alpha;
 	float		_compoundAlpha;
 	bool		_visible;
@@ -186,5 +186,5 @@ private:
 	float		_scaleZ;
 	int			_blendMode;
 	int			_level;
-	
+
 };

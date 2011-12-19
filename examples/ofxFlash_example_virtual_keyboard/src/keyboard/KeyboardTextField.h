@@ -14,21 +14,21 @@
 class KeyboardTextField : public ofxFlashSprite
 {
 public:
-    
+
      KeyboardTextField();
     ~KeyboardTextField();
-    
+
     void setup	();
     void update	();
     void draw	();
-    
+
     bool addKeyStroke       ( string keyStroke );
     bool deleteKeyStroke    ();
 
     float getTextFieldWidth ();
     string getText          () { return text; }
     void clear              ();
-    
+
     ofTrueTypeFont font;
     string text;
     int charLimit;

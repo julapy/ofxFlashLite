@@ -85,24 +85,24 @@ class ofxFlashXFLBuilder : public ofxXmlSettings
 {
 
 public:
-	
+
 	 ofxFlashXFLBuilder();
 	~ofxFlashXFLBuilder();
-	
+
     void setVerbose( bool value ) { bVerbose = value; }
-    
+
 	void build ( const string& xflRoot, const string& xflFile, ofxFlashDisplayObjectContainer* container );
-	
+
 private:
-	
+
     bool bVerbose;
-    
+
 	ofxFlashDisplayObjectContainer* container;
     string	xflRoot;
 	string	xflFile;
 	string	domType;
 	int		totalFrames;
-	
+
 	DOMTimeline			domTimeline;
 	DOMLayer			domLayer;
 	DOMFrame			domFrame;
@@ -110,7 +110,7 @@ private:
 	DOMBitmapInstance	domBitmapInstance;
 	DOMRectangleObject	domRectangleObject;
 	DOMOvalObject		domOvalObject;
-	
+
 	void countTotalFrames		();
 	void buildTimelines			();
 	void buildLayers			();
@@ -120,16 +120,16 @@ private:
 	void buildMovieClip			();
 	void buildRectangleShape	();
 	void buildOvalShape			();
-	
+
 	void addDisplayObjectToFrames		( ofxFlashDisplayObject* displayObject );
 	void setupMatrixForDisplayObject	( ofxFlashDisplayObject* displayObject );
 	void setupColorForDisplayObject		( ofxFlashDisplayObject* displayObject );
 	void setupFillForShape				( ofxFlashShape* shape );
 	void setupStrokeForShape			( ofxFlashShape* shape );
-	
+
 	void pushTagAt			( int i );
-	
+
 	string cleanHexString	( string value );
 	int  stringToHex		( string value );
-	
+
 };

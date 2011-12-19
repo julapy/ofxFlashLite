@@ -20,23 +20,23 @@
 class KeyboardKey : public ofBaseApp
 {
 public:
-    
+
      KeyboardKey();
     ~KeyboardKey();
-    
+
     virtual void setup  ( ofxFlashMovieClip* mc );
     virtual void update ();
     virtual void draw   ();
-    
+
     bool isNewKeyStroke ();
-    
+
     ofxFlashMovieClip* mc;
-    
+
     int keyType;
     string keyStroke;
     bool bKeyDown;
     bool bKeyChanged;
-    
+
     int keyDownTimeStart;
     int keyDownTimeTotal;
 };

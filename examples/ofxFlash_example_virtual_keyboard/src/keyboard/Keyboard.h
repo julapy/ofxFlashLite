@@ -10,10 +10,10 @@
 class Keyboard : public ofxFlashMovieClip
 {
 public:
-    
+
      Keyboard ();
     ~Keyboard ();
-    
+
     void setup  ();
     void update ();
     void draw   ();
@@ -22,13 +22,13 @@ public:
     void hide               ();
     void toggleUp           ();
     void toggleUpComplete   ();
-    
+
     void keyPressed         ( int key );
-		
+
     vector<string> keyNames;
     vector<KeyboardKey*> keys;
     KeyboardArrowKey *arrowKey;
-    
+
     bool bUp;
     bool bAnimating;
     bool bAnimatingComplete;
@@ -36,7 +36,7 @@ public:
     int animTotalTime;
     int upY;
     int downY;
-    
+
     KeyboardTextField* textField;
     KeyboardCursor* cursor;
 };

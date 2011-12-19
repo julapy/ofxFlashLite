@@ -13,17 +13,17 @@
 ofxFlashInteractiveObject :: ofxFlashInteractiveObject()
 {
 	typeID = OFX_FLASH_TYPE_INTERACTIVE_OBJECT;
-	
+
 	_doubleClickEnabled	= false;
 	_mouseEnabled		= false;
 	_mouseUpOutside		= true;
-	
+
 	_tabEnabled			= false;
 	_tabIndex			= 0;
-	
+
 	_mouseOver			= false;
 	_mouseDown			= false;
-	
+
 	mouseOverDirty		= false;
 	mouseDownDirty		= false;
 }
@@ -59,9 +59,9 @@ void ofxFlashInteractiveObject :: mouseEnabled ( bool value )
 {
 	if( _mouseEnabled == value )
 		return;
-	
+
 	_mouseEnabled = value;
-	
+
 //	if( _mouseEnabled )
 //	{
 //		enableMouseEvents();
@@ -136,28 +136,28 @@ void ofxFlashInteractiveObject :: _mouseMoved( int x, int y, int id )
 {
 	if( !_mouseEnabled )
 		return;
-	
+
 	// dispatch mouse move - should dispatch first.
-	
+
 	if( hitTestPoint( x, y ) )
 	{
 		if( !_mouseOver )
 		{
 			_mouseOver = true;
-			
+
 			// dispatch mouse over
 		}
 	}
 	else if( _mouseOver )
 	{
 		_mouseOver = false;
-		
+
 		// dispatch mouse out.
-		
+
 		if( _mouseUpOutside && _mouseDown )
 		{
 			_mouseDown = false;
-			
+
 			// dispatch mouse up.
 		}
 	}
@@ -167,15 +167,15 @@ void ofxFlashInteractiveObject :: _mouseDragged( int x, int y, int id )
 {
 	if( !_mouseEnabled )
 		return;
-	
+
 	// dispatch mouse drag - should dispatch first.
-	
+
 	if( hitTestPoint( x, y ) )
 	{
 		if( !_mouseOver )
 		{
 			_mouseOver = true;
-			
+
 			// dispatch mouse over
 		}
 	}
@@ -184,13 +184,13 @@ void ofxFlashInteractiveObject :: _mouseDragged( int x, int y, int id )
 		if( _mouseOver )
 		{
 			_mouseOver = false;
-			
+
 			// dispatch mouse out.
-			
+
 			if( _mouseUpOutside && _mouseDown )
 			{
 				_mouseDown = false;
-				
+
 				// dispatch mouse up.
 			}
 		}
@@ -201,13 +201,13 @@ void ofxFlashInteractiveObject :: _mousePressed( int x, int y, int id )
 {
 	if( !_mouseEnabled )
 		return;
-	
+
 	if( hitTestPoint( x, y ) )
 	{
 		if( !_mouseDown )
 		{
 			_mouseDown = true;
-			
+
 			// dispatch mouse down.
 		}
 	}
@@ -217,7 +217,7 @@ void ofxFlashInteractiveObject :: _mouseReleased( int x, int y, int id )
 {
 	if( !_mouseEnabled )
 		return;
-	
+
 	if( hitTestPoint( x, y ) )
 	{
 		// dispatch mouse up inside.
@@ -229,7 +229,7 @@ void ofxFlashInteractiveObject :: _mouseReleased( int x, int y, int id )
 			// dispatch mouse up outside.
 		}
 	}
-	
+
 	_mouseDown = false;
 }
 

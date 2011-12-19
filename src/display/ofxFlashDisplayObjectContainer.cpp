@@ -17,7 +17,7 @@
 ofxFlashDisplayObjectContainer :: ofxFlashDisplayObjectContainer()
 {
 	typeID				= OFX_FLASH_TYPE_DISPLAY_OBJECT_CONTAINER;
-	
+
 	_mouseChildren		= true;
 	_tabChildren		= false;
 	_numChildren		= 0;
@@ -29,7 +29,7 @@ ofxFlashDisplayObjectContainer :: ~ofxFlashDisplayObjectContainer()
     {
         ofxFlashDisplayObject *child;
         child = children[ i ];
-        
+
         if( child->typeID == OFX_FLASH_TYPE_DISPLAY_OBJECT )
         {
             delete child;
@@ -55,7 +55,7 @@ ofxFlashDisplayObjectContainer :: ~ofxFlashDisplayObjectContainer()
             assert( false );    // child of unknown type. something wrong here.
         }
     }
-    
+
     children.clear();
 }
 
@@ -102,7 +102,7 @@ ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: addChild ( ofxFlashDisp
 {
     if( child->parent )     // child is already added to another parent.
         ( (ofxFlashDisplayObjectContainer*)( child->parent ) )->removeChild( child );   // remove it from parent.
-    
+
     children.push_back( child );
 	child->stage	= this->stage;
 	child->parent	= this;
@@ -113,10 +113,10 @@ ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: addChildAt ( ofxFlashDi
 {
 	if( index < 0 || index > children.size() - 1 )
 		return NULL;
-    
+
     if( child->parent )     // child is already added to another parent.
         ( (ofxFlashDisplayObjectContainer*)( child->parent ) )->removeChild( child );   // remove it from parent.
-	
+
 	children.insert( children.begin() + index, child );
 	child->stage	= this->stage;
 	child->parent	= this;
@@ -132,7 +132,7 @@ bool ofxFlashDisplayObjectContainer :: contains ( ofxFlashDisplayObject* child )
 			return true;
 		}
 	}
-	
+
 	return false;
 }
 
@@ -140,7 +140,7 @@ ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: getChildAt ( int index 
 {
 	if( index < 0 || index > children.size() - 1 )
 		return NULL;
-	
+
 	return children[ index ];
 }
 
@@ -153,7 +153,7 @@ ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: getChildByName ( string
 			return children[ i ];
 		}
 	}
-	
+
 	return NULL;
 }
 
@@ -166,7 +166,7 @@ int ofxFlashDisplayObjectContainer :: getChildIndex ( ofxFlashDisplayObject* chi
 			return i;
 		}
 	}
-	
+
 	return -1;
 }
 
@@ -184,13 +184,13 @@ ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: removeChild ( ofxFlashD
 			child->stage	= NULL;
 			child->parent	= NULL;
 			child->level( -1 );
-			
+
 			children.erase( children.begin() + i );
-			
+
 			return child;
 		}
 	}
-	
+
 	return child;
 }
 
@@ -198,15 +198,15 @@ ofxFlashDisplayObject* ofxFlashDisplayObjectContainer :: removeChildAt ( int ind
 {
 	if( index < 0 || index > children.size() - 1 )
 		return NULL;
-	
+
 	ofxFlashDisplayObject* child;
 	child = children[ index ];
 	child->stage	= NULL;
 	child->parent	= NULL;
 	child->level( -1 );
-	
+
 	children.erase( children.begin() + index );
-	
+
 	return child;
 }
 
@@ -214,18 +214,18 @@ void ofxFlashDisplayObjectContainer :: removeAllChildren ()
 {
     int i = 0;
     int t = children.size();
-    
+
     ofxFlashDisplayObject* child;
-    
+
     for( i; i<t; i++ )
     {
         child           = children[ i ];
         child->stage	= NULL;
         child->parent	= NULL;
         child->level( -1 );
-        
+
         children.erase( children.begin() + i );
-        
+
         --i;
         --t;
     }
@@ -235,14 +235,14 @@ void ofxFlashDisplayObjectContainer :: setChildIndex ( ofxFlashDisplayObject* ch
 {
 	if( index < 0 || index > children.size() - 1 )
 		return;
-	
+
 	for( int i=0; i<children.size(); i++ )
 	{
 		if( children[ i ] == child )
 		{
 			children.erase( children.begin() + i );
 			children.insert( children.begin() + index, child );
-			
+
 			return;
 		}
 	}
@@ -252,10 +252,10 @@ void ofxFlashDisplayObjectContainer :: swapChildren ( ofxFlashDisplayObject* chi
 {
 	int index1 = getChildIndex( child1 );
 	int index2 = getChildIndex( child2 );
-	
+
 	if( index1 == -1 || index2 == -1 )
 		return;
-	
+
 	for( int i=0; i<children.size(); i++ )
 	{
 		if( children[ i ] == child1 || children[ i ] == child2 )
@@ -263,7 +263,7 @@ void ofxFlashDisplayObjectContainer :: swapChildren ( ofxFlashDisplayObject* chi
 			children.erase( children.begin() + i-- );
 		}
 	}
-	
+
 	if( index1 < index2 )
 	{
 		children.insert( children.begin() + index1, child2 );
@@ -280,13 +280,13 @@ void ofxFlashDisplayObjectContainer :: swapChildrenAt ( int index1, int index2 )
 {
 	if( index1 == index2 )
 		return;
-	
+
 	ofxFlashDisplayObject* child1 = getChildAt( index1 );
 	ofxFlashDisplayObject* child2 = getChildAt( index2 );
-	
+
 	if( child1 == NULL || child2 == NULL )
 		return;
-	
+
 	if( index2 > index1 )
 	{
 		children.erase( children.begin() + index2 );
@@ -297,7 +297,7 @@ void ofxFlashDisplayObjectContainer :: swapChildrenAt ( int index1, int index2 )
 		children.erase( children.begin() + index1 );
 		children.erase( children.begin() + index2 );
 	}
-	
+
 	if( index1 < index2 )
 	{
 		children.insert( children.begin() + index1, child2 );

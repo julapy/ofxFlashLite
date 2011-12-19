@@ -15,15 +15,15 @@ class KeyboardArrowKey : public KeyboardKey
 public:
      KeyboardArrowKey ();
     ~KeyboardArrowKey ();
-    
+
     void setup      ( ofxFlashMovieClip* mc );
     void update     ();
     void toggleUp   ();
-    
+
     bool bUp;
     bool bAnimating;
     int animStartTime;
     int animTotalTime;
-    
+
     ofxFlashMovieClip *arrowMc;
 };

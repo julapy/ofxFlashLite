@@ -15,7 +15,7 @@ ofxFlashDisplayObject :: ofxFlashDisplayObject ()
 
 	_name				= "sprite";
 	_libraryItemName	= "";
-	
+
 	_alpha			= 1.0;
 	_compoundAlpha	= 1.0;
 	_visible		= true;
@@ -35,7 +35,7 @@ ofxFlashDisplayObject :: ofxFlashDisplayObject ()
 	_scaleZ			= 1.0;
 	_blendMode		= BLEND_MODE_NORMAL;
 	_level			= -1;
-	
+
 	mask		= NULL;
 	parent		= NULL;
 	stage		= NULL;
@@ -55,7 +55,7 @@ void ofxFlashDisplayObject :: drawTransformedOutline ()
 	ofNoFill();
 	ofSetColor( 0, 255, 0 );
 	ofSetLineWidth( 2 );
-	
+
 	ofBeginShape();
 	ofVertex( _rectTransformed[ 0 ].x, _rectTransformed[ 0 ].y );
 	ofVertex( _rectTransformed[ 1 ].x, _rectTransformed[ 1 ].y );
@@ -69,7 +69,7 @@ void ofxFlashDisplayObject :: drawPixelBounds ()
 {
 	if( _pixelBounds.is_null() )
 		return;
-	
+
 	ofNoFill();
 	ofSetColor( 255, 0, 0 );
 	ofSetLineWidth( 2 );
@@ -145,15 +145,15 @@ const float& ofxFlashDisplayObject :: width ()
 //{
 //	const SWFRect& bounds = getBounds();
 //	const double oldwidth = bounds.width();
-//	assert(oldwidth >= 0); 
-//	
-//    const double xscale = oldwidth ? (newwidth / oldwidth) : 0; 
+//	assert(oldwidth >= 0);
+//
+//    const double xscale = oldwidth ? (newwidth / oldwidth) : 0;
 //    const double rotation = _rotation * PI / 180.0;
-//	
+//
 //    SWFMatrix m = getMatrix();
-//    const double yscale = m.get_y_scale(); 
+//    const double yscale = m.get_y_scale();
 //    m.set_scale_rotation(xscale, yscale, rotation);
-//    setMatrix(m, true); 
+//    setMatrix(m, true);
 //}
 
 void ofxFlashDisplayObject :: width ( float value )
@@ -173,13 +173,13 @@ const float& ofxFlashDisplayObject :: height ()
 //DisplayObject::setHeight(double newheight)
 //{
 //	const SWFRect& bounds = getBounds();
-//	
+//
 //	const double oldheight = bounds.height();
-//	assert(oldheight >= 0); 
-//	
+//	assert(oldheight >= 0);
+//
 //    const double yscale = oldheight ? (newheight / oldheight) : 0;
 //    const double rotation = _rotation * PI / 180.0;
-//	
+//
 //    SWFMatrix m = getMatrix();
 //    const double xscale = m.get_x_scale();
 //    m.set_scale_rotation(xscale, yscale, rotation);
@@ -236,16 +236,16 @@ const int& ofxFlashDisplayObject :: mouseX ()
 	{
 		ofPoint p;
 		p.x = stage->mouseX();
-		
+
 		_concatenatedMatrixInv.transform( p );
-		
+
 		_mouseX = p.x - _rect.get_x_min();
 	}
 	else
 	{
 		_mouseX = 0;
 	}
-	
+
 	return _mouseX;
 }
 
@@ -255,16 +255,16 @@ const int& ofxFlashDisplayObject :: mouseY ()
 	{
 		ofPoint p;
 		p.y = stage->mouseY();
-		
+
 		_concatenatedMatrixInv.transform( p );
-		
+
 		_mouseY = p.y - _rect.get_y_min();
 	}
 	else
 	{
 		_mouseY = 0;
 	}
-	
+
 	return _mouseY;
 }
 
@@ -363,7 +363,7 @@ void ofxFlashDisplayObject :: blendMode ( int value )
 {
 	if( value < 0 || value > 13 )		// invalid range.
 		return;
-	
+
 	_blendMode = value;
 }
 
@@ -389,7 +389,7 @@ const ofxFlashMatrix& ofxFlashDisplayObject :: matrix()
 void ofxFlashDisplayObject :: matrix( const ofxFlashMatrix& mat )
 {
 	_matrix = mat;
-	
+
 	_x			= mat.getTx();
 	_y			= mat.getTy();
 	_scaleX		= mat.get_x_scale();
@@ -430,35 +430,35 @@ void ofxFlashDisplayObject :: transform ( const ofxFlashMatrix& mat )
 	_concatenatedMatrix		= mat;
 	_concatenatedMatrixInv	= mat;
 	_concatenatedMatrixInv.invert();
-	
+
 	float x1 = _rect.get_x_min();
 	float y1 = _rect.get_y_min();
 	float x2 = _rect.get_x_max();
 	float y2 = _rect.get_y_max();
-	
+
 	ofPoint p0( x1, y1 );
 	ofPoint p1( x2, y1 );
 	ofPoint p2( x2, y2 );
 	ofPoint p3( x1, y2 );
-	
+
 	mat.transform( p0 );
 	mat.transform( p1 );
 	mat.transform( p2 );
 	mat.transform( p3 );
-	
+
 	_rectTransformed[ 0 ] = p0;
 	_rectTransformed[ 1 ] = p1;
 	_rectTransformed[ 2 ] = p2;
 	_rectTransformed[ 3 ] = p3;
-	
+
 	//-- work out global bounding box.
-	
+
 	vector<ofPoint> points;
 	points.push_back( _rectTransformed[ 0 ] );
 	points.push_back( _rectTransformed[ 1 ] );
 	points.push_back( _rectTransformed[ 2 ] );
 	points.push_back( _rectTransformed[ 3 ] );
-	
+
 	_pixelBounds.set_null();						// reset before enclosing new points.
 	_pixelBounds.enclose_rect( points );
 }
@@ -475,7 +475,7 @@ ofRectangle ofxFlashDisplayObject :: getRect ( ofxFlashDisplayObject* targetCoor
 ofPoint ofxFlashDisplayObject :: globalToLocal ( const ofPoint& point )
 {
 	ofPoint p = point;
-	
+
 	_concatenatedMatrixInv.transform( p );
 
 	return p;
@@ -486,23 +486,23 @@ ofPoint ofxFlashDisplayObject :: globalToLocal3D ( const ofPoint& point )
 	ofPoint p = point;						// ofxFlashMatrix is a 3D matrix although only using the 2D component atm.
 											// once the 3D maths is worked out, this should work.
 	_concatenatedMatrixInv.transform( p );
-	
+
 	return p;
 }
 
 bool ofxFlashDisplayObject :: hitTestObject ( ofxFlashDisplayObject* obj )
 {
 	// TODO - working if two rectangles of different world matrices make any contact.
-	
+
 	return false;
 }
 
 bool ofxFlashDisplayObject :: hitTestPoint ( float x, float y, bool shapeFlag )
 {
 	ofPoint p( x, y );
-	
+
 	_concatenatedMatrixInv.transform( p );
-	
+
 	return _rect.point_test( p.x, p.y );
 }
 
@@ -511,15 +511,15 @@ ofPoint ofxFlashDisplayObject :: local3DToGlobal ( const ofPoint& point )
 	ofPoint p = point;						// ofxFlashMatrix is a 3D matrix although only using the 2D component atm.
 											// once the 3D maths is worked out, this should work.
 	_concatenatedMatrix.transform( p );
-	
+
 	return p;
 }
 
 ofPoint ofxFlashDisplayObject :: localToGlobal ( const ofPoint& point )
 {
 	ofPoint p = point;
-	
+
 	_concatenatedMatrix.transform( p );
-	
+
 	return p;
 }

@@ -13,10 +13,10 @@ KeyboardKey :: KeyboardKey()
     keyType = KEY_TYPE_CHAR;
     keyStroke = "";
     bKeyDown = false;
-    
+
     keyDownTimeStart = 0;
     keyDownTimeTotal = 0;
-    
+
     mc = NULL;
 }
 
@@ -39,7 +39,7 @@ void KeyboardKey :: setup ( ofxFlashMovieClip* mc )
     if( keyStroke == "dash" )       keyStroke = "-";
     if( keyStroke == "underscore" ) keyStroke = "_";
     if( keyStroke == "space" )      keyStroke = " ";
-    
+
     if( keyStroke == "cancel" )     keyType = KEY_CANCEL;
     if( keyStroke == "delete" )     keyType = KEY_DELETE;
     if( keyStroke == "enter" )      keyType = KEY_ENTER;
@@ -50,9 +50,9 @@ void KeyboardKey :: update ()
 {
     bKeyChanged = bKeyDown != mc->mouseDown();
     bKeyDown    = mc->mouseDown();
-    
+
     int timeNow = ofGetElapsedTimeMillis();
-    
+
     if( bKeyDown )
     {
         if( bKeyChanged )
@@ -70,7 +70,7 @@ void KeyboardKey :: update ()
             }
         }
     }
-    
+
     if( bKeyChanged )
     {
         if( bKeyDown )

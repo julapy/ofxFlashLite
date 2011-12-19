@@ -16,34 +16,34 @@ class Box : public ofxFlashSprite
 {
 
 public:
-	
+
 	Box()
 	{
 		rotInc = ofRandom( -0.5, 0.5 );
-		
+
 		float w = ofRandom( 100, 200 );
 		float h = ofRandom( 100, 200 );
-		
+
 		// have to set the display object rectangle for any mouse interaction to work.
 		// this will be done via setting x, y, width, height properties of the sprite in the future.
 		// but for now, it may look ugly but it works!
-		
+
 		_rect.set_to_rect( -w * 0.5, -h * 0.5, w * 0.5, h * 0.5 );
 	}
-	
+
 	~Box()
 	{
 		//
 	}
-	
+
 	float rotInc;
-	
+
 	void update ()
 	{
 		float r = rotation();
 		rotation( r + rotInc );
 	}
-	
+
 	void draw ()
 	{
 		float x = _rect.get_x_min();		// same as top left x.
@@ -69,11 +69,11 @@ public:
 			ofSetColor( 150, 150, 150 );
 			ofRect( x, y, w, h );
 		}
-		
+
 		ofNoFill();
 		ofSetLineWidth( 1 );
 		ofSetColor( 100, 100, 100 );
 		ofRect( x, y, w, h );
 	}
-	
+
 };

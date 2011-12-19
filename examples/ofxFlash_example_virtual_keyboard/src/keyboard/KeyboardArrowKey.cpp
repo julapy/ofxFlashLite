@@ -30,19 +30,19 @@ void KeyboardArrowKey :: setup ( ofxFlashMovieClip* mc )
 void KeyboardArrowKey :: update ()
 {
     KeyboardKey :: update();
-    
+
     if( bAnimating )
     {
         int timeNow = ofGetElapsedTimeMillis();
         bAnimating = !( timeNow > animStartTime + animTotalTime );
-        
+
         float p = ofNormalize( timeNow, animStartTime, animStartTime + animTotalTime );
         float t = 0;
         if( bUp )
             t = p;
         else
             t = 1 - p;
-        
+
         arrowMc->rotation( t * 180 );
     }
 }
@@ -50,7 +50,7 @@ void KeyboardArrowKey :: update ()
 void KeyboardArrowKey :: toggleUp ()
 {
     bUp = !bUp;
-    
+
     bAnimating = true;
     animStartTime = ofGetElapsedTimeMillis();
     animTotalTime = 0.3 * 1000;

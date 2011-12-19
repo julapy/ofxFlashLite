@@ -9,7 +9,7 @@
 class testApp : public ofBaseApp
 {
 public:
-	
+
 	void setup	();
 	void update	();
 	void draw	();
@@ -24,10 +24,10 @@ public:
 
 	ofxFlashStage*			stage;
 	ofxFlashXFL				xfl;
-	
+
 	ofxFlashMovieClip*		flashIcon;
 	Instructions			instructions;
-	
+
 	bool					bShowRedrawRegions;
 };
 
