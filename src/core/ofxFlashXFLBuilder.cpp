@@ -225,7 +225,7 @@ void ofxFlashXFLBuilder :: buildElements ()
 		{
 			DOMBitmapInstance dom;
 			dom.libraryItemName = child->Attribute( "libraryItemName" );
-			dom.name            = child->Attribute( "name" );
+			if(child->Attribute( "name" )) dom.name = child->Attribute( "name" ); // Support for CS5.5, which doesn't export name tags if empty
 			dom.referenceID		= "";
 			domBitmapInstance	= dom;
 			
@@ -239,7 +239,7 @@ void ofxFlashXFLBuilder :: buildElements ()
 		{
 			DOMSymbolInstance dom;
 			dom.libraryItemName	= child->Attribute( "libraryItemName" );
-			dom.name			= child->Attribute( "name" );
+			if(child->Attribute( "name" )) dom.name = child->Attribute( "name" ); // Support for CS5.5, which doesn't export name tags if empty
 			dom.centerPoint3DX	= 0.0;
 			dom.centerPoint3DY	= 0.0; 
 			domSymbolInstance	= dom;
