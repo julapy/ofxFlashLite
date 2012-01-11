@@ -11,18 +11,18 @@ void testApp::setup()
 	ofSetCircleResolution( 100 );
 	ofEnableSmoothing();
 	ofBackground( 255, 255, 255 );
-	
-	
+
+
 	stage = ofxFlashStage :: getInstance();			// ofxFlash setup.
 	stage->addListeners();
 	stage->showRedrawRegions( bShowRedrawRegions = false );
 
-	
+
 	xfl.loadFile( "assets/DOMDocument.xml" );		// load XFL flash file.
 	xfl.build();
-	
+
 	flashIcon = (ofxFlashMovieClip*)( stage->root()->getChildByName( "fl_icon" ) );
-	
+
 	stage->addChild( &instructions );				// add child to stage.
 }
 

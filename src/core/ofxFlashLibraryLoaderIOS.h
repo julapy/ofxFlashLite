@@ -13,31 +13,31 @@
 
 class ofxFlashLibraryLoaderIOS
 {
-	
-private: 
-	
+
+private:
+
 	static ofxFlashLibraryLoaderIOS* _instance;
-	
+
 	 ofxFlashLibraryLoaderIOS() {};
 	~ofxFlashLibraryLoaderIOS() {};
-	
+
 public:
-	
+
 	static ofxFlashLibraryLoaderIOS* getInstance()
 	{
 		if( !_instance )
 		{
 			_instance = new ofxFlashLibraryLoaderIOS();
 		}
-		
+
         return _instance;
 	}
-	
+
 	ofBaseDraws* loadImage( string imagePath );
 	ofBaseDraws* loadVideo( string videoPath );
-	
-private:	
-	
+
+private:
+
 	bool convertUIImageToOFTexture( void* uiImagePtr, ofTexture &outTexture, int targetWidth = 0, int targetHeight = 0 );
-	
+
 };

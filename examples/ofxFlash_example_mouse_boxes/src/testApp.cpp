@@ -11,31 +11,31 @@ void testApp::setup()
 	ofSetCircleResolution( 100 );
 	ofEnableSmoothing();
 	ofBackground( 255, 255, 255 );
-	
-	
+
+
 	ofxFlashStage* stage;
 	stage = ofxFlashStage :: getInstance();			// ofxFlash setup.
 	stage->addListeners();							// by adding listeners, stage and all it's content is automatically updated and drawn for you.
 	stage->showRedrawRegions( false );				// if set to true, it will draw the bounding rectangle around the object's pixels.
-	
-	
+
+
 	for( int i=0; i<20; i++ )						// adding Box sprites to stage.
 	{
 		Box* box;
 		box	= new Box();
-		
+
 		string boxName = "";
 		boxName = "box_";
 		boxName += ofToString( i, 0 );
-		
+
 		box->name( boxName );
 		box->mouseEnabled( true );
 		box->mouseUpOutside( true );
-		
+
 		box->x( ofRandom( 0, ofGetWidth() ) );
 		box->y( ofRandom( 0, ofGetHeight() ) );
 		box->rotation( ofRandom( 0, 360 ) );
-		
+
 		stage->addChild( box );
 	}
 }

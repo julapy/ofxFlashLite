@@ -14,24 +14,24 @@
 class KeyboardCursor : public ofxFlashSprite
 {
 public:
-    
-    KeyboardCursor () 
+
+    KeyboardCursor ()
     {
         cursorStartTime = 0;
         cursorBlinkTime = 1000 * 0.5;
         bCursorBlink    = false;
     }
-    
-    ~KeyboardCursor () 
+
+    ~KeyboardCursor ()
     {
         //
     }
-    
+
     void setPosition ( int posX )
     {
         cursorX = posX + 13;
     }
-    
+
     void update ()
     {
         int timeNow = ofGetElapsedTimeMillis();
@@ -41,7 +41,7 @@ public:
             bCursorBlink    = !bCursorBlink;
         }
     }
-    
+
     void draw ()
     {
         if( bCursorBlink )
@@ -49,9 +49,9 @@ public:
             ofFill();
             ofSetColor( 255 );
             ofRect( cursorX, 0, 1, 30 );
-        }        
+        }
     }
-    
+
     int cursorX;
     int cursorStartTime;
     int cursorBlinkTime;

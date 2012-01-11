@@ -27,12 +27,12 @@ enum ofxFlashObjectType
 
 class ofxFlashObject
 {
-	
+
 public:
 
 	 ofxFlashObject();
 	~ofxFlashObject();
-	
+
 	ofxFlashObjectType typeID;
-	
+
 };

@@ -15,26 +15,26 @@ class ofxFlashSprite : public ofxFlashDisplayObjectContainer
 {
 
 public:
-	
+
 	 ofxFlashSprite();
 	~ofxFlashSprite();
-	
+
 	virtual void setup	() {};
 	virtual void update	() {};
 	virtual void draw	() {};
-	
+
 protected:
-	
+
 	virtual void updateOnFrame () {};
-	
+
 private:
-	
+
 	bool					_buttonMode;
 	ofxFlashDisplayObject*	_dropTarget;
 	ofxFlashSprite*			_hitArea;
 	bool					_useHandCursor;
-	
+
 	// TODO :: graphics
 	// TODO :: soundTransform
-	
+
 };

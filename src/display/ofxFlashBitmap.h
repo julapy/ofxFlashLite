@@ -13,29 +13,29 @@
 
 class ofxFlashBitmap : public ofxFlashDisplayObject
 {
-	
+
 public:
-	
+
 	 ofxFlashBitmap( ofBaseDraws* image );
 	~ofxFlashBitmap();
-	
+
 	//-------------------------------------------
-	
+
 	ofBaseDraws*	bitmapImage;
-	
+
 	//-------------------------------------------
-	
+
 	virtual void setup	() {};
 	virtual void update	() {};
 	virtual void draw	() {};
-	
+
 protected:
-	
+
 	virtual void updateOnFrame	();
 	virtual void drawOnFrame	();
-	
+
 private:
-	
+
 	void drawBitmap	();
-	
+
 };

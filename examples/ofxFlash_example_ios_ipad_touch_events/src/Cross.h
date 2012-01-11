@@ -12,19 +12,19 @@
 
 class Cross : public ofxFlashSprite
 {
-	
+
 public:
-	
+
 	Cross()
 	{
 		//
 	};
-	
+
 	~Cross()
 	{
 		//
 	}
-	
+
 	void draw ()
 	{
 		ofNoFill();

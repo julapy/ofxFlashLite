@@ -12,15 +12,15 @@
 ofxFlashShape :: ofxFlashShape()
 {
     typeID = OFX_FLASH_TYPE_SHAPE;
-    
+
 	shapeType = UNDEFINED_SHAPE_TYPE;
-	
+
 	setFill( false );
 	setStroke( false );
-	
+
 	setFillColor( 0x000000 );
 	setFillAlpha( 1.0 );
-	
+
 	setStrokeColor( 0x000000 );
 	setStrokeAlpha( 1.0 );
 	setStrokeWeight( 0 );
@@ -74,14 +74,14 @@ void ofxFlashShape :: setFillColor ( int value )
 	shapeFillColor	= value;
 	shapeFillColorR	= ( value >> 16 ) & 0xFF;
 	shapeFillColorG = ( value >> 8 ) & 0xFF;
-	shapeFillColorB	= value & 0xFF;	
+	shapeFillColorB	= value & 0xFF;
 }
 
 void ofxFlashShape :: setFillAlpha ( float value )
 {
 	shapeFillAlpha	= value;
 	shapeFillColorA	= value * 255;
-	
+
 	if( value == 0 )
 		bShapeFill = false;
 }
@@ -96,14 +96,14 @@ void ofxFlashShape :: setStrokeColor ( int value )
 	shapeStrokeColor	= value;
 	shapeStrokeColorR	= ( value >> 16 ) & 0xFF;
 	shapeStrokeColorG	= ( value >> 8 ) & 0xFF;
-	shapeStrokeColorB	= value & 0xFF;	
+	shapeStrokeColorB	= value & 0xFF;
 }
 
 void ofxFlashShape :: setStrokeAlpha ( int value )
 {
 	shapeStrokeAlpha	= value;
 	shapeStrokeColorA	= value * 255;
-	
+
 	if( value == 0 )
 		bShapeStroke = false;
 }
@@ -116,22 +116,22 @@ void ofxFlashShape :: setStrokeWeight ( int value )
 void ofxFlashShape :: setRectangle ( float x, float y, float width, float height )
 {
 	shapeType = RECTANGLE_SHAPE_TYPE;
-	
+
 	shape_x			= x;
 	shape_y			= y;
 	shape_width		= width;
 	shape_height	= height;
-	
+
 	this->width( shape_width );
 	this->height( shape_height );
-	
+
 	_rect.set_to_rect( x, y, x + width, y + height );
 }
 
 void ofxFlashShape :: setOval ( float x, float y, float width, float height )
 {
 	shapeType = OVAL_SHAPE_TYPE;
-	
+
 	shape_x			= x;
 	shape_y			= y;
 	shape_width		= width;
@@ -139,14 +139,14 @@ void ofxFlashShape :: setOval ( float x, float y, float width, float height )
 
 	this->width( shape_width );
 	this->height( shape_height );
-	
+
 	_rect.set_to_rect( x, y, x + width, y + height );
 }
 
 void ofxFlashShape :: setCustom ( const vector<ofPoint>& points )
 {
 	shapeType = CUSTOM_SHAPE_TYPE;
-	
+
 	// TODO :: work out x, y, width, height (bounding rectangle) from points.
 }
 
@@ -164,12 +164,12 @@ void ofxFlashShape :: drawRectangleFill ()
 {
 	if( !bShapeFill )
 		return;
-	
+
 	float a = parent->compoundAlpha() * shapeFillAlpha;
-	
+
 	ofFill();
 	ofSetColor( shapeFillColorR, shapeFillColorG, shapeFillColorB, a * 255 );
-	
+
 	ofRect
 	(
 		shape_x,
@@ -183,13 +183,13 @@ void ofxFlashShape :: drawRectangleStroke ()
 {
 	if( !bShapeStroke )
 		return;
-	
+
 	float a = parent->compoundAlpha() * shapeStrokeAlpha;
-	
+
 	ofNoFill();
 	ofSetLineWidth( shapeStrokeWeight );
 	ofSetColor( shapeStrokeColorR, shapeStrokeColorG, shapeStrokeColorB, a * 255 );
-	
+
 	ofRect
 	(
 		shape_x,
@@ -213,12 +213,12 @@ void ofxFlashShape :: drawOvalFill ()
 {
 	if( !bShapeFill )
 		return;
-	
+
 	float a = parent->compoundAlpha() * shapeFillAlpha;
-	
+
 	ofFill();
 	ofSetColor( shapeFillColorR, shapeFillColorG, shapeFillColorB, a * 255 );
-	
+
 	ofEllipse
 	(
 		shape_x + shape_width  * 0.5,
@@ -232,13 +232,13 @@ void ofxFlashShape :: drawOvalStroke ()
 {
 	if( !bShapeStroke )
 		return;
-	
+
 	float a = parent->compoundAlpha() * shapeStrokeAlpha;
-	
+
 	ofNoFill();
 	ofSetLineWidth( shapeStrokeWeight );
 	ofSetColor( shapeStrokeColorR, shapeStrokeColorG, shapeStrokeColorB, a * 255 );
-	
+
 	ofEllipse
 	(
 		shape_x + shape_width  * 0.5,

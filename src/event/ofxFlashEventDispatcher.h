@@ -15,7 +15,7 @@ class ofxFlashEventDispatcher : public ofxFlashObject
 {
 
 public:
-	
+
 	 ofxFlashEventDispatcher();
 	~ofxFlashEventDispatcher();
 

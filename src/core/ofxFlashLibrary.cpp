@@ -36,7 +36,7 @@ ofBaseDraws* ofxFlashLibrary :: loadVideo( string videoPath )
 bool ofxFlashLibrary :: addAsset( string assetID, string assetPath, int assetType )
 {
     bool success = false;
-    
+
 	if( assetType == OFX_FLASH_LIBRARY_TYPE_IMAGE )
 	{
 		success = addImage( assetPath, assetID );
@@ -49,7 +49,7 @@ bool ofxFlashLibrary :: addAsset( string assetID, string assetPath, int assetTyp
 	{
 		success = addSound( assetPath, assetID );
 	}
-    
+
     return success;
 }
 
@@ -58,10 +58,10 @@ bool ofxFlashLibrary :: addAsset( string assetID, string assetPath, int assetTyp
 bool ofxFlashLibrary :: addImage ( string assetID, string assetPath )
 {
 	ofBaseDraws* tex = loadImage( assetPath );
-	
+
 	if( !tex )
 		return false;
-	
+
 	ofxFlashLibraryItem* item;
 	item = new ofxFlashLibraryItem();
 	item->assetID		= assetID;
@@ -69,10 +69,10 @@ bool ofxFlashLibrary :: addImage ( string assetID, string assetPath )
 	item->assetType		= OFX_FLASH_LIBRARY_TYPE_IMAGE;
 	item->imageAsset	= tex;
 	item->soundAsset	= NULL;
-	
+
 	items.push_back( item );
 	imageItems.push_back( item );
-    
+
     return true;
 }
 
@@ -85,10 +85,10 @@ bool ofxFlashLibrary :: addImage ( string assetID, ofBaseDraws& image )
 	item->assetType		= OFX_FLASH_LIBRARY_TYPE_IMAGE;
 	item->imageAsset	= &image;
 	item->soundAsset	= NULL;
-	
+
 	items.push_back( item );
 	imageItems.push_back( item );
-    
+
     return true;
 }
 
@@ -97,10 +97,10 @@ bool ofxFlashLibrary :: addImage ( string assetID, ofBaseDraws& image )
 bool ofxFlashLibrary :: addVideo ( string assetID, string assetPath )
 {
 	ofBaseDraws* video = loadImage( assetPath );
-	
+
 	if( !video )
 		return false;
-	
+
 	ofxFlashLibraryItem* item;
 	item = new ofxFlashLibraryItem();
 	item->assetID		= assetID;
@@ -108,10 +108,10 @@ bool ofxFlashLibrary :: addVideo ( string assetID, string assetPath )
 	item->assetType		= OFX_FLASH_LIBRARY_TYPE_VIDEO;
 	item->imageAsset	= video;
 	item->soundAsset	= NULL;
-	
+
 	items.push_back( item );
 	videoItems.push_back( item );
-    
+
     return true;
 }
 
@@ -124,10 +124,10 @@ bool ofxFlashLibrary :: addVideo ( string assetID, ofBaseDraws& video )
 	item->assetType		= OFX_FLASH_LIBRARY_TYPE_VIDEO;
 	item->imageAsset	= &video;
 	item->soundAsset	= NULL;
-	
+
 	items.push_back( item );
 	videoItems.push_back( item );
-    
+
     return true;
 }
 
@@ -138,7 +138,7 @@ bool ofxFlashLibrary :: addSound ( string assetID, string assetPath )
 	ofSoundPlayer* sound;
 	sound = new ofSoundPlayer();
 	sound->loadSound( assetPath, true );	// stream set to true - not sure what to do about this right now?
-	
+
 	ofxFlashLibraryItem* item;
 	item = new ofxFlashLibraryItem();
 	item->assetID		= assetID;
@@ -146,10 +146,10 @@ bool ofxFlashLibrary :: addSound ( string assetID, string assetPath )
 	item->assetType		= OFX_FLASH_LIBRARY_TYPE_SOUND;
 	item->imageAsset	= NULL;
 	item->soundAsset	= sound;
-	
+
 	items.push_back( item );
 	soundItems.push_back( item );
-    
+
     return true;
 }
 
@@ -162,10 +162,10 @@ bool ofxFlashLibrary :: addSound ( string assetID, ofSoundPlayer& sound )
 	item->assetType		= OFX_FLASH_LIBRARY_TYPE_SOUND;
 	item->imageAsset	= NULL;
 	item->soundAsset	= &sound;
-	
+
 	items.push_back( item );
 	soundItems.push_back( item );
-    
+
     return true;
 }
 
@@ -174,13 +174,13 @@ ofSoundPlayer* ofxFlashLibrary :: getSound ( string assetID )
 	for( int i=0; i<soundItems.size(); i++ )
 	{
 		ofxFlashLibraryItem& item = *soundItems[ i ];
-		
+
 		if( item.assetID == assetID )
 		{
 			return item.soundAsset;
 		}
 	}
-	
+
 	return NULL;
 }
 
@@ -188,17 +188,17 @@ ofSoundPlayer* ofxFlashLibrary :: getSoundByFileName ( string fileName )
 {
 	if( fileName == "" )
 		return NULL;
-	
+
 	for( int i=0; i<soundItems.size(); i++ )
 	{
 		ofxFlashLibraryItem& item = *soundItems[ i ];
-		
+
 		if( item.assetPath == fileName )
 		{
 			return item.soundAsset;
 		}
 	}
-	
+
 	return NULL;
 }
 
@@ -209,13 +209,13 @@ ofBaseDraws* ofxFlashLibrary :: getAsset ( string assetID )
 	for( int i=0; i<items.size(); i++ )
 	{
 		ofxFlashLibraryItem& item = *items[ i ];
-		
+
 		if( item.assetID == assetID )
 		{
 			return item.imageAsset;
 		}
 	}
-	
+
 	return NULL;
 }
 
@@ -223,17 +223,17 @@ ofBaseDraws* ofxFlashLibrary :: getAssetByFileName ( string fileName )
 {
 	if( fileName == "" )
 		return NULL;
-	
+
 	for( int i=0; i<items.size(); i++ )
 	{
 		ofxFlashLibraryItem& item = *items[ i ];
-		
+
 		if( item.assetPath == fileName )
 		{
 			return item.imageAsset;
 		}
 	}
-	
+
 	return NULL;
 }
 
@@ -248,7 +248,7 @@ ofxFlashMovieClip* ofxFlashLibrary :: createMovieClipWithLinkageClassName ( stri
 {
     if( container == NULL )
         container = new ofxFlashMovieClip();
-    
+
     for( int i=0; i<symbols.size(); i++ )
     {
         if( symbols[ i ]->linkageClassName == linkageClassName )
@@ -257,13 +257,13 @@ ofxFlashMovieClip* ofxFlashLibrary :: createMovieClipWithLinkageClassName ( stri
             builder = new ofxFlashXFLBuilder();
             builder->build( symbols[ i ]->xflRoot, "LIBRARY/" + symbols[ i ]->href, container );
             delete builder;
-            
+
             break;
         }
     }
-    
+
     container->addFrameChildren();  // initialise the first frame.
-    
+
     return container;
 }
 
@@ -275,7 +275,7 @@ ofxFlashDisplayObject* ofxFlashLibrary :: addDisplayObject ( string libraryItemN
 	{
 		displayObjects.push_back( displayObject );
 	}
-	
+
 	return displayObject;
 }
 
@@ -285,13 +285,13 @@ ofxFlashDisplayObject* ofxFlashLibrary :: getDisplayObject ( string libraryItemN
 	{
 		ofxFlashDisplayObject* displayObject;
 		displayObject = displayObjects[ i ];
-		
+
 		if( displayObject->libraryItemName() == libraryItemName )
 		{
 			return displayObject;
 		}
 	}
-	
+
 	return NULL;
 }
 
@@ -301,12 +301,12 @@ bool ofxFlashLibrary :: hasDisplayObject ( string libraryItemName )
 	{
 		ofxFlashDisplayObject* displayObject;
 		displayObject = displayObjects[ i ];
-		
+
 		if( displayObject->libraryItemName() == libraryItemName )
 		{
 			return true;
 		}
 	}
-	
+
 	return false;
 }

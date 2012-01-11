@@ -9,7 +9,7 @@
 #include "ofxFlashColorTransform.h"
 
 ofxFlashColorTransform :: ofxFlashColorTransform
-( 
+(
     float redMultiplier,
     float greenMultiplier,
     float blueMultiplier,
@@ -28,7 +28,7 @@ ofxFlashColorTransform :: ofxFlashColorTransform
     this->greenOffset       = greenOffset;
     this->blueOffset        = blueOffset;
     this->alphaOffset       = alphaOffset;
-    
+
     color = 0xFFFFFF;
 }
 
@@ -38,7 +38,7 @@ ofxFlashColorTransform :: ~ofxFlashColorTransform ()
 }
 
 /**
- *  Concatenates the ColorTranform object specified by the second parameter with the current ColorTransform object 
+ *  Concatenates the ColorTranform object specified by the second parameter with the current ColorTransform object
  *  and sets the current object as the result, which is an additive combination of the two color transformations.
  **/
 void ofxFlashColorTransform :: concat ( const ofxFlashColorTransform &second )
@@ -70,7 +70,7 @@ bool ofxFlashColorTransform :: isEqual ( const ofxFlashColorTransform &second )
     if( greenOffset     != second.greenOffset     ) return false;
     if( redMultiplier   != second.redMultiplier   ) return false;
     if( redOffset       != second.redOffset       ) return false;
-    
+
     return true;
 }
 
@@ -89,6 +89,6 @@ string ofxFlashColorTransform :: toString ()
     str += "greenOffset="       + ofToString( greenOffset )     + ", ";
     str += "blueOffset="        + ofToString( blueOffset )      + ", ";
     str += "alphaOffset="       + ofToString( blueOffset )      + ")";
-    
+
     return str;
 }

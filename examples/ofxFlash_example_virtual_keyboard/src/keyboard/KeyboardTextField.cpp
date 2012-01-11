@@ -11,9 +11,9 @@
 KeyboardTextField :: KeyboardTextField()
 {
     text = "";
-    
+
     charLimit = 40;
-    
+
     x( 45 );
     y( 124 );
 
@@ -45,7 +45,7 @@ bool KeyboardTextField :: addKeyStroke ( string keyStroke )
 {
     if( text.size() >= charLimit )
         return false;
-    
+
     text += ofToUpper( keyStroke );
     return true;
 }
@@ -54,7 +54,7 @@ bool KeyboardTextField :: deleteKeyStroke ()
 {
     if( text.size() == 0 )
         return false;
-    
+
     text.erase( text.end() - 1, text.end() );
     return true;
 }

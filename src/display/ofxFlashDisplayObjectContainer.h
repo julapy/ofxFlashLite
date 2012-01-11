@@ -15,20 +15,20 @@ class ofxFlashDisplayObjectContainer : public ofxFlashInteractiveObject
 {
 
 public:
-	
+
 	 ofxFlashDisplayObjectContainer();
 	~ofxFlashDisplayObjectContainer();
-	
+
 	const bool&			mouseChildren ();
 	void				mouseChildren ( bool value );
 
 	const bool&			tabChildren ();
 	void				tabChildren ( bool value );
-	
+
 	int                 numChildren ();
-	
+
 	vector<ofxFlashDisplayObject*>	children;
-	
+
 	virtual ofxFlashDisplayObject*			addChild				( ofxFlashDisplayObject* child );
 	virtual ofxFlashDisplayObject*			addChildAt				( ofxFlashDisplayObject* child, int index );
 	virtual bool							contains				( ofxFlashDisplayObject* child );
@@ -42,11 +42,11 @@ public:
 	virtual void							setChildIndex			( ofxFlashDisplayObject* child, int index );
 	virtual void							swapChildren			( ofxFlashDisplayObject* child1, ofxFlashDisplayObject* child2 );
 	virtual void							swapChildrenAt			( int index1, int index2 );
-	
+
 private:
-	
+
 	bool		_mouseChildren;
 	bool		_tabChildren;
 	int			_numChildren;
-	
+
 };

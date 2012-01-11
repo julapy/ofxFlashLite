@@ -4,14 +4,14 @@
 void testApp::setup()
 {
     ofBackground( 0 );                              // OF setup.
-	ofSetFrameRate( 30 );							
+	ofSetFrameRate( 30 );
 	ofSetVerticalSync( true );
-	
+
 	ofxFlashStage::getInstance()->addListeners();   // ofxFlash setup.
-	
+
 	xfl.loadFile( "assets/DOMDocument.xml" );		// load XFL flash file.
 	xfl.build();
-    
+
     keyboard.setup();
 }
 
@@ -26,11 +26,11 @@ void testApp::draw()
 {
     int x = 20;
     int y = 0;
-    
+
     ofSetColor( ofColor :: yellow );
     ofDrawBitmapString( "This is a virtual keyboard demo made using ofxFlash,", x, y+=20 );
     ofDrawBitmapString( "generously donated by Lightwell [http://lightwell.com.au/] from the Plot Your Pitch project.", x, y+=20 );
-    
+
     ofSetColor( ofColor :: cyan );
     ofDrawBitmapString( " - use the mouse to press the keys on the virtual keyboard.", x, y+=40 );
     ofDrawBitmapString( " - you can also use your computer keyboard to input text.", x, y+=20 );
@@ -87,6 +87,6 @@ void testApp::gotMessage(ofMessage msg)
 
 //--------------------------------------------------------------
 void testApp::dragEvent(ofDragInfo dragInfo)
-{ 
+{
     //
 }
