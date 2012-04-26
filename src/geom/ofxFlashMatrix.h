@@ -230,7 +230,7 @@ public:
 	{
 		const float rot_y = atan2( -getC(), getD() );
 		
-		setC( yscale * sin( rot_y ) );
+		setC( yscale * -sin( rot_y ) );
 		setD( yscale * cos( rot_y ) );
 	}
 	
