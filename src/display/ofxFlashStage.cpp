@@ -45,20 +45,20 @@ ofxFlashStage :: ofxFlashStage ()
 	showRedrawRegions( false );
 	
 #ifdef OF_USING_POCO	
-	ofAddListener( ofEvents.mouseMoved,		this, &ofxFlashStage::mouseMoved	);		//-- add mouse event handlers.
-	ofAddListener( ofEvents.mouseDragged,	this, &ofxFlashStage::mouseDragged	);
-	ofAddListener( ofEvents.mousePressed,	this, &ofxFlashStage::mousePressed	);
-	ofAddListener( ofEvents.mouseReleased,	this, &ofxFlashStage::mouseReleased	);
+	ofAddListener( ofEvents().mouseMoved,		this, &ofxFlashStage::mouseMoved	);		//-- add mouse event handlers.
+	ofAddListener( ofEvents().mouseDragged,	this, &ofxFlashStage::mouseDragged	);
+	ofAddListener( ofEvents().mousePressed,	this, &ofxFlashStage::mousePressed	);
+	ofAddListener( ofEvents().mouseReleased,	this, &ofxFlashStage::mouseReleased	);
 #endif
 }
 
 ofxFlashStage :: ~ofxFlashStage ()
 {
 #ifdef OF_USING_POCO	
-	ofRemoveListener( ofEvents.mouseMoved,		this, &ofxFlashStage::mouseMoved	);	//-- remove mouse event handlers.
-	ofRemoveListener( ofEvents.mouseDragged,	this, &ofxFlashStage::mouseDragged	);
-	ofRemoveListener( ofEvents.mousePressed,	this, &ofxFlashStage::mousePressed	);
-	ofRemoveListener( ofEvents.mouseReleased,	this, &ofxFlashStage::mouseReleased	);
+	ofRemoveListener( ofEvents().mouseMoved,		this, &ofxFlashStage::mouseMoved	);	//-- remove mouse event handlers.
+	ofRemoveListener( ofEvents().mouseDragged,	this, &ofxFlashStage::mouseDragged	);
+	ofRemoveListener( ofEvents().mousePressed,	this, &ofxFlashStage::mousePressed	);
+	ofRemoveListener( ofEvents().mouseReleased,	this, &ofxFlashStage::mouseReleased	);
 #endif
 }
 
@@ -74,8 +74,8 @@ void ofxFlashStage :: addListeners ()
 	bUsingListeners = true;
 	
 #ifdef OF_USING_POCO	
-	ofAddListener( ofEvents.update,		this, &ofxFlashStage::update	);
-	ofAddListener( ofEvents.draw,		this, &ofxFlashStage::draw		);
+	ofAddListener( ofEvents().update,		this, &ofxFlashStage::update	);
+	ofAddListener( ofEvents().draw,		this, &ofxFlashStage::draw		);
 #endif
 }
 
@@ -87,8 +87,8 @@ void ofxFlashStage :: removeListeners ()
 	bUsingListeners = false;
 	
 #ifdef OF_USING_POCO	
-	ofRemoveListener( ofEvents.update,	this, &ofxFlashStage::update	);
-	ofRemoveListener( ofEvents.draw,	this, &ofxFlashStage::draw		);
+	ofRemoveListener( ofEvents().update,	this, &ofxFlashStage::update	);
+	ofRemoveListener( ofEvents().draw,	this, &ofxFlashStage::draw		);
 #endif
 }
 
