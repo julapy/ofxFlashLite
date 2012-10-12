@@ -113,20 +113,20 @@ const bool& ofxFlashInteractiveObject :: mouseDown ()
 void ofxFlashInteractiveObject :: enableMouseEvents()
 {
 #ifdef OF_USING_POCO
-	ofAddListener( ofEvents.mouseMoved,		this, &ofxFlashInteractiveObject :: _mouseMoved		);
-	ofAddListener( ofEvents.mouseDragged,	this, &ofxFlashInteractiveObject :: _mouseDragged	);
-	ofAddListener( ofEvents.mousePressed,	this, &ofxFlashInteractiveObject :: _mousePressed	);
-	ofAddListener( ofEvents.mouseReleased,	this, &ofxFlashInteractiveObject :: _mouseReleased	);
+	ofAddListener( ofEvents().mouseMoved,		this, &ofxFlashInteractiveObject :: _mouseMoved		);
+	ofAddListener( ofEvents().mouseDragged,	this, &ofxFlashInteractiveObject :: _mouseDragged	);
+	ofAddListener( ofEvents().mousePressed,	this, &ofxFlashInteractiveObject :: _mousePressed	);
+	ofAddListener( ofEvents().mouseReleased,	this, &ofxFlashInteractiveObject :: _mouseReleased	);
 #endif
 }
 
 void ofxFlashInteractiveObject :: disableMouseEvents()
 {
 #ifdef OF_USING_POCO
-	ofRemoveListener( ofEvents.mouseMoved,		this, &ofxFlashInteractiveObject :: _mouseMoved		);
-	ofRemoveListener( ofEvents.mouseDragged,	this, &ofxFlashInteractiveObject :: _mouseDragged	);
-	ofRemoveListener( ofEvents.mousePressed,	this, &ofxFlashInteractiveObject :: _mousePressed	);
-	ofRemoveListener( ofEvents.mouseReleased,	this, &ofxFlashInteractiveObject :: _mouseReleased	);
+	ofRemoveListener( ofEvents().mouseMoved,		this, &ofxFlashInteractiveObject :: _mouseMoved		);
+	ofRemoveListener( ofEvents().mouseDragged,	this, &ofxFlashInteractiveObject :: _mouseDragged	);
+	ofRemoveListener( ofEvents().mousePressed,	this, &ofxFlashInteractiveObject :: _mousePressed	);
+	ofRemoveListener( ofEvents().mouseReleased,	this, &ofxFlashInteractiveObject :: _mouseReleased	);
 #endif
 }
 
