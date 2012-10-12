@@ -1,0 +1,414 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="fl_icon_anim" itemID="4cd8bca0-000002af" sourceLibraryItemHRef="Symbol 1" lastModified="1289275317">
+  <timeline>
+    <DOMTimeline name="fl_icon_anim" currentFrame="29">
+      <layers>
+        <DOMLayer name="instructions" color="#FF800A" locked="true" autoNamed="false" visible="false" layerType="guide">
+          <frames>
+            <DOMFrame index="0" duration="54" name="TWEEN ANIM NOT YET SUPPORTED :: MUST BREAK TWEEN INTO KEY FRAMES" labelType="name" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="action script - skips back to start" color="#FF4FFF" current="true" isSelected="true" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" duration="29" keyMode="9728">
+              <elements/>
+            </DOMFrame>
+            <DOMFrame index="29" keyMode="9728">
+              <Actionscript>
+                <script><![CDATA[gotoAndPlay( 1 );]]></script>
+              </Actionscript>
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flash icon" color="#4FFF4F" autoNamed="false">
+          <frames>
+            <DOMFrame index="0" tweenType="motion" motionTweenRotate="clockwise" motionTweenRotateTimes="1" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="76.2" centerPoint3DY="70">
+                  <matrix>
+                    <Matrix tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="1" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="59.45" centerPoint3DY="84.2">
+                  <matrix>
+                    <Matrix a="0.97637939453125" b="0.212875366210938" c="-0.212875366210938" d="0.97637939453125" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="2" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="39.8" centerPoint3DY="94.6">
+                  <matrix>
+                    <Matrix a="0.9066162109375" b="0.418975830078125" c="-0.418975830078125" d="0.9066162109375" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="3" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="18.65" centerPoint3DY="100.45">
+                  <matrix>
+                    <Matrix a="0.7960205078125" b="0.6026611328125" c="-0.6026611328125" d="0.7960205078125" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="4" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="-3.6" centerPoint3DY="101.75">
+                  <matrix>
+                    <Matrix a="0.646453857421875" b="0.760833740234375" c="-0.760833740234375" d="0.646453857421875" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="5" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="-25.6" centerPoint3DY="98.1">
+                  <matrix>
+                    <Matrix a="0.46630859375" b="0.883087158203125" c="-0.883087158203125" d="0.46630859375" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="6" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="-46" centerPoint3DY="90.05">
+                  <matrix>
+                    <Matrix a="0.267318725585938" b="0.96270751953125" c="-0.96270751953125" d="0.267318725585938" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="7" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="-64.45" centerPoint3DY="77.6">
+                  <matrix>
+                    <Matrix a="0.0527801513671875" b="0.9984130859375" c="-0.9984130859375" d="0.0527801513671875" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="8" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="-79.55" centerPoint3DY="61.65">
+                  <matrix>
+                    <Matrix a="-0.1610107421875" b="0.986419677734375" c="-0.986419677734375" d="-0.1610107421875" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="9" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="-90.85" centerPoint3DY="42.85">
+                  <matrix>
+                    <Matrix a="-0.367416381835938" b="0.9288330078125" c="-0.9288330078125" d="-0.367416381835938" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="10" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="-98" centerPoint3DY="21.75">
+                  <matrix>
+                    <Matrix a="-0.5596923828125" b="0.82684326171875" c="-0.82684326171875" d="-0.5596923828125" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="11" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="-100.35" centerPoint3DY="-0.4">
+                  <matrix>
+                    <Matrix a="-0.72552490234375" b="0.685821533203125" c="-0.685821533203125" d="-0.72552490234375" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="12" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="-98" centerPoint3DY="-22.25">
+                  <matrix>
+                    <Matrix a="-0.855392456054688" b="0.515167236328125" c="-0.515167236328125" d="-0.855392456054688" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="13" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="-90.95" centerPoint3DY="-43.35">
+                  <matrix>
+                    <Matrix a="-0.947113037109375" b="0.31781005859375" c="-0.31781005859375" d="-0.947113037109375" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="14" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="-79.5" centerPoint3DY="-62.45">
+                  <matrix>
+                    <Matrix a="-0.99407958984375" b="0.10540771484375" c="-0.10540771484375" d="-0.99407958984375" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="15" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="-64.6" centerPoint3DY="-78.15">
+                  <matrix>
+                    <Matrix a="-0.99407958984375" b="-0.10540771484375" c="0.10540771484375" d="-0.99407958984375" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="16" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="-46.25" centerPoint3DY="-90.65">
+                  <matrix>
+                    <Matrix a="-0.947113037109375" b="-0.31781005859375" c="0.31781005859375" d="-0.947113037109375" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="17" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="-25.5" centerPoint3DY="-98.85">
+                  <matrix>
+                    <Matrix a="-0.855392456054688" b="-0.515167236328125" c="0.515167236328125" d="-0.855392456054688" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="18" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="-3.85" centerPoint3DY="-102.4">
+                  <matrix>
+                    <Matrix a="-0.72552490234375" b="-0.685821533203125" c="0.685821533203125" d="-0.72552490234375" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="19" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="18.4" centerPoint3DY="-101.15">
+                  <matrix>
+                    <Matrix a="-0.5596923828125" b="-0.82684326171875" c="0.82684326171875" d="-0.5596923828125" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="20" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="39.85" centerPoint3DY="-95.25">
+                  <matrix>
+                    <Matrix a="-0.367416381835938" b="-0.9288330078125" c="0.9288330078125" d="-0.367416381835938" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="21" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="59.25" centerPoint3DY="-85.05">
+                  <matrix>
+                    <Matrix a="-0.1610107421875" b="-0.986419677734375" c="0.986419677734375" d="-0.1610107421875" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="22" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="76.05" centerPoint3DY="-70.9">
+                  <matrix>
+                    <Matrix a="0.0527801513671875" b="-0.9984130859375" c="0.9984130859375" d="0.0527801513671875" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="23" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="89.5" centerPoint3DY="-53.15">
+                  <matrix>
+                    <Matrix a="0.267318725585938" b="-0.96270751953125" c="0.96270751953125" d="0.267318725585938" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="24" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="98.7" centerPoint3DY="-33.2">
+                  <matrix>
+                    <Matrix a="0.46630859375" b="-0.883087158203125" c="0.883087158203125" d="0.46630859375" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="25" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="103.4" centerPoint3DY="-11.45">
+                  <matrix>
+                    <Matrix a="0.646453857421875" b="-0.760833740234375" c="0.760833740234375" d="0.646453857421875" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="26" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="103.45" centerPoint3DY="10.85">
+                  <matrix>
+                    <Matrix a="0.7960205078125" b="-0.6026611328125" c="0.6026611328125" d="0.7960205078125" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="27" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="98.7" centerPoint3DY="32.3">
+                  <matrix>
+                    <Matrix a="0.9066162109375" b="-0.418975830078125" c="0.418975830078125" d="0.9066162109375" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="28" tweenType="motion" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="89.45" centerPoint3DY="52.5">
+                  <matrix>
+                    <Matrix a="0.97637939453125" b="-0.212875366210938" c="0.212875366210938" d="0.97637939453125" tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="29" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="76.15" centerPoint3DY="69.3">
+                  <matrix>
+                    <Matrix tx="1.85" ty="-0.35"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="flash icon" color="#9933CC" locked="true" autoNamed="false" visible="false" layerType="guide">
+          <frames>
+            <DOMFrame index="0" duration="29" tweenType="motion" motionTweenRotate="clockwise" motionTweenRotateTimes="1" motionTweenSnap="true" keyMode="22017">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="74.35" centerPoint3DY="70.35">
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+            <DOMFrame index="29" keyMode="9728">
+              <elements>
+                <DOMSymbolInstance libraryItemName="fl_icon" name="flashIcon" centerPoint3DX="74.3" centerPoint3DY="69.65">
+                  <transformationPoint>
+                    <Point/>
+                  </transformationPoint>
+                </DOMSymbolInstance>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>
