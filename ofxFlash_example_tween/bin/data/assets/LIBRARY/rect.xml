@@ -1,0 +1,27 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="rect" itemID="5086870e-000002bb" lastModified="1350993697">
+  <timeline>
+    <DOMTimeline name="rect">
+      <layers>
+        <DOMLayer name="Layer 1" color="#4FFF4F" current="true" isSelected="true">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMRectangleObject objectWidth="86" objectHeight="27.25" x="48" y="374" lockFlag="true">
+                  <matrix>
+                    <Matrix d="1.46745300292969" tx="-48" ty="-568.8"/>
+                  </matrix>
+                  <transformationPoint>
+                    <Point x="91" y="387.6"/>
+                  </transformationPoint>
+                  <fill>
+                    <SolidColor color="#00FF00"/>
+                  </fill>
+                </DOMRectangleObject>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>

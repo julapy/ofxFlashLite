@@ -1,0 +1,44 @@
+<DOMSymbolItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ns.adobe.com/xfl/2008/" name="box" itemID="5083c333-0000024f" lastModified="1350993552">
+  <timeline>
+    <DOMTimeline name="box">
+      <layers>
+        <DOMLayer name="Layer 2" color="#9933CC">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <Actionscript>
+                <script><![CDATA[import flash.events.Event;
+
+
+var start:Number = 82.95;
+var finish:Number = 932.95;
+
+addEventListener(Event.ENTER_FRAME, enterFrameHandler);
+
+function enterFrameHandler(e:Event) {
+//	trace((this.x - start) / (finish - start));
+}]]></script>
+              </Actionscript>
+              <elements/>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+        <DOMLayer name="Layer 1" color="#4FFF4F" current="true" isSelected="true">
+          <frames>
+            <DOMFrame index="0" keyMode="9728">
+              <elements>
+                <DOMRectangleObject objectWidth="86" objectHeight="86" x="-12.95" y="72" lockFlag="true">
+                  <matrix>
+                    <Matrix tx="-30.05" ty="-115"/>
+                  </matrix>
+                  <fill>
+                    <SolidColor color="#FF00FF"/>
+                  </fill>
+                </DOMRectangleObject>
+              </elements>
+            </DOMFrame>
+          </frames>
+        </DOMLayer>
+      </layers>
+    </DOMTimeline>
+  </timeline>
+</DOMSymbolItem>
