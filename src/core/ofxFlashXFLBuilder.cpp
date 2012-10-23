@@ -18,6 +18,7 @@ ofxFlashXFLBuilder :: ofxFlashXFLBuilder()
 	container	= NULL;
 	domType		= DOM_DOCUMENT_TYPE;
 	totalFrames	= 1;
+    currentFrame = 1;
 }
 
 ofxFlashXFLBuilder :: ~ofxFlashXFLBuilder()
@@ -178,6 +179,8 @@ void ofxFlashXFLBuilder::buildFrames() {
 	int numOfFrames;
 	numOfFrames = getNumTags("DOMFrame");
 	
+    vector<DOMFrame> domFrames;
+    
 	for(int i=0; i<numOfFrames; i++) {
 		DOMFrame dom;
 		dom.index = getAttribute("DOMFrame", "index", 0, i);
@@ -191,26 +194,111 @@ void ofxFlashXFLBuilder::buildFrames() {
 		dom.keyMode = getAttribute("DOMFrame", "keyMode", 0, i);
         dom.acceleration = getAttribute("DOMFrame", "acceleration", 0, i);
 		domFrame = dom;
-
-        buildTween();
-		
-		pushTag("DOMFrame", i);
+        domFrames.push_back(dom);
+        
+        pushTag("DOMFrame", i);
 		pushTag("elements", 0);
-		
-		buildElements();
-		
-		popTag();
+        
+        int j = domFrame.index;
+        int t = domFrame.index + domFrame.duration;
+        for(j; j<t; j++) {
+            currentFrame = j + 1;
+            buildElements();
+        }
+        
+        if(tweenShape.size() > 0) { // tween was recorded on previous loop.
+
+            DOMFrame domPrev = domFrames[domFrames.size() - 2];
+            DOMFrame domCurr = domFrames[domFrames.size() - 1];
+
+            ofxFlashMovieClip * containerMc;
+            containerMc = (ofxFlashMovieClip *)container;
+
+            containerMc->gotoAndStop(domPrev.index + 1);
+            int lastChildIndex = containerMc->numChildren() - 1;
+            /*
+             *  TODO :: not 100% happy with lastChildIndex.
+             *  there should be a better way of working out which
+             *  object to tween rather then assuming the top one.
+             */
+            
+            ofxFlashDisplayObject * obj1;
+            ofxFlashDisplayObject * obj2;
+            
+            containerMc->gotoAndStop(domPrev.index + 1);
+            obj1 = containerMc->getChildAt(lastChildIndex);
+            
+            containerMc->gotoAndStop(domCurr.index + 1);
+            obj2 = containerMc->getChildAt(lastChildIndex);
+            
+            if(obj1 == NULL || obj2 == NULL) {
+                continue;
+            }
+            
+            ofxFlashMatrix mat1;
+            ofxFlashMatrix mat2;
+            mat1 = obj1->matrix();
+            mat2 = obj2->matrix();
+            
+            float alpha1;
+            float alpha2;
+            alpha1 = obj1->alpha();
+            alpha2 = obj2->alpha();
+            
+            for(int k=domPrev.index; k<=domCurr.index; k++) {
+                float p = (k - domPrev.index) / (float)(domCurr.index - domPrev.index);
+                p = tweenAt(tweenShape, p);
+                
+                int frameNum = k + 1;
+                containerMc->gotoAndStop(frameNum);
+                
+                ofxFlashDisplayObject * obj;
+                obj = containerMc->getChildAt(lastChildIndex);
+                
+                if(true) { // TODO - check if matrixes are different.
+                    ofxFlashMatrix mat;
+                    mat = ofxFlashMatrix::interpolate(mat1, mat2, p);
+                    
+                    float rotation = 0;
+                    if(domPrev.motionTweenRotate == "clockwise") {
+                        rotation = domPrev.motionTweenRotateTimes;
+                    } else if(domPrev.motionTweenRotate == "counter-clockwise") {
+                        rotation = domPrev.motionTweenRotateTimes * -1;
+                    }
+                    if(rotation != 0) {
+                        ofxFlashMatrix rotMat;
+                        rotMat.set_rotation(rotation * p * TWO_PI);
+                        mat.concatenate(rotMat);
+                    }
+                    
+                    obj->matrix(mat);
+                }
+                
+                if(alpha1 != alpha2) {
+                    float alpha;
+                    alpha = (alpha2 - alpha1) * p + alpha1;
+                    obj->alpha(alpha);
+                }
+            }
+            
+            containerMc->gotoAndPlay(1);
+        }
+        
+        popTag();
+        
+        buildTween();
+        
 		popTag();
 	}
 }
 
 void ofxFlashXFLBuilder::buildTween() {
     
+    tweenShape.clear();
+    
     if(domFrame.tweenType != "motion") {
         return;
     }
-    
-    tweenShape.clear();
     
 /* CustomEase example.
 <tweens>
@@ -229,19 +317,19 @@ void ofxFlashXFLBuilder::buildTween() {
         int numOfPoints;
         numOfPoints = getNumTags("Point");
 
-        float px = getAttribute("Point", "x", 0, 0);
-        float py = getAttribute("Point", "y", 0, 0);
+        float px = getAttribute("Point", "x", 0.0f, 0);
+        float py = getAttribute("Point", "y", 0.0f, 0);
         tweenShape.addVertex(px, py);
         
         for(int i=1; i<numOfPoints; i+=3) {
-            float cx1 = getAttribute("Point", "x", 0, i);
-            float cy1 = getAttribute("Point", "y", 0, i);
-            float cx2 = getAttribute("Point", "x", 0, i+1);
-            float cy2 = getAttribute("Point", "y", 0, i+1);
-            float px2 = getAttribute("Point", "x", 0, i+2);
-            float py2 = getAttribute("Point", "y", 0, i+2);
+            float cx1 = getAttribute("Point", "x", 0.0f, i);
+            float cy1 = getAttribute("Point", "y", 0.0f, i);
+            float cx2 = getAttribute("Point", "x", 0.0f, i+1);
+            float cy2 = getAttribute("Point", "y", 0.0f, i+1);
+            float px2 = getAttribute("Point", "x", 0.0f, i+2);
+            float py2 = getAttribute("Point", "y", 0.0f, i+2);
             
-            tweenShape.bezierTo(cx1, cy1, cx2, cy2, px2, py2);
+            tweenShape.bezierTo(cx1, cy1, cx2, cy2, px2, py2, 60);
         }
         
         popTag();
@@ -249,6 +337,7 @@ void ofxFlashXFLBuilder::buildTween() {
     } else {
         float acceleration = domFrame.acceleration;
         acceleration /= 100;
+        acceleration *= -1;
         
         tweenShape.addVertex(0, 0);
 
@@ -262,6 +351,13 @@ void ofxFlashXFLBuilder::buildTween() {
         tweenShape.bezierTo(cx1, cy1, cx2, cy2, px2, py2);
     }
 
+    /*
+     *  HACK!
+     *  erase first point as its a duplicate.
+     *  duplicate points cause issues with resampling.
+     *  https://github.com/openframeworks/openFrameworks/issues/1664
+     */
+    tweenShape.getVertices().erase(tweenShape.getVertices().begin(), tweenShape.getVertices().begin()+1);
 }
 
 void ofxFlashXFLBuilder :: buildElements ()
@@ -407,14 +503,14 @@ void ofxFlashXFLBuilder :: buildMovieClip ()
 	
 	setupMatrixForDisplayObject( mc );
 	setupColorForDisplayObject( mc );
+    
+    addDisplayObjectToFrames( mc );
 	
 	ofxFlashXFLBuilder* builder;
 	builder = new ofxFlashXFLBuilder();
     builder->setVerbose( bVerbose );
 	builder->build( xflRoot, libraryItemPath, mc );
     
-    addDisplayObjectToFrames( mc );
-	
 	delete builder;
 	builder = NULL;
 }
@@ -527,20 +623,12 @@ void ofxFlashXFLBuilder :: buildOvalShape ()
 //	COMMON BUILDER FUNCTIONS.
 ///////////////////////////////////////////
 
-void ofxFlashXFLBuilder :: addDisplayObjectToFrames ( ofxFlashDisplayObject* displayObject )
-{
-    ofxFlashMovieClip* containerMc;
-    containerMc = (ofxFlashMovieClip*)container;
-    
-	int i = domFrame.index;
-	int t = domFrame.index + domFrame.duration;
-	for( i; i<t; i++ )
-	{
-        containerMc->gotoAndStop( i + 1 );
-		containerMc->addChild( displayObject );
-	}
-    
-    containerMc->gotoAndPlay( 1 );
+void ofxFlashXFLBuilder::addDisplayObjectToFrames(ofxFlashDisplayObject * displayObject) {
+    ofxFlashMovieClip * containerMc;
+    containerMc = (ofxFlashMovieClip *)container;
+    containerMc->gotoAndStop(currentFrame);
+    containerMc->addChild(displayObject);
+    containerMc->gotoAndPlay(1);
 }
 
 void ofxFlashXFLBuilder :: setupMatrixForDisplayObject ( ofxFlashDisplayObject* displayObject )
@@ -644,6 +732,38 @@ void ofxFlashXFLBuilder :: pushTagAt( int i )
 		storedHandle = isRealHandle;
 		level++;
 	}
+}
+
+///////////////////////////////////////////
+//	STRING HEX TO INT CONVERSIONS.
+///////////////////////////////////////////
+
+float ofxFlashXFLBuilder::tweenAt(ofPolyline & polyline, float progress) {
+    if(polyline.size() < 2) {
+        return 0;
+    }
+    
+    if(progress == 0 && polyline[0].x == 0) {
+        return 0;
+    }
+    
+    if(progress == 1 && polyline[polyline.size()-1].x == 1) {
+        return 1;
+    }
+    
+    ofPoint p1(progress, 0);
+    ofPoint p2(progress, 1);
+    ofPoint p5;
+    
+    for(int i=0; i<polyline.size()-1; i++) {
+        ofPoint & p3 = polyline[i];
+        ofPoint & p4 = polyline[i+1];
+        
+        bool bIntersect = ofLineSegmentIntersection(p1, p2, p3, p4, p5);
+        if(bIntersect) {
+            return p5.y;
+        }
+    }
 }
 
 ///////////////////////////////////////////

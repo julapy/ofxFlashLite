@@ -108,6 +108,7 @@ private:
 	string	xflFile;
 	string	domType;
 	int		totalFrames;
+    int     currentFrame;
 	
 	DOMTimeline			domTimeline;
 	DOMLayer			domLayer;
@@ -137,6 +138,8 @@ private:
 	void setupStrokeForShape			( ofxFlashShape* shape );
 	
 	void pushTagAt			( int i );
+    
+    float tweenAt(ofPolyline & polyline, float progress);
 	
 	string cleanHexString	( string value );
 	int  stringToHex		( string value );
