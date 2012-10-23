@@ -46,6 +46,10 @@ public:
 	int currentFrame	();
     
     //------------------------------------------------------------------- display object container override.
+    int numChildren() {
+        return frame->numChildren();
+    }
+    
     ofxFlashDisplayObject* addChild ( ofxFlashDisplayObject* child ) {
         return frame->addChild( child );
     }
