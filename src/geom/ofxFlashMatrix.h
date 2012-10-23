@@ -103,6 +103,18 @@ public:
         
         return true;
     }
+    
+    //===============================================
+    static ofxFlashMatrix interpolate(ofxFlashMatrix & mat1, ofxFlashMatrix & mat2, float p) {
+        ofxFlashMatrix mat;
+        mat.setA((mat2.getA() - mat1.getA()) * p + mat1.getA());
+        mat.setB((mat2.getB() - mat1.getB()) * p + mat1.getB());
+        mat.setC((mat2.getC() - mat1.getC()) * p + mat1.getC());
+        mat.setD((mat2.getD() - mat1.getD()) * p + mat1.getD());
+        mat.setTx((mat2.getTx() - mat1.getTx()) * p + mat1.getTx());
+        mat.setTy((mat2.getTy() - mat1.getTy()) * p + mat1.getTy());
+        return mat;
+    }
 	
 	//===============================================
 	
