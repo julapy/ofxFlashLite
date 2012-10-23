@@ -43,8 +43,14 @@ struct DOMFrame
 	int		index;
 	int		duration;
 	string	tweenType;
-	bool	motionTweenSnap;
+    string  motionTweenRotate;
+    int     motionTweenRotateTimes;
+    bool    motionTweenOrientToPath;
+    bool    motionTweenSync;
+    bool    motionTweenScale;
+    bool	motionTweenSnap;
 	int		keyMode;
+    int     acceleration;
 };
 
 struct DOMSymbolInstance
@@ -110,11 +116,14 @@ private:
 	DOMBitmapInstance	domBitmapInstance;
 	DOMRectangleObject	domRectangleObject;
 	DOMOvalObject		domOvalObject;
+    
+    ofPolyline tweenShape;
 	
 	void countTotalFrames		();
 	void buildTimelines			();
 	void buildLayers			();
 	void buildFrames			();
+    void buildTween             ();
 	void buildElements			();
 	void buildBitmap			();
 	void buildMovieClip			();

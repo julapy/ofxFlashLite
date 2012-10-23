@@ -174,29 +174,94 @@ void ofxFlashXFLBuilder :: buildLayers ()
 	}
 }
 
-void ofxFlashXFLBuilder :: buildFrames ()
-{
+void ofxFlashXFLBuilder::buildFrames() {
 	int numOfFrames;
-	numOfFrames = getNumTags( "DOMFrame" );
+	numOfFrames = getNumTags("DOMFrame");
 	
-	for( int i=0; i<numOfFrames; i++ )
-	{
+	for(int i=0; i<numOfFrames; i++) {
 		DOMFrame dom;
-		dom.index			= getAttribute( "DOMFrame", "index",			0,		i );
-		dom.duration		= getAttribute( "DOMFrame", "duration",			1,		i );
-		dom.tweenType		= getAttribute( "DOMFrame", "tweenType",		"",		i );
-		dom.motionTweenSnap	= getAttribute( "DOMFrame", "motionTweenSnap",	false,	i );
-		dom.keyMode			= getAttribute( "DOMFrame", "keyMode",			0,		i );
-		domFrame			= dom;
+		dom.index = getAttribute("DOMFrame", "index", 0, i);
+		dom.duration = getAttribute("DOMFrame", "duration", 1, i);
+		dom.tweenType = getAttribute("DOMFrame", "tweenType", "", i);
+        dom.motionTweenRotate = getAttribute("DOMFrame", "motionTweenRotate", "", i);
+        dom.motionTweenRotateTimes = getAttribute("DOMFrame", "motionTweenRotateTimes", 0, i);
+        dom.motionTweenSync = getAttribute("DOMFrame", "motionTweenSync", false, i);
+        dom.motionTweenScale = getAttribute("DOMFrame", "motionTweenScale", false, i);
+        dom.motionTweenSnap	= getAttribute("DOMFrame", "motionTweenSnap", false, i);
+		dom.keyMode = getAttribute("DOMFrame", "keyMode", 0, i);
+        dom.acceleration = getAttribute("DOMFrame", "acceleration", 0, i);
+		domFrame = dom;
+
+        buildTween();
 		
-		pushTag( "DOMFrame", i );
-		pushTag( "elements", 0 );
+		pushTag("DOMFrame", i);
+		pushTag("elements", 0);
 		
 		buildElements();
 		
 		popTag();
 		popTag();
 	}
+}
+
+void ofxFlashXFLBuilder::buildTween() {
+    
+    if(domFrame.tweenType != "motion") {
+        return;
+    }
+    
+    tweenShape.clear();
+    
+/* CustomEase example.
+<tweens>
+    <CustomEase target="all">
+        <Point/>
+        <Point x="0.3333"/>
+        <Point x="0.7034" y="0.3356"/>
+        <Point x="1" y="1"/>
+    </CustomEase>
+</tweens>
+*/
+    if(tagExists("tweens")) {
+        pushTag("tweens");
+        pushTag("CustomEase");
+
+        int numOfPoints;
+        numOfPoints = getNumTags("Point");
+
+        float px = getAttribute("Point", "x", 0, 0);
+        float py = getAttribute("Point", "y", 0, 0);
+        tweenShape.addVertex(px, py);
+        
+        for(int i=1; i<numOfPoints; i+=3) {
+            float cx1 = getAttribute("Point", "x", 0, i);
+            float cy1 = getAttribute("Point", "y", 0, i);
+            float cx2 = getAttribute("Point", "x", 0, i+1);
+            float cy2 = getAttribute("Point", "y", 0, i+1);
+            float px2 = getAttribute("Point", "x", 0, i+2);
+            float py2 = getAttribute("Point", "y", 0, i+2);
+            
+            tweenShape.bezierTo(cx1, cy1, cx2, cy2, px2, py2);
+        }
+        
+        popTag();
+        popTag();
+    } else {
+        float acceleration = domFrame.acceleration;
+        acceleration /= 100;
+        
+        tweenShape.addVertex(0, 0);
+
+        float cx1 = 0.3333;
+        float cy1 = 0.3333 + acceleration * 0.3333;
+        float cx2 = 0.6667;
+        float cy2 = 0.6667 + acceleration * 0.3333;
+        float px2 = 1.0000;
+        float py2 = 1.0000;
+        
+        tweenShape.bezierTo(cx1, cy1, cx2, cy2, px2, py2);
+    }
+
 }
 
 void ofxFlashXFLBuilder :: buildElements ()
@@ -343,12 +408,12 @@ void ofxFlashXFLBuilder :: buildMovieClip ()
 	setupMatrixForDisplayObject( mc );
 	setupColorForDisplayObject( mc );
 	
-	addDisplayObjectToFrames( mc );
-	
 	ofxFlashXFLBuilder* builder;
 	builder = new ofxFlashXFLBuilder();
     builder->setVerbose( bVerbose );
 	builder->build( xflRoot, libraryItemPath, mc );
+    
+    addDisplayObjectToFrames( mc );
 	
 	delete builder;
 	builder = NULL;
